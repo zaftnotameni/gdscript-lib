@@ -45,7 +45,7 @@ func setup_layers_that_follow_the_viewport(followers:=FOLLOW_VIEWPORT):
 
 func setup_explicit_layer_order(n:Node=managed):
   for idx:int in n.get_child_count():
-    n.get_child(idx).set('layer', idx)
+    n.get_child(idx).set('layer', idx - 4)
 
 func add_managed_node_to_current_scene(n:Node=managed):
   n.name = 'ZaftManaged'

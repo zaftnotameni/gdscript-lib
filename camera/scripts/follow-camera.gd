@@ -4,6 +4,7 @@ class_name Zaft_FollowCamera extends Camera2D
 @export var follow_slerpiness : float = 5.0
 @export var home_slerpiness : float = 10.0
 @export var follows_player : bool
+@export var uses_physics_process : bool
 @export var home_position: Vector2
 
 static func follow_target(c:Camera2D,p:Vector2,s:float,delta:float):
@@ -19,17 +20,14 @@ func do_process(delta:float):
 
 func _ready() -> void:
   if not home_position: home_position = global_position
-  set_process(process_callback == CAMERA2D_PROCESS_IDLE)
-  set_physics_process(process_callback == CAMERA2D_PROCESS_PHYSICS)
+  set_process(not uses_physics_process and (process_callback == CAMERA2D_PROCESS_IDLE))
+  set_physics_process(uses_physics_process or (process_callback == CAMERA2D_PROCESS_PHYSICS))
   if follows_player:
     if not target_node: target_node = __zaft.global.player
     __zaft.global.sig_player_set.connect(on_player_global_changed)
 
-func _physics_process(delta: float) -> void:
-  do_process(delta)
-
-func _process(delta: float) -> void:
-  do_process(delta)
+func _physics_process(delta: float) -> void: do_process(delta)
+func _process(delta: float) -> void: do_process(delta)
 
 func on_player_global_changed(p:CharacterBody2D,_prev=null):
   if target_node == p: return
