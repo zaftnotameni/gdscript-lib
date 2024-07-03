@@ -5,6 +5,11 @@ const TITLE_SCREEN_DEFAULT_FOCUS_BUTTON := ["test", "continue", "load", "start",
 var physics_layers_by_name := {}
 var physics_layers_by_index := {}
 
+func physics_layer_bit_by_name(layer_name:String='terrain', ignore_missing:= false) -> int:
+  var idx := physics_layer_index_by_name(layer_name, ignore_missing)
+  if idx <= 0: return idx
+  return 2 ** (idx - 1)
+
 func physics_layer_index_by_name(layer_name:String='terrain', ignore_missing:= false) -> int:
   if physics_layers_by_name.has(layer_name):
     return physics_layers_by_name[layer_name]
