@@ -1,0 +1,1 @@
+class_name Zaft_ManagedLayers_Node extends Node2D

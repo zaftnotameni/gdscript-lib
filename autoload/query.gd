@@ -1,0 +1,1 @@
+class_name Zaft_Autoload_Query extends Node
