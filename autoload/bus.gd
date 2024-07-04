@@ -1,5 +1,11 @@
 class_name Zaft_Autoload_Bus extends Node
 
+class Camera:
+  signal trauma_request(amount:float)
+  signal trauma_relief(amount:float)
+  signal trauma_clear()
+var camera := Camera.new()
+
 class Layer:
   signal managed_layers_ready(managed_layers_node:Zaft_ManagedLayers_Node)
 var layer := Layer.new()
