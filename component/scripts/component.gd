@@ -7,12 +7,12 @@ const GROUP := &'components'
 @export var target_node : Node = owner
 @export var process_using : PROCESS_USING = PROCESS_USING.Physics
 
-static func is_component(node:Node,typ:Script=Zaft_ComponentBase) -> bool:
+static func matches_type(node:Node,typ:Script=Zaft_ComponentBase) -> bool:
   var s := node.get_script() as Script
   if not s: return false
   return s == typ
 
-static func resolve_from(node:Node,typ:Script=Zaft_ComponentBase,selector:NodePath='Components',ignore_missing:=false) -> Zaft_ComponentBase:
+static func resolve_from(node:Node,typ:Script=Zaft_ComponentBase,selector:NodePath=^'Components',ignore_missing:=false) -> Zaft_ComponentBase:
   assert(node, 'must provide a node')
   assert(node.is_inside_tree(), 'node must be in the tree')
   assert(node.has_node(selector), '%s must have a %s node' % [node.get_path(), selector])
@@ -22,12 +22,27 @@ static func resolve_at(node:Node,typ:Script=Zaft_ComponentBase,ignore_missing:=f
   assert(node, 'must provide a node')
   assert(node.is_inside_tree(), 'node must be in the tree')
   for c in node.get_children():
-    if is_component(c,typ): return c
+    if matches_type(c,typ): return c
   if ignore_missing:
     return null
   else:
     push_warning('tried to resolve missing component %s at %s' % [typ, node.get_path()])
     return null
+
+func resolve_from_owner(typ:Script=Zaft_ComponentBase, selector:NodePath=^'Components', ignore_missing:=false) -> Zaft_ComponentBase:
+  return resolve_from(owner, typ, selector, ignore_missing)
+
+func resolve_from_target(typ:Script=Zaft_ComponentBase, selector:NodePath=^'Components', ignore_missing:=false) -> Zaft_ComponentBase:
+  return resolve_from(target_node, typ, selector, ignore_missing)
+
+func resolve_at_owner(typ:Script=Zaft_ComponentBase, selector:NodePath=^'.', ignore_missing:=false) -> Zaft_ComponentBase:
+  return resolve_from(owner, typ, selector, ignore_missing)
+
+func resolve_at_target(typ:Script=Zaft_ComponentBase, selector:NodePath=^'.', ignore_missing:=false) -> Zaft_ComponentBase:
+  return resolve_from(target_node, typ, selector, ignore_missing)
+
+func resolve_sibling(typ:Script=Zaft_ComponentBase, selector:NodePath=^'.', ignore_missing:=false) -> Zaft_ComponentBase:
+  return resolve_from(get_parent(), typ, selector, ignore_missing)
 
 func _ready() -> void:
   if not target_node: target_node = owner

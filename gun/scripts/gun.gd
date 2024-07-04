@@ -18,6 +18,7 @@ class_name Zaft_Gun extends Node2D
 @export var pool : Node2D
 
 var after_bullet_create_fn : Callable
+var before_bullet_take_from_pool_fn : Callable
 
 var pooled_bullets := []
 
@@ -54,6 +55,8 @@ func next_from_pool(global_pos:=muzzle.global_position,ignore_empty:=false) -> N
   if not b: return
   __zaft.util.for_node.turn_on(b)
   b.global_position = global_pos
+  if before_bullet_take_from_pool_fn:
+    before_bullet_take_from_pool_fn.call(b)
   if b.has_method(on_take_from_pool):
     b.call(on_take_from_pool, self)
   return b
