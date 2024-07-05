@@ -14,6 +14,7 @@ class_name Zaft_Autoload_Layers extends Node
 @onready var dialog:CanvasLayer=CanvasLayer.new()
 @onready var popup:CanvasLayer=CanvasLayer.new()
 @onready var menu:CanvasLayer=CanvasLayer.new()
+@onready var overlay:CanvasLayer=CanvasLayer.new()
 @onready var debug:CanvasLayer=CanvasLayer.new()
 @onready var managed:Zaft_ManagedLayers_Node=Zaft_ManagedLayers_Node.new()
 
@@ -73,6 +74,7 @@ enum LAYERS {
   dialog,
   popup,
   menu,
+  overlay,
   debug
 }
 
@@ -91,6 +93,7 @@ const CHILDREN : Array[String] = [
   'dialog',
   'popup',
   'menu',
+  'overlay',
   'debug'
 ]
 
