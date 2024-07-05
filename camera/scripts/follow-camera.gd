@@ -9,10 +9,18 @@ class_name Zaft_FollowCamera extends Camera2D
 
 @onready var shake := Zaft_CameraShake.new()
 
-static func follow_target(c:Camera2D,p:Vector2,s:float,delta:float):
+func follow_target(c:Camera2D,p:Vector2,s:float,delta:float):
   if not c: return
   if not p: return
   c.global_position = c.global_position.slerp(p, min(1.0, absf(s) * delta))
+  update_parallax(c)
+
+func update_parallax(c:Camera2D):
+  var n := get_tree().get_first_node_in_group(__zaft.path.MAIN_CAMERA_PARALLAX_GROUP)
+  if n:
+    if n.material is ShaderMaterial:
+      if n.material.shader is Shader:
+        n.material.set_shader_parameter('offset', c.global_position / Vector2(800.0, 450.0))
 
 func do_process(delta:float):
   shake.do_process(delta)

@@ -18,6 +18,7 @@ func add_to_tree() -> Zaft_Primitive_BackgroundColorWithRect:
   return self
 
 func _enter_tree() -> void:
+  add_to_group(__zaft.path.MAIN_CAMERA_PARALLAX_GROUP)
   texture_repeat = TextureRepeat.TEXTURE_REPEAT_ENABLED
   mouse_filter = MOUSE_FILTER_IGNORE
   material = ShaderMaterial.new()

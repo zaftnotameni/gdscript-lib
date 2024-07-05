@@ -3,6 +3,7 @@ class_name Zaft_Autoload_Path extends Node
 const PLAYER_CHARACTER_STATE_MACHINE_GROUP := &'player-character-state-machine'
 const PLAYER_CHARACTER_GROUP := &'player-character'
 const MAIN_CAMERA_GROUP := &'main-camera'
+const MAIN_CAMERA_PARALLAX_GROUP := &'main-camera-parallax'
 
 var for_group := ForGroup.new(self)
 class ForGroup:
