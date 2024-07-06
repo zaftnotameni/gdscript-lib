@@ -39,5 +39,3 @@ func _ready():
   add_child(pool)
   add_child(query)
   add_child(path)
-
-
