@@ -41,7 +41,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void: do_process(delta)
 func _process(delta: float) -> void: do_process(delta)
 
-func on_player_global_changed(p:CharacterBody2D,_prev=null):
+func on_player_global_changed(p:Node2D,_prev=null):
   if target_node == p: return
   target_node = p
 
