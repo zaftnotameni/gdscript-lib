@@ -21,8 +21,10 @@ func _enter_tree() -> void:
   add_to_group(__zaft.path.MAIN_CAMERA_PARALLAX_GROUP)
   texture_repeat = TextureRepeat.TEXTURE_REPEAT_ENABLED
   mouse_filter = MOUSE_FILTER_IGNORE
-  material = ShaderMaterial.new()
-  (material as ShaderMaterial).shader = shader
+  if not material:
+    material = ShaderMaterial.new()
+  if shader and not material.shader:
+    (material as ShaderMaterial).shader = shader
 
 func _ready() -> void:
   set_anchors_and_offsets_preset(LayoutPreset.PRESET_FULL_RECT, LayoutPresetMode.PRESET_MODE_KEEP_SIZE)
