@@ -1,6 +1,9 @@
 class_name Zaft_Autoload_Bus extends Node
 
 class Camera:
+  signal constant_trauma_request(amount:float)
+  signal constant_trauma_relief(amount:float)
+  signal constant_trauma_clear()
   signal trauma_request(amount:float)
   signal trauma_relief(amount:float)
   signal trauma_clear()
