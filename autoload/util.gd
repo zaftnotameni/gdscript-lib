@@ -36,6 +36,9 @@ class ForTween:
   var its : Zaft_Autoload_Util
   func _init(_its:Zaft_Autoload_Util): its = _its
 
+  func kill(t:Tween):
+    if t and t.is_running(): t.kill()
+
   func fresh(t:Tween,always_kill:=false)->Tween:
     if t and (always_kill or t.is_running()): t.kill()
     t = its.create_tween()
