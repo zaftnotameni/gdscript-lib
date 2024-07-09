@@ -40,7 +40,7 @@ func setup_label(lbl:Label):
   lbl.grow_vertical = GROW_DIRECTION_BOTH
   lbl.size_flags_vertical = SIZE_FILL
   lbl.custom_minimum_size.x = 150
-  __zaft.util.for_control.set_font_size(lbl,32)
+  Zaft_Autoload_Util.control_set_font_size(lbl,32)
 
 func setup_name():
   setup_label(lbl_name)
@@ -64,9 +64,9 @@ func setup_slider():
   slider.name = "Value"
   slider.rounded = true
   update_slider_from_bus()
-  slider.focus_entered.connect(__zaft.bus.title_screen.slider_focus_enter.emit.bind(slider))
-  slider.mouse_entered.connect(__zaft.bus.title_screen.slider_mouse_enter.emit.bind(slider))
-  slider.mouse_exited.connect(__zaft.bus.title_screen.slider_mouse_exit.emit.bind(slider))
+  slider.focus_entered.connect(__zaft.bus.sig_control_slider_focus_enter.emit.bind(slider))
+  slider.mouse_entered.connect(__zaft.bus.sig_control_slider_mouse_enter.emit.bind(slider))
+  slider.mouse_exited.connect(__zaft.bus.sig_control_slider_mouse_exit.emit.bind(slider))
 
 @onready var volume_names = {
   BUS.Master: "Master",

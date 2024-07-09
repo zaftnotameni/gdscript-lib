@@ -49,9 +49,9 @@ func _ready() -> void:
 
   for b:Button in btns:
     b.text = b.name
-    __zaft.util.for_control.set_color(b,Color.WHITE)
-    __zaft.util.for_control.set_font_size(b, 32)
-    __zaft.util.for_control.set_minimum_x(b, 300.0)
+    Zaft_Autoload_Util.control_set_color(b,Color.WHITE)
+    Zaft_Autoload_Util.control_set_font_size(b, 32)
+    Zaft_Autoload_Util.control_set_minimum_x(b, 300.0)
     b.pressed.connect(on_button_pressed.bind(b.name))
     add_child(b)
 

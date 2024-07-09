@@ -21,8 +21,7 @@ class_name Zaft_Autoload_Layers extends Node
 func wipe_all_managed(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:
     var child := n.get_node(child_name.to_pascal_case()) as Node
-    if __zaft.util.for_node.is_there(child):
-      __zaft.util.for_child.wipe_except(child)
+    Zaft_Autoload_Util.children_wipe(child)
 
 func _ready() -> void:
   add_managed_containers(managed)
