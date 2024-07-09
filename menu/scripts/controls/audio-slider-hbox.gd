@@ -76,10 +76,10 @@ func setup_slider():
 }
 
 @onready var volume_signals = {
-  BUS.Master: __zaft.bus.audio.master_volume_changed,
-  BUS.BGM: __zaft.bus.audio.bgm_volume_changed,
-  BUS.SFX: __zaft.bus.audio.sfx_volume_changed,
-  BUS.UI: __zaft.bus.audio.ui_volume_changed,
+  BUS.Master: __zaft.bus.sig_audio_master_volume_changed,
+  BUS.BGM: __zaft.bus.sig_audio_bgm_volume_changed,
+  BUS.SFX: __zaft.bus.sig_audio_sfx_volume_changed,
+  BUS.UI: __zaft.bus.sig_audio_ui_volume_changed,
 }
 
 @onready var volume_getters = {

@@ -16,6 +16,7 @@ class_name Zaft_Gun extends Node2D
 @export var on_return_to_pool := &'on_return_to_pool'
 ## then node that will store the pooled bullets, a generic Node2D will be created automatically if not provided
 @export var pool : Node2D
+@export var warn_on_empty := false
 
 var after_bullet_create_fn : Callable
 var before_bullet_take_from_pool_fn : Callable
@@ -48,12 +49,12 @@ func create_bullet(_name:='Bullet') -> Node2D:
     after_bullet_create_fn.call(b)
   return b
 
-func next_from_pool(global_pos:=muzzle.global_position,ignore_empty:=false) -> Node2D:
+func next_from_pool(global_pos:=muzzle.global_position,_warn_on_empty:=warn_on_empty) -> Node2D:
   if not pool: return
   var b :Node2D = pooled_bullets.pop_back()
-  if not b and not ignore_empty: push_warning('%s ran out of bullets' % get_path())
+  if not b and _warn_on_empty: push_warning('%s ran out of bullets' % get_path())
   if not b: return
-  __zaft.util.for_node.turn_on(b)
+  Zaft_Autoload_Util.node_turn_on(b)
   b.global_position = global_pos
   if before_bullet_take_from_pool_fn:
     before_bullet_take_from_pool_fn.call(b)
@@ -63,7 +64,7 @@ func next_from_pool(global_pos:=muzzle.global_position,ignore_empty:=false) -> N
 
 func return_to_pool(b:Node2D) -> Node2D:
   if not b: return
-  __zaft.util.for_node.turn_off(b)
+  Zaft_Autoload_Util.node_turn_off(b)
   pooled_bullets.push_back(b)
   if b.has_method(on_return_to_pool):
     b.call(on_return_to_pool, self)

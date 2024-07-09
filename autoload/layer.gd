@@ -16,7 +16,7 @@ class_name Zaft_Autoload_Layers extends Node
 @onready var menu:CanvasLayer=CanvasLayer.new()
 @onready var overlay:CanvasLayer=CanvasLayer.new()
 @onready var debug:CanvasLayer=CanvasLayer.new()
-@onready var managed:Zaft_ManagedLayers_Node=Zaft_ManagedLayers_Node.new()
+@onready var managed:Node2D=Node2D.new()
 
 func wipe_all_managed(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:
@@ -29,10 +29,10 @@ func _ready() -> void:
   setup_layers_that_follow_the_viewport()
   setup_explicit_layer_order(managed)
   add_managed_node_to_current_scene(managed)
-  call_deferred('notify_managed_layers_ready')
+  notify_managed_layers_ready.call_deferred()
 
 func notify_managed_layers_ready():
-  __zaft.bus.layer.managed_layers_ready.emit(managed)
+  __zaft.bus.sig_layer_managed_layers_ready.emit(managed)
 
 func add_managed_containers(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:

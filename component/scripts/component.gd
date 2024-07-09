@@ -5,7 +5,7 @@ const GROUP := &'components'
 
 ## defaults to owner if not set
 @export var target_node : Node = owner
-@export var process_using : PROCESS_USING = PROCESS_USING.Physics
+@export var process_using : PROCESS_USING = PROCESS_USING.None
 
 static func matches_type(node:Node,typ:Script=Zaft_ComponentBase) -> bool:
   var s := node.get_script() as Script

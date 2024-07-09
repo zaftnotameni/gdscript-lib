@@ -39,12 +39,12 @@ func on_constant_trauma_cleared():
   constant_trauma = 0.0
 
 func connect_signals():
-  __zaft.bus.camera.constant_trauma_request.connect(on_constant_trauma_requested)
-  __zaft.bus.camera.constant_trauma_relief.connect(on_constant_trauma_relieved)
-  __zaft.bus.camera.constant_trauma_clear.connect(on_constant_trauma_cleared)
-  __zaft.bus.camera.trauma_request.connect(on_trauma_requested)
-  __zaft.bus.camera.trauma_relief.connect(on_trauma_relieved)
-  __zaft.bus.camera.trauma_clear.connect(on_trauma_cleared)
+  __zaft.bus.sig_camera_constant_trauma_request.connect(on_constant_trauma_requested)
+  __zaft.bus.sig_camera_constant_trauma_relief.connect(on_constant_trauma_relieved)
+  __zaft.bus.sig_camera_constant_trauma_clear.connect(on_constant_trauma_cleared)
+  __zaft.bus.sig_camera_trauma_request.connect(on_trauma_requested)
+  __zaft.bus.sig_camera_trauma_relief.connect(on_trauma_relieved)
+  __zaft.bus.sig_camera_trauma_clear.connect(on_trauma_cleared)
 
 func _ready() -> void:
   init_noise()
