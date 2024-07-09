@@ -1,14 +1,14 @@
 class_name Zaft_StateMachine extends Zaft_ComponentBase
 
-signal sig_state_will_transition(_new:Zaft_StateMachineState_Node, _curr:Zaft_StateMachineState_Node, _prev:Zaft_StateMachineState_Node)
-signal sig_state_did_transition(_curr:Zaft_StateMachineState_Node, _prev:Zaft_StateMachineState_Node)
+signal sig_state_will_transition(_new:Zaft_StateMachineState, _curr:Zaft_StateMachineState, _prev:Zaft_StateMachineState)
+signal sig_state_did_transition(_curr:Zaft_StateMachineState, _prev:Zaft_StateMachineState)
 
 enum MACHINE_MODE { Physics = 0, Normal }
 
 @export var machine_mode: MACHINE_MODE
-@export var state_curr: Zaft_StateMachineState_Node
+@export var state_curr: Zaft_StateMachineState
 
-var state_prev: Zaft_StateMachineState_Node
+var state_prev: Zaft_StateMachineState
 
 func validate(e:Dictionary) -> bool:
   assert(get_child_count() == e.size(), '%s does not match child count of %s' % [e, get_child_count()])
@@ -41,21 +41,21 @@ func transition(via:="Transition Name",index:int=0):
 
   sig_state_did_transition.emit(state_curr, state_prev)
 
-func setup_next(next:Zaft_StateMachineState_Node,via:="Transition Name"):
+func setup_next(next:Zaft_StateMachineState,via:="Transition Name"):
   next.via_state = state_curr.name
   next.via_transition = via
 
-func next_curr_prev(next:Zaft_StateMachineState_Node):
+func next_curr_prev(next:Zaft_StateMachineState):
   state_prev = state_curr
   state_curr = next
 
 func _enter_tree() -> void:
   add_to_group(__zaft.path.PLAYER_CHARACTER_STATE_MACHINE_GROUP)
 
-func state_by_index(_state_index:int=0) -> Zaft_StateMachineState_Node:
+func state_by_index(_state_index:int=0) -> Zaft_StateMachineState:
   return get_child(_state_index)
 
-func state_by_name(_state_name:String="State Name") -> Zaft_StateMachineState_Node:
+func state_by_name(_state_name:String="State Name") -> Zaft_StateMachineState:
   return get_node(_state_name)
 
 func _ready() -> void:

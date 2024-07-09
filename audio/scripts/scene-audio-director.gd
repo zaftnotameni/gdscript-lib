@@ -1,6 +1,6 @@
 class_name Zaft_AudioDirector_Scene extends Node
 
-const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences.tres"
+const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
 @export var volume_preferences : Zaft_VolumePreferences_Resource
 
 @onready var streams_master : Node = $Streams/Master
@@ -20,15 +20,19 @@ const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences.tres"
 
 @onready var save_timer := Timer.new()
 
-# const LAYOUT := preload('res://default_bus_layout.tres')
+const LAYOUT : AudioBusLayout = preload('res://default_bus_layout.tres')
 
-# func _enter_tree() -> void:
-#  AudioServer.set_bus_layout(LAYOUT)
+func _enter_tree() -> void:
+  AudioServer.set_bus_layout(LAYOUT)
 
 func set_loop(player:AudioStreamPlayer):
   player.finished.connect(player.play)
 
 func _ready() -> void:
+  assert(bus_index_master >= 0, "Master bus missing")
+  assert(bus_index_bgm >= 0, "BGM bus missing")
+  assert(bus_index_sfx >= 0, "SFX bus missing")
+  assert(bus_index_ui >= 0, "UI bus missing")
   set_initial_volume()
   connect_to_bus()
   ensure_streams_in_each_container_use_the_correct_audio_bus()
@@ -48,7 +52,6 @@ func ensure_streams_in_each_container_use_the_correct_audio_bus():
   for c:AudioStreamPlayer in streams_ui.get_children(): c.bus = "UI"
 
 func play_ranged(player: AudioStreamPlayer, _range:float=0.05):
-  player.volume_db = AudioServer.get_bus_volume_db(0)
   play_pitched(player, 1.0 + randf_range(-_range, _range))
 
 func play_named_ui(_name:String, pitch_scale: float = 1.0):
@@ -73,7 +76,6 @@ func play_test_ui():
   play_pitched(test_sound_ui)
 
 func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0):
-  player.volume_db = AudioServer.get_bus_volume_db(0)
   player.pitch_scale = pitch_scale
   player.play()
 
@@ -119,13 +121,13 @@ func save_current_volume_preferences_debounced():
   ResourceSaver.save(volume_preferences, VOLUME_PREFERENCES_FILENAME)
 
 func get_volume_linear(idx:int) -> int:
-  if idx > 0: return 0
-  if idx > 0: return 0
+  assert(idx >= 0, 'audio bus index must be >= 0')
+  assert(AudioServer.get_bus_name(idx), 'audio bus must exist')
   return roundi(100.0 * db_to_linear(AudioServer.get_bus_volume_db(idx)))
 
 func set_volume_linear(idx:int,vol_lin:int):
-  if idx > 0: return
-  if idx < 0: return
+  assert(idx >= 0, 'audio bus index must be >= 0')
+  assert(AudioServer.get_bus_name(idx), 'audio bus must exist')
   AudioServer.set_bus_volume_db(idx, linear_to_db(vol_lin / 100.0))
 
 func set_initial_volume():

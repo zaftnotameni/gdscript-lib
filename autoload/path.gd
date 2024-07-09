@@ -5,33 +5,28 @@ const PLAYER_CHARACTER_GROUP := &'player-character'
 const MAIN_CAMERA_GROUP := &'main-camera'
 const MAIN_CAMERA_PARALLAX_GROUP := &'main-camera-parallax'
 
-var for_group := ForGroup.new(self)
-class ForGroup:
-  var its : Node
-  func _init(_its:Node) -> void: its = _its
+static func group_all_nodes(g:StringName=&"Group Name") -> Array[Node]:
+  return Zaft_Autoload_Util.scene_tree().get_nodes_in_group(g)
 
-  func all_nodes(g:String="Group Name") -> Array[Node]:
-    return its.get_tree().get_nodes_in_group(g)
+static func group_only_node(g:StringName=&"Group Name") -> Node:
+  var nodes := group_all_nodes(g)
+  var count := nodes.size()
+  assert(count == 1, "must have only one element in group %s, got %s" % [g, count])
+  return nodes.front()
 
-  func only_node(g:String="Group Name") -> Node:
-    var nodes := all_nodes(g)
-    var count := nodes.size()
-    assert(count == 1, "must have only one element in group %s, got %s" % [g, count])
-    return nodes.front()
+static func group_maybe_node(g:StringName=&"Group Name") -> Node:
+  return group_all_nodes(g).front()
 
-  func maybe_node(g:String="Group Name") -> Node:
-    return all_nodes(g).front()
+static func first_node(g:StringName=&"Group Name") -> Node:
+  var node := group_maybe_node(g)
+  assert(node, "must have at least one element in group %s" % g)
+  return node
 
-  func first_node(g:String="Group Name") -> Node:
-    var node := maybe_node(g)
-    assert(node, "must have at least one element in group %s" % g)
-    return node
+static func group_main_camera_only_node(g:=MAIN_CAMERA_GROUP) -> Camera2D:
+  return group_only_node(g)
 
-  func main_camera(g:=MAIN_CAMERA_GROUP) -> Camera2D:
-    return only_node(g)
+static func group_player_character_only_node(g:=PLAYER_CHARACTER_GROUP) -> CharacterBody2D:
+  return group_only_node(g)
 
-  func player_character(g:=PLAYER_CHARACTER_GROUP) -> CharacterBody2D:
-    return only_node(g)
-
-  func player_character_state_machine(g:=PLAYER_CHARACTER_STATE_MACHINE_GROUP) -> Zaft_StateMachine:
-    return only_node(g)
+static func group_player_character_state_machine_only_node(g:=PLAYER_CHARACTER_STATE_MACHINE_GROUP) -> Zaft_StateMachine:
+  return group_only_node(g)
