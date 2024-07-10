@@ -1,5 +1,7 @@
 class_name Zaft_Autoload_Config extends Node
 
+static var player_auto_spawns_follow_camera_when_spawns : bool = true
+
 const TITLE_SCREEN_DEFAULT_FOCUS_BUTTON := ["test", "continue", "load", "start", "options", "about"]
 
 var physics_layers_by_name := {}

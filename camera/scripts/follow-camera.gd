@@ -6,6 +6,7 @@ class_name Zaft_FollowCamera extends Camera2D
 @export var follows_player : bool
 @export var uses_physics_process : bool
 @export var home_position: Vector2
+@export var parallax_strength: float = 0.001
 
 @onready var shake := Zaft_CameraShake.new()
 
@@ -16,11 +17,13 @@ func follow_target(c:Camera2D,p:Vector2,s:float,delta:float):
   update_parallax(c)
 
 func update_parallax(c:Camera2D):
-  var n := get_tree().get_first_node_in_group(__zaft.path.MAIN_CAMERA_PARALLAX_GROUP)
-  if n:
-    if n.material is ShaderMaterial:
-      if n.material.shader is Shader:
-        n.material.set_shader_parameter('offset', c.global_position / Vector2(800.0, 450.0))
+  var nodes := get_tree().get_nodes_in_group(__zaft.path.MAIN_CAMERA_PARALLAX_GROUP)
+  for n in nodes:
+    if 'material' in n:
+      if n.material is ShaderMaterial:
+        if n.material.shader is Shader:
+          n.material.set_shader_parameter('parallax_offset', c.global_position)
+          n.material.set_shader_parameter('parallax_strength', parallax_strength)
 
 func do_process(delta:float):
   shake.do_process(delta)
