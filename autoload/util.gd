@@ -56,6 +56,12 @@ static func input_wasd(w:=&"player-up",a:=&"player-left",s:=&"player-down",d:=&"
 static func y_only(v:Vector2)->Vector2:return Vector2(0.0, v.y)
 static func x_only(v:Vector2)->Vector2:return Vector2(v.x, 0.0)
 
+static func control_set_margin(con:MarginContainer,margin:int=0):
+  con.add_theme_constant_override(&'margin_left', margin)
+  con.add_theme_constant_override(&'margin_right', margin)
+  con.add_theme_constant_override(&'margin_top', margin)
+  con.add_theme_constant_override(&'margin_bottom', margin)
+
 static func control_set_color(con:Control,col:Color=Color.HOT_PINK):
   con.add_theme_color_override("font_color",col)
 
@@ -141,3 +147,18 @@ static func children_make_all_visible(_node:Node):
   if node_is_there(_node):
     for child in _node.get_children():
       child.visible = true
+
+static func string_format_time(time_seconds: float) -> String:
+  var total_seconds = int(time_seconds)
+  var milliseconds = int((time_seconds - total_seconds) * 1000)
+  
+  var seconds = total_seconds % 60
+  @warning_ignore(&'integer_division')
+  var minutes = (total_seconds / 60) % 60
+  @warning_ignore(&'integer_division')
+  var hours = total_seconds / 3600
+
+  # Format the string with leading zeros for minutes and seconds, and three digits for milliseconds
+  var formatted_time = "%02d:%02d:%02d.%03d" % [hours, minutes, seconds, milliseconds]
+  
+  return formatted_time
