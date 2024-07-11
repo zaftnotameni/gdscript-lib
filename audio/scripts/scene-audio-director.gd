@@ -77,7 +77,7 @@ func play_test_ui():
 
 func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0):
   if __zaft.config.audio_uses_hacky_solution:
-    player.volume_db = linear_to_db(volume_preferences.master)
+    player.volume_db = linear_to_db(volume_preferences.master / 100.0)
   player.pitch_scale = pitch_scale
   player.play()
 
