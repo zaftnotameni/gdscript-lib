@@ -1,7 +1,7 @@
 class_name Zaft_Autoload_Config extends Node
 
 static var player_auto_spawns_follow_camera_when_spawns : bool = true
-static var audio_uses_hacky_solution: bool = true
+static var audio_uses_hacky_solution: bool = false
 
 const TITLE_SCREEN_DEFAULT_FOCUS_BUTTON := ["test", "continue", "load", "start", "options", "about"]
 

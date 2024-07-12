@@ -20,7 +20,7 @@ const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
 
 @onready var save_timer := Timer.new()
 
-const LAYOUT : AudioBusLayout = preload('res://default_bus_layout.tres')
+const LAYOUT : AudioBusLayout = preload('res://zaft/lib/audio/resources/default_bus_layout.tres')
 
 func _enter_tree() -> void:
   AudioServer.set_bus_layout(LAYOUT)
