@@ -4,6 +4,7 @@ const PLAYER_CHARACTER_STATE_MACHINE_GROUP := &'player-character-state-machine'
 const PLAYER_CHARACTER_GROUP := &'player-character'
 const MAIN_CAMERA_GROUP := &'main-camera'
 const STOPWATCH_GROUP := &'stopwatch'
+const LEADERBOARD_GROUP := &'leaderboard'
 const MAIN_CAMERA_PARALLAX_GROUP := &'main-camera-parallax'
 
 static func group_all_nodes(g:StringName=&"Group Name") -> Array[Node]:
@@ -33,4 +34,7 @@ static func group_player_character_state_machine_only_node(g:=PLAYER_CHARACTER_S
   return group_only_node(g)
 
 static func group_stopwatch_only_node(g:=STOPWATCH_GROUP) -> Zaft_Stopwatch:
+  return group_only_node(g)
+
+static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Zaft_LeaderboardApi:
   return group_only_node(g)
