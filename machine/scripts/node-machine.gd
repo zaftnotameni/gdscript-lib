@@ -1,9 +1,9 @@
-class_name Zaft_StateMachine extends Zaft_ComponentBase
+class_name Zaft_StateMachine extends Node
 
 signal sig_state_will_transition(_new:Zaft_StateMachineState, _curr:Zaft_StateMachineState, _prev:Zaft_StateMachineState)
 signal sig_state_did_transition(_curr:Zaft_StateMachineState, _prev:Zaft_StateMachineState)
 
-enum MACHINE_MODE { Physics = 0, Normal }
+enum MACHINE_MODE { None = 0, Physics, Normal }
 
 @export var machine_mode: MACHINE_MODE
 @export var state_curr: Zaft_StateMachineState
@@ -14,6 +14,7 @@ func validate(e:Dictionary) -> bool:
   assert(get_child_count() == e.size(), '%s does not match child count of %s' % [e, get_child_count()])
   for k:String in e.keys():
     assert(get_child(e[k]).name == k, 'expected child %s (%s) to be named %s' % [get_child(e[k]).name, e[k], k])
+    print_verbose('valid state machine child %s (%s) named %s' % [get_child(e[k]).name, e[k], k])
   return true
 
 func start():
@@ -23,7 +24,7 @@ func start():
   state_curr.via_transition = 'machine-start'
   state_prev.via_state = 'MachineStarted'
   state_prev.via_transition = 'machine-start'
-  call_deferred('enable_processing',state_curr)
+  enable_processing.call_deferred(state_curr)
 
 func transition(via:="Transition Name",index:int=0):
   var next := state_by_index(index)
@@ -49,9 +50,6 @@ func next_curr_prev(next:Zaft_StateMachineState):
   state_prev = state_curr
   state_curr = next
 
-func _enter_tree() -> void:
-  add_to_group(__zaft.path.PLAYER_CHARACTER_STATE_MACHINE_GROUP)
-
 func state_by_index(_state_index:int=0) -> Zaft_StateMachineState:
   return get_child(_state_index)
 
@@ -59,10 +57,8 @@ func state_by_name(_state_name:String="State Name") -> Zaft_StateMachineState:
   return get_node(_state_name)
 
 func _ready() -> void:
-  super()
   if not state_curr: state_curr = get_child(0)
   if not state_prev: state_prev = state_curr
-  disable_processing(self)
   for c:Node in get_children(): disable_processing(c)
 
 func enable_processing(n:Node=self):

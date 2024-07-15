@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateAirborne extends Zaft_PlayerStateMachineState

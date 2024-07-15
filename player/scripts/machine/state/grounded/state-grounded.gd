@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateGrounded extends Zaft_PlayerStateMachineState

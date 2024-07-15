@@ -1,26 +1,91 @@
-@tool
 class_name Zaft_DirWalker extends Node
 
 signal sig_result_found(file_path:String)
 signal sig_results_found(file_paths:Array[String])
 signal sig_partial_results_found(file_paths:Array[String])
 
-enum FT { Shader, Scene, Audio }
+enum FT { Shader, Scene, Audio, Material, Script }
 
-@export var file_type : FT
 @export var base_path : String = 'res://'
+@export var output_path : String = 'res://zaft/generated'
 
-var results := []
+var results := {}
+
+func create_if_needed(abs_path:String):
+  if DirAccess.dir_exists_absolute(abs_path): return
+  DirAccess.make_dir_recursive_absolute(abs_path)
 
 func _ready() -> void:
-  find_files_recursive(base_path, matcher_for_file_type(file_type), results)
-  for s:String in results:
+  create_if_needed(output_path)
+  find_files_recursive(base_path, results)
+  print(JSON.stringify(results, '  '))
+  create_materials_for_shaders()
+  create_all_for_scenes()
+  create_all_for_audio()
+  create_all_for_materials()
+  create_all_for_shaders()
+
+func create_all_for_shaders():
+  var scripts_dir := generated_relative_dir_for(FT.Script)
+  var script_contents := 'class_name Gen_AllShaders extends Node\n'
+  for s:String in results[FT.Shader]:
+    var file_name : String = s.split('/')[-1]
+    var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
+    script_contents += 'const SHADER_%s : Shader = preload("%s")\n' % [scene_name, s]
+
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_shaders.gd', FileAccess.WRITE)
+  f.store_string(script_contents)
+  f.close()
+
+func create_all_for_materials():
+  var scripts_dir := generated_relative_dir_for(FT.Script)
+  var script_contents := 'class_name Gen_AllMaterials extends Node\n'
+  for s:String in results[FT.Material]:
+    var file_name : String = s.split('/')[-1]
+    var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0].trim_suffix('MATERIAL')
+    script_contents += 'const MATERIAL_%s : ShaderMaterial = preload("%s")\n' % [scene_name, s]
+
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_materials.gd', FileAccess.WRITE)
+  f.store_string(script_contents)
+  f.close()
+
+func create_all_for_audio():
+  var scripts_dir := generated_relative_dir_for(FT.Script)
+  var script_contents := 'class_name Gen_AllAudio extends Node\n'
+  for s:String in results[FT.Audio]:
+    var file_name : String = s.split('/')[-1]
+    var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
+    script_contents += 'const AUDIO_%s : AudioStream = preload("%s")\n' % [scene_name, s]
+
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_audio.gd', FileAccess.WRITE)
+  f.store_string(script_contents)
+  f.close()
+
+func create_all_for_scenes():
+  var scripts_dir := generated_relative_dir_for(FT.Script)
+  var script_contents := 'class_name Gen_AllScenes extends Node\n'
+  for s:String in results[FT.Scene]:
+    var file_name : String = s.split('/')[-1]
+    var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
+    script_contents += 'const SCENE_%s : PackedScene = preload("%s")\n' % [scene_name, s]
+
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_scenes.gd', FileAccess.WRITE)
+  f.store_string(script_contents)
+  f.close()
+
+func create_materials_for_shaders():
+  var materials_dir := generated_relative_dir_for(FT.Material)
+  for s:String in results[FT.Shader]:
     var sm := ShaderMaterial.new()
     sm.shader = load(s)
     sm.resource_local_to_scene = true
     var f : String = s.split('/')[-1]
     var sm_file_name : String = f.to_snake_case().replace('_', '-').split('.')[0]
-    ResourceSaver.save(sm, 'res://zaft/output/materials/' + sm_file_name + '_material.tres')
+    var m_file_name : String = materials_dir.get_current_dir() + '/' + sm_file_name + '_material.tres'
+    ResourceSaver.save(sm, m_file_name)
+    if not results.has(FT.Material):
+      results[FT.Material] = []
+    results[FT.Material].push_back(m_file_name)
 
 static func is_file_ext(file_path:String,extensions:=[]) -> bool:
   if not file_path or file_path.is_empty(): return false
@@ -37,14 +102,34 @@ static func is_scene_file(file_path:String) -> bool:
 static func is_audio_file(file_path:String) -> bool:
   return is_file_ext(file_path, ['.ogg', '.mp3', '.wav'])
 
+static func is_not_interesting_file(_file_path:String='') -> bool:
+  return false
+
+func generated_relative_dir_for(ft:FT) -> DirAccess:
+  var dir := DirAccess.open(output_path)
+  var rel_path := generated_relative_folder_name_for(ft)
+  if not dir.dir_exists(rel_path):
+    dir.make_dir_recursive(rel_path)
+  dir.change_dir(rel_path)
+  return dir
+
+static func generated_relative_folder_name_for(ft:FT) -> String:
+  match ft:
+    FT.Shader: return 'shaders'
+    FT.Material: return 'materials'
+    FT.Scene: return 'scenes'
+    FT.Audio: return 'audio'
+    FT.Script: return 'scripts'
+  return 'other'
+
 static func matcher_for_file_type(ft:FT) -> Callable:
   match ft:
     FT.Shader: return is_shader_file
     FT.Scene: return is_scene_file
     FT.Audio: return is_audio_file
-  return Callable()
+  return is_not_interesting_file
 
-static func find_files_recursive(path:String,fn_is_match:Callable,the_results:=[],depth:int=0):
+static func find_files_recursive(path:String,the_results:={},depth:int=0):
   var dir = DirAccess.open(path)
   dir.list_dir_begin()
   while true:
@@ -54,7 +139,12 @@ static func find_files_recursive(path:String,fn_is_match:Callable,the_results:=[
     var file_path = path + ('' if path.ends_with('/') else '/') + file_name
     if file_path == 'res://addons': continue
     if dir.current_is_dir():
-      find_files_recursive(file_path, fn_is_match, the_results, depth + 1)
-    elif fn_is_match.call(file_path):
-      the_results.push_back(file_path)
+      find_files_recursive(file_path, the_results, depth + 1)
+    else:
+      for ft:FT in FT.values():
+        var fn_is_match := matcher_for_file_type(ft)
+        if fn_is_match.call(file_path):
+          if not the_results.has(ft):
+            the_results[ft] = []
+          the_results[ft].push_back(file_path)
   dir.list_dir_end()

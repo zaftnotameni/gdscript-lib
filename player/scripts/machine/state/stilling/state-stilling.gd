@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateStilling extends Zaft_PlayerStateGrounded

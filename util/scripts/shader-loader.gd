@@ -1,0 +1,1 @@
+class_name Zaft_ShaderLoader extends Control

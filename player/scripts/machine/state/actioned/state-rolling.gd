@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateRolling extends Zaft_PlayerStateActioned

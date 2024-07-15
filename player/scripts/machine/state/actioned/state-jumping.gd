@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateJumping extends Zaft_PlayerStateActioned

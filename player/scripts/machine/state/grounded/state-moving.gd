@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateMoving extends Zaft_PlayerStateMachineState

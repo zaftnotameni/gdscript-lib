@@ -3,7 +3,7 @@ class_name Zaft_Autoload_Util extends Node
 static func scene_tree() -> SceneTree:
   return Engine.get_main_loop()
 
-static func tool_add_child(parent:Node,child:Node):
+static func tool_add_child(parent:Node,child:Node,custom_owner:Node=parent):
   if not parent: return
   if not child: return
   parent.add_child(child)
@@ -11,7 +11,7 @@ static func tool_add_child(parent:Node,child:Node):
     if not parent.get_tree(): return
     child.owner = parent.get_tree().get_edited_scene_root()
   else:
-    child.owner = parent
+    child.owner = custom_owner
 
 static func timer_bump(t:Timer, only_if_running:=false) -> Timer:
   if not t: return t
@@ -50,17 +50,14 @@ static func input_x(a:=&"player-left",d:=&"player-right")->float:
 static func input_y(w:=&"player-up",s:=&"player-down")->float:
   return Input.get_axis(w,s)
 
-static func input_wasd(w:=&"player-up",a:=&"player-left",s:=&"player-down",d:=&"player-right")->Vector2:
-  return Vector2(Input.get_axis(a,d),Input.get_axis(w,s))
-
-static func y_only(v:Vector2)->Vector2:return Vector2(0.0, v.y)
-static func x_only(v:Vector2)->Vector2:return Vector2(v.x, 0.0)
-
 static func control_set_margin(con:MarginContainer,margin:int=0):
   con.add_theme_constant_override(&'margin_left', margin)
   con.add_theme_constant_override(&'margin_right', margin)
   con.add_theme_constant_override(&'margin_top', margin)
   con.add_theme_constant_override(&'margin_bottom', margin)
+
+static func control_set_top_left_min_size(con:Control):
+  con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_TOP_LEFT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
 
 static func control_set_color(con:Control,col:Color=Color.HOT_PINK):
   con.add_theme_color_override("font_color",col)
@@ -158,7 +155,6 @@ static func string_format_time(time_seconds: float) -> String:
   @warning_ignore(&'integer_division')
   var hours = total_seconds / 3600
 
-  # Format the string with leading zeros for minutes and seconds, and three digits for milliseconds
   var formatted_time = "%02d:%02d:%02d.%03d" % [hours, minutes, seconds, milliseconds]
   
   return formatted_time

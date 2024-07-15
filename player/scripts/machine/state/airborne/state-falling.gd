@@ -1,0 +1,1 @@
+class_name Zaft_PlayerStateFalling extends Zaft_PlayerStateAirborne
