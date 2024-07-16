@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://ceedsxl72brk8"]
 
 [ext_resource type="Script" path="res://zaft/lib/audio/scripts/scene-audio-director.gd" id="1_pnv2a"]
-[ext_resource type="AudioStream" uid="uid://b05ntruyqb77" path="res://zaft/lib/assets/audio/ui/tick_002.ogg" id="2_1tauf"]
-[ext_resource type="AudioStream" uid="uid://dl21br2ubi7od" path="res://zaft/lib/assets/audio/ui/tick_001.ogg" id="2_mrk8h"]
-[ext_resource type="AudioStream" uid="uid://cqw7yum3gu142" path="res://zaft/lib/assets/audio/ui/toggle_001.ogg" id="3_qx1n5"]
+[ext_resource type="AudioStream" uid="uid://b05ntruyqb77" path="res://zaft/lib/asset/audio/ui/tick_002.ogg" id="2_1tauf"]
+[ext_resource type="AudioStream" uid="uid://dl21br2ubi7od" path="res://zaft/lib/asset/audio/ui/tick_001.ogg" id="2_mrk8h"]
+[ext_resource type="AudioStream" uid="uid://cqw7yum3gu142" path="res://zaft/lib/asset/audio/ui/toggle_001.ogg" id="3_qx1n5"]
 
 [node name="AudioDirector" type="Node"]
 script = ExtResource("1_pnv2a")

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dmtt8vixo4wfs"
+path="res://.godot/imported/Shores of Avalon.mp3-a7942eac201239098ef77fc964db5f10.mp3str"
+
+[deps]
+
+source_file="res://zaft/lib/asset/audio/bgm/mcleod/Shores of Avalon.mp3"
+dest_files=["res://.godot/imported/Shores of Avalon.mp3-a7942eac201239098ef77fc964db5f10.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

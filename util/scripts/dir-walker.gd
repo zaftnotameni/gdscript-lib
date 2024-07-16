@@ -18,8 +18,8 @@ func create_if_needed(abs_path:String):
 func _ready() -> void:
   create_if_needed(output_path)
   find_files_recursive(base_path, results)
-  print(JSON.stringify(results, '  '))
   create_materials_for_shaders()
+  print(JSON.stringify(results, '  '))
   create_all_for_scenes()
   create_all_for_audio()
   create_all_for_materials()
@@ -33,31 +33,37 @@ func create_all_for_shaders():
     var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
     script_contents += 'const SHADER_%s : Shader = preload("%s")\n' % [scene_name, s]
 
-  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_shaders.gd', FileAccess.WRITE)
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-shaders.gd', FileAccess.WRITE)
   f.store_string(script_contents)
   f.close()
 
 func create_all_for_materials():
   var scripts_dir := generated_relative_dir_for(FT.Script)
   var script_contents := 'class_name Gen_AllMaterials extends Node\n'
+  var all_materials := '\nvar ALL_MATERIALS := ['
   for s:String in results[FT.Material]:
     var file_name : String = s.split('/')[-1]
     var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0].trim_suffix('MATERIAL')
     script_contents += 'const MATERIAL_%s : ShaderMaterial = preload("%s")\n' % [scene_name, s]
-
-  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_materials.gd', FileAccess.WRITE)
+    all_materials += 'MATERIAL_' + scene_name + ','
+  all_materials += ']\n'
+  script_contents += all_materials
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-materials.gd', FileAccess.WRITE)
   f.store_string(script_contents)
   f.close()
 
 func create_all_for_audio():
   var scripts_dir := generated_relative_dir_for(FT.Script)
   var script_contents := 'class_name Gen_AllAudio extends Node\n'
+  var all_audio := '\nvar ALL_AUDIO := ['
   for s:String in results[FT.Audio]:
     var file_name : String = s.split('/')[-1]
     var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
     script_contents += 'const AUDIO_%s : AudioStream = preload("%s")\n' % [scene_name, s]
-
-  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_audio.gd', FileAccess.WRITE)
+    all_audio += 'AUDIO_' + scene_name + ','
+  all_audio += ']\n'
+  script_contents += all_audio
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-audio.gd', FileAccess.WRITE)
   f.store_string(script_contents)
   f.close()
 
@@ -69,7 +75,7 @@ func create_all_for_scenes():
     var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
     script_contents += 'const SCENE_%s : PackedScene = preload("%s")\n' % [scene_name, s]
 
-  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all_scenes.gd', FileAccess.WRITE)
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-scenes.gd', FileAccess.WRITE)
   f.store_string(script_contents)
   f.close()
 
@@ -85,13 +91,19 @@ func create_materials_for_shaders():
     ResourceSaver.save(sm, m_file_name)
     if not results.has(FT.Material):
       results[FT.Material] = []
-    results[FT.Material].push_back(m_file_name)
+    if not results[FT.Material].has(m_file_name):
+      results[FT.Material].push_back(m_file_name)
+    
 
 static func is_file_ext(file_path:String,extensions:=[]) -> bool:
   if not file_path or file_path.is_empty(): return false
   if not extensions or extensions.is_empty(): return false
   for ext:String in extensions: if file_path.ends_with(ext): return true
   return false
+
+static func is_material_file(file_path:String) -> bool:
+  if not is_file_ext(file_path, ['.tres']): return false
+  return load(file_path) is ShaderMaterial
 
 static func is_shader_file(file_path:String) -> bool:
   return is_file_ext(file_path, ['.shader', '.gdshader'])
@@ -124,12 +136,13 @@ static func generated_relative_folder_name_for(ft:FT) -> String:
 
 static func matcher_for_file_type(ft:FT) -> Callable:
   match ft:
+    FT.Material: return is_material_file
     FT.Shader: return is_shader_file
     FT.Scene: return is_scene_file
     FT.Audio: return is_audio_file
   return is_not_interesting_file
 
-static func find_files_recursive(path:String,the_results:={},depth:int=0):
+func find_files_recursive(path:String,the_results:={},depth:int=0):
   var dir = DirAccess.open(path)
   dir.list_dir_begin()
   while true:
@@ -137,7 +150,10 @@ static func find_files_recursive(path:String,the_results:={},depth:int=0):
     if not file_name or file_name.is_empty():
       break
     var file_path = path + ('' if path.ends_with('/') else '/') + file_name
-    if file_path == 'res://addons': continue
+    if file_path.contains('res://.'): continue
+    if file_path.contains('res://addons'): continue
+    if file_path.contains(output_path): continue
+    print(file_path)
     if dir.current_is_dir():
       find_files_recursive(file_path, the_results, depth + 1)
     else:
@@ -146,5 +162,8 @@ static func find_files_recursive(path:String,the_results:={},depth:int=0):
         if fn_is_match.call(file_path):
           if not the_results.has(ft):
             the_results[ft] = []
-          the_results[ft].push_back(file_path)
+          if not the_results[ft].has(file_path):
+            the_results[ft].push_back(file_path)
+          else:
+            push_warning('found duplicated %s at %s' % [FT.find_key(ft), file_path])
   dir.list_dir_end()

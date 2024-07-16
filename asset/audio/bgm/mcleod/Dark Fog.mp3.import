@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cfvys81ivfkal"
+path="res://.godot/imported/Dark Fog.mp3-75f45b0a299ab76c8d7c69e1ced84428.mp3str"
+
+[deps]
+
+source_file="res://zaft/lib/asset/audio/bgm/mcleod/Dark Fog.mp3"
+dest_files=["res://.godot/imported/Dark Fog.mp3-75f45b0a299ab76c8d7c69e1ced84428.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
