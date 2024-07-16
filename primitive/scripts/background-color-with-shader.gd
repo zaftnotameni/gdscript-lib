@@ -1,12 +1,15 @@
 class_name Zaft_Primitive_BackgroundColorWithRect extends ColorRect
 
 @export var layer : Zaft_Autoload_Layers.LAYERS = Zaft_Autoload_Layers.LAYERS.background
+@export var auto_parallax : Vector2
 
 func at_layer(target:=Zaft_Autoload_Layers.LAYERS.background) -> Zaft_Primitive_BackgroundColorWithRect:
   layer = target
   return self
 
-func with_material(sm:ShaderMaterial) -> Zaft_Primitive_BackgroundColorWithRect:
+func with_material(sm:ShaderMaterial, parallax:=Vector2.ZERO) -> Zaft_Primitive_BackgroundColorWithRect:
+  auto_parallax = parallax
+  sm.set_shader_parameter('parallax_auto', auto_parallax)
   material = sm
   return self
 

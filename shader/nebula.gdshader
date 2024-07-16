@@ -7,6 +7,7 @@ const float noise_scale = 2.0;
 const float intensity = 1.0;
 uniform float parallax_strength = 0.001;
 uniform vec2 parallax_offset = vec2(0.0);
+uniform vec2 parallax_auto = vec2(0.0);
 
 float random(vec2 uv) {
     return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
@@ -28,6 +29,7 @@ float noise(vec2 uv) {
 void fragment() {
     vec2 uv = UV;
     uv += parallax_offset * parallax_strength;
+    uv += parallax_auto * TIME;
     vec2 p = uv * noise_scale;
 
     // Generate nebula noise pattern

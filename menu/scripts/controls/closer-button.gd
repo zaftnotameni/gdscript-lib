@@ -36,8 +36,10 @@ func _ready() -> void:
   pressed.connect(close_target)
 
 func close_target():
-  if target:
-    target.queue_free()
+  if target and not target.is_queued_for_deletion():
+    var t := Zaft_Autoload_Util.tween_fresh_eased_in_out_cubic()
+    t.tween_property(target, ^'position:y', -1800, 0.2).from_current()
+    t.tween_callback(target.queue_free)
 
 func _input(event: InputEvent) -> void:
   if TARGET_ACTIONS.any(event.is_action_pressed):
