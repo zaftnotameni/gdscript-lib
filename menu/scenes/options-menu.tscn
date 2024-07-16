@@ -11,4 +11,4 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1cesv")
 sections = Array[PackedScene]([ExtResource("2_344hr")])
-title = "Options"
+title = "Sound"

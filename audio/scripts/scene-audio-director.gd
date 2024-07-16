@@ -13,6 +13,11 @@ const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
 @onready var test_sound_sfx : Node = $Streams/SFX/Test
 @onready var test_sound_ui : Node = $Streams/UI/Test
 
+const BUS_NAME_MASTER := "Master"
+const BUS_NAME_BGM := "BGM"
+const BUS_NAME_SFX := "SFX"
+const BUS_NAME_UI := "UI"
+
 @onready var bus_index_master := AudioServer.get_bus_index("Master")
 @onready var bus_index_bgm := AudioServer.get_bus_index("BGM")
 @onready var bus_index_sfx := AudioServer.get_bus_index("SFX")

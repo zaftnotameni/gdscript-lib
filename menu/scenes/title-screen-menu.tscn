@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cpn4bbpf0aj1n"]
+[gd_scene load_steps=4 format=3 uid="uid://cpn4bbpf0aj1n"]
 
 [ext_resource type="Script" path="res://zaft/lib/menu/scripts/controls/title-screen-menu.gd" id="1_nvknq"]
 [ext_resource type="PackedScene" uid="uid://cj7jlof5swjvu" path="res://zaft/lib/menu/scenes/options-menu.tscn" id="2_u3o3f"]
+[ext_resource type="AudioStream" uid="uid://cfvys81ivfkal" path="res://zaft/lib/asset/audio/bgm/mcleod/Dark Fog.mp3" id="3_iea77"]
 
 [node name="TitleScreenMenu" type="Control"]
 layout_mode = 3
@@ -26,3 +27,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nvknq")
 scene_options = ExtResource("2_u3o3f")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_iea77")
+autoplay = true
+bus = &"BGM"
+parameters/looping = true
