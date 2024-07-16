@@ -4,7 +4,7 @@ class_name Zaft_SceneSpawner extends Node2D
 @export var spawn_action_name : StringName
 @export var uses_respawn_action : bool = false
 @export var spawn_on_ready: bool = false
-@export_category('how')
+@export_category('how') 
 @export var spawn_clears: bool = false
 @export_category('what')
 @export var scene : PackedScene
