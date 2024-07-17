@@ -8,9 +8,9 @@ var sound : AudioStreamPlayer
 func _enter_tree() -> void:
   psoe = Zaft_PlaySoundOnEvent.new()
   psoe.should_play_on_mouse_enter = true
-  psoe.should_play_on_mouse_exit = true
+  psoe.should_play_on_mouse_exit = false
   psoe.should_play_on_focus_enter = true
-  psoe.should_play_on_focus_exit = true
+  psoe.should_play_on_focus_exit = false
   psoe.should_play_on_pressed = true
   sound = AudioStreamPlayer.new()
   sound.bus = Zaft_AudioDirector_Scene.BUS_NAME_UI

@@ -3,6 +3,8 @@ class_name Zaft_PlayerCharacter extends CharacterBody2D
 @export var stats : Zaft_PlayerStats
 @export var machine : Zaft_PlayerStateMachine
 
+@onready var viz : Node2D = $V
+
 var camera : Zaft_FollowCamera
 
 func _enter_tree() -> void:
@@ -12,6 +14,9 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
   if __zaft.global.player == self:
     __zaft.global.register_player(null)
+
+func _physics_process(_delta: float) -> void:
+  viz.scale.x = 1 if stats.facing == Zaft_PlayerStats.FACING.Right else -1
 
 func _ready() -> void:
   if not stats:

@@ -14,6 +14,7 @@ enum STATE {
   Walking,
   Running,
   Moving,
+  Coyoteing,
   Grounded,
   Falling,
   Ascending,
@@ -43,6 +44,7 @@ static func type_of_state(s:Zaft_PlayerStateMachineState.STATE) -> Script:
     Zaft_PlayerStateMachineState.STATE.Walking: return Zaft_PlayerStateWalking
     Zaft_PlayerStateMachineState.STATE.Running: return Zaft_PlayerStateRunning
     Zaft_PlayerStateMachineState.STATE.Moving: return Zaft_PlayerStateMoving
+    Zaft_PlayerStateMachineState.STATE.Coyoteing: return Zaft_PlayerStateCoyoteing
     Zaft_PlayerStateMachineState.STATE.Grounded: return Zaft_PlayerStateGrounded
     Zaft_PlayerStateMachineState.STATE.Falling: return Zaft_PlayerStateFalling
     Zaft_PlayerStateMachineState.STATE.Ascending: return Zaft_PlayerStateAscending

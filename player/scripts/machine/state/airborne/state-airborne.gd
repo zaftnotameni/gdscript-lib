@@ -5,7 +5,6 @@ class_name Zaft_PlayerStateAirborne extends Zaft_PlayerStateMachineState
 
 func _physics_process(delta: float) -> void:
   if gravity_orientation and gravity_orientation.gravity_source:
-    print(windrose.down())
     character.velocity += gravity_orientation.gravity_source.gravity_strength * delta * windrose.down()
 
   character.move_and_slide()
