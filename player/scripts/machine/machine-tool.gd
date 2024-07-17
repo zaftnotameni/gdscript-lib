@@ -16,7 +16,7 @@ func setup_tooled():
     print(t, t.resource_path, t.resource_name)
     var c : Zaft_PlayerStateMachineState = t.new()
     c.name = Zaft_PlayerStateMachineState.STATE.find_key(s).to_pascal_case()
-    Zaft_Autoload_Util.tool_add_child(target_state_machine(), c, owner)
+    Zaft_Autoload_Util.tool_add_child(target_state_machine(), c)
 
 func target_state_machine() -> Zaft_PlayerStateMachine:
   return Zaft_ComponentBase.resolve_at(get_parent(), Zaft_PlayerStateMachine)

@@ -1,10 +1,12 @@
 class_name Zaft_GravityWell extends Area2D
 
+const DEFAULT_GRAVITY_STRENGTH : int = 512
 const DEFAULT_GRAVITY_RADIUS : int = 512
 const DEFAULT_APPLY_GRAVITY_METHOD_NAME := &'apply_gravity'
 
 ## if a radius is set to a value > 0 and no shape is provided, a circle will be created automatically
 @export var gravity_radius : int = DEFAULT_GRAVITY_RADIUS
+@export var gravity_strength : int = DEFAULT_GRAVITY_STRENGTH
 @export var linear_falloff: bool = false
 
 @export var shape : CollisionShape2D

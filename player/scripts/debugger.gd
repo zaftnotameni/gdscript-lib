@@ -7,6 +7,7 @@ class_name Zaft_PlayerDebugger extends Node2D
 @export var debug_max_velocity : bool = false
 @export var debug_normal: bool = false
 @export var debug_gravity: bool = false
+@export var debug_machine: bool = false
 
 @onready var player : Zaft_PlayerCharacter = owner
 
@@ -14,6 +15,20 @@ func resolve_gravity() -> Zaft_PlayerGravityBasedOrientation: return Zaft_Compon
 func resolve_windrose() -> Zaft_PlayerWindrose: return Zaft_ComponentBase.resolve_from(player, Zaft_PlayerWindrose)
 func resolve_stats() -> Zaft_PlayerStats: return Zaft_ComponentBase.resolve_from(player, Zaft_PlayerStats)
 func resolve_machine() -> Zaft_PlayerStateMachine: return Zaft_ComponentBase.resolve_from(player, Zaft_PlayerStateMachine)
+
+
+@onready var lbl_machine := Label.new()
+
+func on_machine_state_change(curr:Zaft_PlayerStateMachineState,prev:Zaft_PlayerStateMachineState):
+  lbl_machine.text = '[%s]=%s>[%s]=%s>[%s]' % [prev.via_state, prev.via_transition, prev.name, curr.via_transition, curr.name]
+  Zaft_Autoload_Util.control_set_bottom_right_min_size(lbl_machine)
+
+func _ready() -> void:
+  if debug_machine:
+    lbl_machine.text = 'Player State Machine Debug'
+    __zaft.layer.debug.add_child(lbl_machine)
+    Zaft_Autoload_Util.control_set_bottom_right_min_size(lbl_machine)
+    resolve_machine().sig_state_did_transition.connect(on_machine_state_change)
 
 func _draw() -> void:
   if debug_right:

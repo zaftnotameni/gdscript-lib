@@ -1,7 +1,7 @@
 shader_type canvas_item;
 render_mode blend_add;
 
-const float radius = .7;
+uniform float radius = .8;
 const float thickness = .72;
 const vec4 color = vec4(0.9, 0.4, 0.1, 1.0);
 const float brightness  = 5.0;

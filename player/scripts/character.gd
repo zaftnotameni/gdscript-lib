@@ -24,3 +24,4 @@ func _ready() -> void:
     camera = Zaft_FollowCamera.new()
     camera.target_node = self
     __zaft.layer.player.add_child.call_deferred(camera)
+  machine.start.call_deferred()

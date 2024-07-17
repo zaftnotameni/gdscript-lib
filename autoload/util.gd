@@ -56,6 +56,9 @@ static func control_set_margin(con:MarginContainer,margin:int=0):
   con.add_theme_constant_override(&'margin_top', margin)
   con.add_theme_constant_override(&'margin_bottom', margin)
 
+static func control_set_bottom_right_min_size(con:Control):
+  con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_BOTTOM_RIGHT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
+
 static func control_set_top_left_min_size(con:Control):
   con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_TOP_LEFT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
 

@@ -10,6 +10,9 @@ func _ready() -> void:
   if not body: body = Zaft_ComponentBase.resolve_at(player, Zaft_PlayerBody)
   add_child(body.duplicate())
 
+func _physics_process(_delta: float) -> void:
+  on_gravity_source_updated()
+
 func apply_gravity(new_gravity_source:Zaft_GravityWell):
   update_gravity_source(new_gravity_source)
 
