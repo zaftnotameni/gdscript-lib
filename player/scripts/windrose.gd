@@ -20,10 +20,10 @@ func _enter_tree() -> void:
 #   draw_circle(up() * 32, 16, Color.RED)
 
 func right() -> Vector2:
-  return get_child(DIR.RIGHT).position
+  return global_position.direction_to(get_child(DIR.RIGHT).global_position)
 func up() -> Vector2:
-  return get_child(DIR.UP).position
+  return global_position.direction_to(get_child(DIR.UP).global_position)
 func left() -> Vector2:
-  return get_child(DIR.LEFT).position
+  return global_position.direction_to(get_child(DIR.LEFT).global_position)
 func down() -> Vector2:
-  return get_child(DIR.DOWN).position
+  return global_position.direction_to(get_child(DIR.DOWN).global_position)

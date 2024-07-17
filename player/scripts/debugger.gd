@@ -32,13 +32,13 @@ func _ready() -> void:
 
 func _draw() -> void:
   if debug_right:
-    draw_line(Vector2.ZERO, resolve_windrose().right() * LEN_RIGHT, COLOR_RIGHT, WID_RIGHT)
+    draw_line(Vector2.ZERO, Vector2.RIGHT * LEN_RIGHT, COLOR_RIGHT, WID_RIGHT)
   if debug_down:
-    draw_line(Vector2.ZERO, resolve_windrose().down() * LEN_DOWN, COLOR_DOWN, WID_DOWN)
-  if debug_velocity:
-    draw_line(Vector2.ZERO, player.velocity, COLOR_SPEED, WID_SPEED)
+    draw_line(Vector2.ZERO, Vector2.DOWN * LEN_DOWN, COLOR_DOWN, WID_DOWN)
   if debug_max_velocity:
-    draw_line(Vector2.ZERO, player.velocity.normalized() * player.stats.max_speed_from_input, COLOR_MAX_SPEED, WID_MAX_SPEED)
+    draw_line(Vector2.ZERO, player.velocity.normalized().rotated(-player.rotation) * player.stats.max_speed_from_input, COLOR_MAX_SPEED, WID_MAX_SPEED)
+  if debug_velocity:
+    draw_line(Vector2.ZERO, player.velocity.rotated(-player.rotation), COLOR_SPEED, WID_SPEED)
   if debug_gravity:
     if resolve_gravity() and resolve_gravity().gravity_source:
       draw_line(Vector2.ZERO, to_local(resolve_gravity().gravity_source.global_position), COLOR_GRAVITY, WID_GRAVITY)

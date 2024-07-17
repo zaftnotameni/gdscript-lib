@@ -44,12 +44,6 @@ static func tween_fresh_eased_in_out_cubic(t:Tween=scene_tree().create_tween(),a
   t.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
   return t
 
-static func input_x(a:=&"player-left",d:=&"player-right")->float:
-  return Input.get_axis(a,d)
-
-static func input_y(w:=&"player-up",s:=&"player-down")->float:
-  return Input.get_axis(w,s)
-
 static func control_set_margin(con:MarginContainer,margin:int=0):
   con.add_theme_constant_override(&'margin_left', margin)
   con.add_theme_constant_override(&'margin_right', margin)

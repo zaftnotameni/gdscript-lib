@@ -12,6 +12,15 @@ const PLAYER_INPUT_ATTACK := &"player-attack"
 const PLAYER_INPUT_MINE := &"player-mine"
 const PLAYER_INPUT_PLACE := &"player-place"
 
+static func input_x(a:=&"player-left",d:=&"player-right")->float:
+  return Input.get_axis(a,d)
+
+static func input_y(w:=&"player-up",s:=&"player-down")->float:
+  return Input.get_axis(w,s)
+
+static func input_ad_scalar(a:=PLAYER_INPUT_LEFT,d:=PLAYER_INPUT_RIGHT)->float:
+  return Input.get_axis(a,d)
+
 static func input_wasd(w:=&"player-up",a:=&"player-left",s:=&"player-down",d:=&"player-right")->Vector2:
   return Input.get_vector(a,d,w,s)
 

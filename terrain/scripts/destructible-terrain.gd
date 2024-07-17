@@ -15,7 +15,7 @@ class_name Zaft_DestructibleTerrain extends Node2D
 
 func _ready() -> void:
   if not areas: areas = Node2D.new(); add_child(areas)
-  if not polys: polys = Node2D.new(); add_child(polys)
+  if not polys: polys = Node2D.new(); add_child(polys); polys.use_parent_material = true
   if not bodys: bodys = Node2D.new(); add_child(bodys)
   if not parrs: parrs = []
   validate_parrs()
@@ -93,6 +93,12 @@ static func poly_arr_to_array(parr:PackedVector2Array,result:Array[PackedVector2
 static func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var p := Polygon2D.new()
+  var tex := PlaceholderTexture2D.new()
+  tex.size = Vector2(512, 512)
+  p.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+  p.texture = tex
+  p.color = Color.WHITE
+  p.use_parent_material = true
   p.polygon = parr
   the_parent.add_child(p)
 
