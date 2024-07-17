@@ -93,6 +93,8 @@ static func poly_arr_to_array(parr:PackedVector2Array,result:Array[PackedVector2
 static func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var p := Polygon2D.new()
+  var o := LightOccluder2D.new()
+  var op := OccluderPolygon2D.new()
   var tex := PlaceholderTexture2D.new()
   tex.size = Vector2(512, 512)
   p.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
@@ -100,7 +102,10 @@ static func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
   p.color = Color.WHITE
   p.use_parent_material = true
   p.polygon = parr
+  op.polygon = parr
+  o.occluder = op
   the_parent.add_child(p)
+  p.add_child(o)
 
 static func poly_arr_to_body(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
