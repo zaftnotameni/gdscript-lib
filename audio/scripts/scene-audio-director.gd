@@ -80,9 +80,19 @@ func play_test_sfx():
 func play_test_ui():
   play_pitched(test_sound_ui)
 
-func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0):
-  if __zaft.config.audio_uses_hacky_solution:
-    player.volume_db = linear_to_db(volume_preferences.master / 100.0)
+func play_pitched_2d(player: AudioStreamPlayer2D, pitch_scale: float = 1.0, only_if_not_playing:= false):
+  if OS.has_feature('web'):
+    player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_SAMPLE
+  if only_if_not_playing:
+    if player.playing: return
+  player.pitch_scale = pitch_scale
+  player.play()
+
+func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false):
+  if OS.has_feature('web'):
+    player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_SAMPLE
+  if only_if_not_playing:
+    if player.playing: return
   player.pitch_scale = pitch_scale
   player.play()
 

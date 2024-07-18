@@ -20,8 +20,7 @@ func on_dash():
 func jet_on():
   jetpack_particles.emitting = true
   __zaft.bus.sig_camera_trauma_request.emit(0.05, 0.2)
-  if not jetpack_sfx.playing:
-    jetpack_sfx.play()
+  __zaft.audio.director.play_pitched_2d(jetpack_sfx, 1, true)
 
 func jet_off():
   jetpack_particles.emitting = false
