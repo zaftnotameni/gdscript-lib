@@ -4,7 +4,7 @@ signal sig_result_found(file_path:String)
 signal sig_results_found(file_paths:Array[String])
 signal sig_partial_results_found(file_paths:Array[String])
 
-enum FT { Shader, Scene, Audio, Material, Script }
+enum FT { Shader, Scene, Audio, Material, Script, Particle }
 
 @export var base_path : String = 'res://'
 @export var output_path : String = 'res://zaft/generated'
@@ -42,9 +42,10 @@ func create_all_for_materials():
   var script_contents := 'class_name Gen_AllMaterials extends Node\n'
   var all_materials := '\nvar ALL_MATERIALS := ['
   for s:String in results[FT.Material]:
+    var mt := 'ShaderMaterial' if load(s) is ShaderMaterial else 'CanvasItemMaterial'
     var file_name : String = s.split('/')[-1]
     var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0].trim_suffix('MATERIAL')
-    script_contents += 'const MATERIAL_%s : ShaderMaterial = preload("%s")\n' % [scene_name, s]
+    script_contents += 'const MATERIAL_%s : %s = preload("%s")\n' % [scene_name, mt, s]
     all_materials += 'MATERIAL_' + scene_name + ','
   all_materials += ']\n'
   script_contents += all_materials
@@ -101,9 +102,12 @@ static func is_file_ext(file_path:String,extensions:=[]) -> bool:
   for ext:String in extensions: if file_path.ends_with(ext): return true
   return false
 
+static func is_particle_file(_file_path:String) -> bool:
+  return false
+
 static func is_material_file(file_path:String) -> bool:
   if not is_file_ext(file_path, ['.tres']): return false
-  return load(file_path) is ShaderMaterial
+  return load(file_path) is CanvasItemMaterial or load(file_path) is ShaderMaterial
 
 static func is_shader_file(file_path:String) -> bool:
   return is_file_ext(file_path, ['.shader', '.gdshader'])
@@ -132,10 +136,12 @@ static func generated_relative_folder_name_for(ft:FT) -> String:
     FT.Scene: return 'scenes'
     FT.Audio: return 'audio'
     FT.Script: return 'scripts'
+    FT.Particle: return 'particles'
   return 'other'
 
 static func matcher_for_file_type(ft:FT) -> Callable:
   match ft:
+    FT.Particle: return is_particle_file
     FT.Material: return is_material_file
     FT.Shader: return is_shader_file
     FT.Scene: return is_scene_file

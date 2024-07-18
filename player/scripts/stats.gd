@@ -3,15 +3,15 @@ class_name Zaft_PlayerStats extends Node
 enum FACING { Right, Left }
 
 # in %
-@export var energy : int = 100
-@export var fuel : int = 100
+@export var energy : float = 100
+@export var fuel : float = 100
 
 # directions
 @export var facing : FACING
 
-# in pixes
+# in pixels
 @export var player_width : int = 24
-@export var player_height : int = 32
+@export var player_height : int = 64
 
 # in sec
 @export var dash_duration : float = 0.1
