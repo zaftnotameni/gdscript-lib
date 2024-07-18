@@ -4,6 +4,7 @@ class_name Zaft_PlayerStateAirborne extends Zaft_PlayerStateMachineState
 @onready var windrose : Zaft_PlayerWindrose = Zaft_ComponentBase.resolve_from(owner, Zaft_PlayerWindrose)
 @onready var jetpack_particles : CPUParticles2D = %JetpackParticles
 @onready var jetpack_sfx : AudioStreamPlayer2D = %SfxJetpack
+@onready var gun_reticle : Node2D = %RobotGunReticle
 
 var max_jetpack_velocity : int = 512
 
@@ -19,7 +20,8 @@ func on_dash():
 func jet_on():
   jetpack_particles.emitting = true
   __zaft.bus.sig_camera_trauma_request.emit(0.05, 0.2)
-  jetpack_sfx.play()
+  if not jetpack_sfx.playing:
+    jetpack_sfx.play()
 
 func jet_off():
   jetpack_particles.emitting = false
@@ -30,6 +32,14 @@ func apply_jetpack(delta:float):
   if not character.stats.update_fuel_rel(-character.stats.fuel_cons_jetpack * delta): return
 
   jet_on()
+  apply_jetpack_direction_of_pointing(delta)
+
+func apply_jetpack_direction_of_pointing(delta:float):
+  var dir := -(gun_reticle.global_position - character.global_position).normalized()
+  if abs(character.velocity.dot(dir)) < max_jetpack_velocity:
+    character.velocity += dir * delta * 128
+
+func apply_jetpack_up_only_deprecated(delta:float):
   if abs(character.velocity.dot(windrose.up())) < max_jetpack_velocity:
     character.velocity += windrose.up() * delta * 128
 

@@ -11,7 +11,7 @@ func _notification(what: int) -> void:
     queue_redraw()
 
 func _draw() -> void:
-  draw_circle(center, radius, color, filled)
+  draw_circle(center, radius, color)
 
 signal sig_center_changed(new_center:Vector2)
 func set_center(v:Vector2):
