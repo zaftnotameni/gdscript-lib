@@ -26,6 +26,12 @@ func replace_parrs(new_parrs:Array[PackedVector2Array]):
   clear_all_deferred()
   apply_all_deferred()
 
+func check_terrain_intersecting_with_parr(parr_a:PackedVector2Array) -> bool:
+  for parr_b in parrs:
+    var iparrarr := Geometry2D.intersect_polygons(parr_a,parr_b)
+    if not iparrarr.is_empty(): return true
+  return false
+
 func add_terrain_intersecting_with_parr(parr:PackedVector2Array):
   var new_parrs := poly_a_arr_plus_b_to_array(parrs.duplicate(), parr)
   replace_parrs(new_parrs)
