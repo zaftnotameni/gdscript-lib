@@ -7,6 +7,9 @@ class_name Zaft_PlayerCharacter extends CharacterBody2D
 
 var camera : Zaft_FollowCamera
 
+static func becomes_ready() -> Zaft_PlayerCharacter:
+  return await Zaft_Autoload_Path.await_for_first_node_in_group(Zaft_Autoload_Path.PLAYER_CHARACTER_GROUP)
+
 func _enter_tree() -> void:
   add_to_group(Zaft_Autoload_Path.PLAYER_CHARACTER_GROUP)
   __zaft.global.register_player(self)

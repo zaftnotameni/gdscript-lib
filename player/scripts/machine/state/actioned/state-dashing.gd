@@ -10,6 +10,7 @@ func on_state_exit(_prev:Zaft_StateMachineState):
   dash_particles.emitting = false
 
 func on_state_enter(_prev:Zaft_StateMachineState):
+  __zaft.bus.sig_camera_trauma_request.emit(0.2)
   dash_particles.emitting = true
   elapsed = 0.0
 

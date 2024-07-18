@@ -38,3 +38,18 @@ static func group_stopwatch_only_node(g:=STOPWATCH_GROUP) -> Zaft_Stopwatch:
 
 static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Zaft_LeaderboardApi:
   return group_only_node(g)
+
+static func await_for_ready(n:Node) -> Node:
+  if n:
+    if n.is_node_ready(): return n
+    else:
+      await n.ready
+      return n
+  else: return n
+
+static func await_for_first_node_in_group(g:=PLAYER_CHARACTER_GROUP,max_attempts:=10) -> Node:
+  var n := group_maybe_node(g)
+  if n: return await await_for_ready(n)
+  await Zaft_Autoload_Util.scene_tree().process_frame
+  return await await_for_ready(await await_for_first_node_in_group(g,max_attempts-1))
+

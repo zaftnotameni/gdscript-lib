@@ -20,7 +20,8 @@ class_name Zaft_CameraShake extends Node
 @onready var camera : Camera2D = __zaft.global.camera
 @onready var noise : FastNoiseLite = FastNoiseLite.new()
 
-func on_trauma_requested(t:float):
+func on_trauma_requested(t:float, m:float=1.0):
+  if trauma + t >= m: trauma = m
   trauma += t
 
 func on_trauma_relieved(t:float):

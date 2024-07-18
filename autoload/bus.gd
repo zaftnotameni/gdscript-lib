@@ -3,7 +3,7 @@ class_name Zaft_Autoload_Bus extends Node
 signal sig_camera_constant_trauma_request(amount:float)
 signal sig_camera_constant_trauma_relief(amount:float)
 signal sig_camera_constant_trauma_clear()
-signal sig_camera_trauma_request(amount:float)
+signal sig_camera_trauma_request(amount:float,max:float)
 signal sig_camera_trauma_relief(amount:float)
 signal sig_camera_trauma_clear()
 

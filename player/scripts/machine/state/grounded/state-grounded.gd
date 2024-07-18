@@ -5,7 +5,16 @@ class_name Zaft_PlayerStateGrounded extends Zaft_PlayerStateMachineState
 
 func _unhandled_input(event: InputEvent) -> void:
   if Zaft_PlayerInput.event_is_dash_just_pressed(event):
-    machine.transition('dash-started', STATE.Dashing)
+    on_dash()
+
+func on_state_enter(_prev:Zaft_StateMachineState):
+  pass
+  # __zaft.bus.sig_camera_trauma_request.emit(0.1)
+
+func on_dash():
+  if not character.stats.update_fuel_rel(-character.stats.fuel_cons_dash_gnd): return
+
+  machine.transition('dash-gnd', STATE.Dashing)
 
 func update_facing_to_match(horz:Vector2):
   if horz.dot(windrose.right()) > 0:
