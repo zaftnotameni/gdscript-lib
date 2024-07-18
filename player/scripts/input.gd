@@ -33,6 +33,9 @@ static func x_only(v:Vector2)->Vector2:return Vector2(v.x, 0.0)
 static func y_shadow(v:Vector2)->float:return v.dot(Vector2.DOWN)
 static func x_shadow(v:Vector2)->float:return v.dot(Vector2.RIGHT)
 
+static func is_jump_pressed() -> bool:
+  return Input.is_action_pressed(PLAYER_INPUT_JUMP)
+
 static func event_is_jump_just_pressed(event:InputEvent) -> bool:
   return event.is_action_pressed(PLAYER_INPUT_JUMP)
 

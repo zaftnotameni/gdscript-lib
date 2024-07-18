@@ -27,13 +27,23 @@ func player_not_pressing_left_nor_right(_input_x: float, _delta:float):
   var lateral_velocity = character.velocity.dot(windrose.right())
   character.velocity -= windrose.right() * lateral_velocity
 
+var max_jetpack_velocity : int = 512
+
+func apply_jetpack(delta:float):
+  if abs(character.velocity.dot(windrose.up())) < max_jetpack_velocity:
+    character.velocity += windrose.up() * delta * 128
+
 func phys_proc_no_trans(delta:float):
   var input_x := Zaft_PlayerInput.input_ad_scalar()
 
-  if input_x and not is_zero_approx(input_x):
-    player_pressing_left_or_right(input_x, delta)
+  if Zaft_PlayerInput.is_jump_pressed():
+    apply_jetpack(delta)
+    machine.transition('jetpack', STATE.Airborne)
   else:
-    player_not_pressing_left_nor_right(input_x, delta)
+    if input_x and not is_zero_approx(input_x):
+      player_pressing_left_or_right(input_x, delta)
+    else:
+      player_not_pressing_left_nor_right(input_x, delta)
 
   character.move_and_slide()
 
