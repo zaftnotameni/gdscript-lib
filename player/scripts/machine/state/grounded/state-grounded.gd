@@ -12,7 +12,7 @@ func on_state_enter(_prev:Zaft_StateMachineState):
   # __zaft.bus.sig_camera_trauma_request.emit(0.1)
 
 func on_dash():
-  if not character.stats.update_fuel_rel(-character.stats.fuel_cons_dash_gnd): return
+  if not character.stats.update_energy_rel(-character.stats.energy_cons_dash_gnd): return
 
   machine.transition('dash-gnd', STATE.Dashing)
 

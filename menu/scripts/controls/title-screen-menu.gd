@@ -43,6 +43,7 @@ func on_button_pressed(btn_name:String,b:Button):
     t.tween_property(s, ^'position:y', 0, 0.2).from(-1800)
 
 func _ready() -> void:
+  Zaft_Autoload_State.title()
   btn_test.name = "Test"
   btn_continue.name = "Continue"
   btn_load.name = "Load"

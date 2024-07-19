@@ -1,5 +1,7 @@
 class_name Zaft_Autoload_Bus extends Node
 
+signal sig_game_state_changed(next:Zaft_Autoload_State.GAME_STATE,prev:Zaft_Autoload_State.GAME_STATE)
+
 signal sig_camera_constant_trauma_request(amount:float)
 signal sig_camera_constant_trauma_relief(amount:float)
 signal sig_camera_constant_trauma_clear()
@@ -21,6 +23,8 @@ signal sig_title_test_pressed()
 signal sig_title_options_pressed()
 signal sig_title_about_pressed()
 signal sig_title_exit_pressed()
+signal sig_title_unpause_pressed()
+signal sig_title_quit_to_title_pressed()
 
 signal sig_control_slider_focus_enter(slider:Slider)
 signal sig_control_slider_mouse_enter(slider:Slider)

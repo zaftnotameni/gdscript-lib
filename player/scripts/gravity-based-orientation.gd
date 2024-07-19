@@ -4,6 +4,9 @@ class_name Zaft_PlayerGravityBasedOrientation extends Area2D
 @export var body : Zaft_PlayerBody
 @export var windrose : Zaft_PlayerWindrose
 
+@onready var foot_cast_back : RayCast2D = %BackFootCast
+@onready var foot_cast_front : RayCast2D = %FrontFootCast
+
 var gravity_source : Zaft_GravityWell : get = get_closest_gravity_source
 var gravity_sources : Array[Zaft_GravityWell] = []
 
@@ -36,15 +39,26 @@ func enter_gravity_source(new_gravity_source:Zaft_GravityWell):
   # if gravity_source != new_gravity_source: gravity_sources.erase(new_gravity_source)
   on_gravity_source_updated()
 
+func raycast_fire(from:Vector2=global_position, to:Vector2=gravity_source.global_position) -> Dictionary:
+  var raycast_params := PhysicsRayQueryParameters2D.new()
+  raycast_params.from = from
+  raycast_params.to = to
+  var space_state := get_world_2d().direct_space_state
+  var result := space_state.intersect_ray(raycast_params)
+  return result
+
 func up_dir_on_floor(initial_up_dir:Vector2) -> Vector2:
-  var raycast_params = PhysicsRayQueryParameters2D.new()
-  raycast_params.from = global_position
-  raycast_params.to = gravity_source.global_position
-  var space_state = get_world_2d().direct_space_state
-  var result = space_state.intersect_ray(raycast_params)
-  if result and result.has('normal') and result.normal is Vector2:
-    if result.normal.dot(initial_up_dir) > 0.8:
-      return result.normal
+  var center_res := raycast_fire()
+  var center_is_hit := center_res and center_res.has('normal') and center_res.normal is Vector2
+  if foot_cast_front.is_colliding() and not foot_cast_back.is_colliding():
+    var result : Vector2 = foot_cast_front.get_collision_normal()
+    if result.dot(initial_up_dir) > 0.9: return result
+  if foot_cast_back.is_colliding() and not foot_cast_front.is_colliding():
+    var result : Vector2 = foot_cast_front.get_collision_normal()
+    if result.dot(initial_up_dir) > 0.9: return result
+  if center_is_hit:
+    var result : Vector2 = (center_res.normal).normalized()
+    if result.dot(initial_up_dir) > 0.9: return result
   return initial_up_dir
 
 func update_what_is_up(up_dir:Vector2):

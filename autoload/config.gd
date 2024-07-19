@@ -1,9 +1,32 @@
 class_name Zaft_Autoload_Config extends Node
 
-static var player_auto_spawns_follow_camera_when_spawns : bool = true
-static var audio_uses_hacky_solution: bool = false
+enum INPUT_ACTIONS { Pause, Unpause, Back }
 
-const TITLE_SCREEN_DEFAULT_FOCUS_BUTTON := ["test", "continue", "load", "start", "options", "about"]
+static var scene_menu_title: PackedScene
+static var scene_menu_title_background: PackedScene
+
+static var scene_menu_pause: PackedScene
+static var scene_menu_pause_background: PackedScene
+
+static var scene_menu_options: PackedScene
+static var scene_menu_options_background: PackedScene
+
+static var scene_menu_about: PackedScene
+static var scene_menu_about_background: PackedScene
+
+static var scene_menu_controls: PackedScene
+static var scene_menu_controls_background: PackedScene
+
+static var scene_menu_start: PackedScene
+static var scene_menu_start_background: PackedScene
+
+static var scene_menu_victory: PackedScene
+static var scene_menu_victory_background: PackedScene
+
+static var scene_menu_defeat: PackedScene
+static var scene_menu_defeat_background: PackedScene
+
+static var player_auto_spawns_follow_camera_when_spawns : bool = true
 
 var physics_layers_by_name := {}
 var physics_layers_by_index := {}
@@ -37,3 +60,19 @@ func initialize_layers():
 
 func _ready() -> void:
   initialize_layers()
+
+static func is_event_pause_pressed(event:InputEvent) -> bool: return is_event_action_pressed(event, INPUT_ACTIONS.Pause)
+static func is_event_back_pressed(event:InputEvent) -> bool: return is_event_action_pressed(event, INPUT_ACTIONS.Back)
+static func is_event_unpause_pressed(event:InputEvent) -> bool: return is_event_action_pressed(event, INPUT_ACTIONS.Unpause)
+static func is_event_action_pressed(event:InputEvent, a:INPUT_ACTIONS) -> bool: return event.is_action_pressed(action_of(a))
+
+static func action_of(a:INPUT_ACTIONS) -> StringName:
+  var res : StringName = &'INVALID_ACTION'
+  match a:
+    INPUT_ACTIONS.Pause: res = &'pause'
+    INPUT_ACTIONS.Unpause: res = &'menu-close'
+    INPUT_ACTIONS.Back: res = &'menu-back'
+  if not InputMap.has_action(res):
+    push_error('action %s does not exist, define it on input map via %s' % [INPUT_ACTIONS.find_key(a), res])
+  return res
+

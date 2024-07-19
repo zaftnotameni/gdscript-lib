@@ -6,6 +6,7 @@ const MAIN_CAMERA_GROUP := &'main-camera'
 const STOPWATCH_GROUP := &'stopwatch'
 const LEADERBOARD_GROUP := &'leaderboard'
 const MAIN_CAMERA_PARALLAX_GROUP := &'main-camera-parallax'
+const MENU_PAUSE := &'menu-pause'
 
 static func group_all_nodes(g:StringName=&"Group Name") -> Array[Node]:
   return Zaft_Autoload_Util.scene_tree().get_nodes_in_group(g)

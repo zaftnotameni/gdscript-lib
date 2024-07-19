@@ -11,6 +11,7 @@ func setter(thing:StringName, v:Variant):
   if is_equal_approx(get(thing), v): return true
   if v >= 0:
     set(thing, v)
+    print_verbose('%s is now at %s' % [thing, v])
     emit_signal(&'sig_%s_changed' % thing)
     return true
   else:
@@ -34,7 +35,7 @@ func update_energy_rel(v): return setter_rel(&'energy', v)
 ## in %/use
 @export var fuel_cons_dash_air: float = 5
 ## in %/use
-@export var fuel_cons_dash_gnd: float = 10
+@export var energy_cons_dash_gnd: float = 10
 
 ## in %/sec
 @export var energy_sol_gain : float = 1

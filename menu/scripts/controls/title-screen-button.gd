@@ -1,6 +1,6 @@
 class_name Zaft_TitleScreen_Button extends Button
 
-@onready var bus_pressed_signal_name := "sig_title_%s_pressed" % name.to_lower()
+@onready var bus_pressed_signal_name := "sig_title_%s_pressed" % name.to_snake_case().to_lower()
 
 var psoe : Zaft_PlaySoundOnEvent
 var sound : AudioStreamPlayer

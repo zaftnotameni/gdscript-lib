@@ -8,9 +8,10 @@ class_name Zaft_PlayerStateAirborne extends Zaft_PlayerStateMachineState
 
 var max_jetpack_velocity : int = 512
 
-func _unhandled_input(event: InputEvent) -> void:
-  if Zaft_PlayerInput.event_is_dash_just_pressed(event):
-    on_dash()
+func _unhandled_input(_event: InputEvent) -> void:
+  pass
+  #if Zaft_PlayerInput.event_is_dash_just_pressed(event):
+  #  on_dash()
 
 func on_dash():
   if not character.stats.update_fuel_rel(-character.stats.fuel_cons_dash_air): return
