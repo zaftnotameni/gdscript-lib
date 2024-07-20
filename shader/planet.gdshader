@@ -39,7 +39,7 @@ float fbm(vec2 uv) {
 
 void fragment() {
   vec2 uv = UV;
-  uv.x = uv.x + TIME * 0.1;
+  uv.x = mod(uv.x + TIME * 0.1, 1.0);
   if (noise(uv) > 0.3) {
     COLOR = vec4(0.1, 0.1, 0.9, 1.0);
   } else {

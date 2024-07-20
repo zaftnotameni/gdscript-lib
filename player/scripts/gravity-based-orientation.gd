@@ -62,6 +62,7 @@ func up_dir_on_floor(initial_up_dir:Vector2) -> Vector2:
   return initial_up_dir
 
 func update_what_is_up(up_dir:Vector2):
+  if up_dir.is_zero_approx(): return
   player.up_direction = up_dir
   player.rotation = Vector2.UP.angle_to(player.up_direction)
 

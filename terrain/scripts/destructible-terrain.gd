@@ -96,18 +96,63 @@ static func poly_arr_to_array(parr:PackedVector2Array,result:Array[PackedVector2
   if not parr or parr.is_empty(): return
   result.push_back(parr)
 
+static func uv_for_vertexes(v0:PackedVector2Array=[]) -> PackedVector2Array:
+  var x0 = INF
+  var y0 = INF
+  var x1 = -INF
+  var y1 = -INF
+  for v in v0:
+    x0 = min(x0, v.x)
+    x1 = max(x1, v.x)
+    y0 = min(y0, v.y)
+    y1 = max(y1, v.y)
+  var s = max(x1 - x0, y1 - y0)
+  var d = Vector2(s / 2, s / 2);
+  var uv = []
+  for v in v0:
+    uv.append((v + d) / s)
+  return PackedVector2Array(uv)
+
+static func calculate_uvs(vertices: Array) -> Array:
+  var min_x = INF
+  var min_y = INF
+  var max_x = -INF
+  var max_y = -INF
+
+  for vertex in vertices:
+    if vertex.x < min_x:
+      min_x = vertex.x
+    if vertex.y < min_y:
+      min_y = vertex.y
+    if vertex.x > max_x:
+      max_x = vertex.x
+    if vertex.y > max_y:
+      max_y = vertex.y
+
+  var width = max_x - min_x
+  var height = max_y - min_y
+
+  var uvs = []
+  for vertex in vertices:
+    var uv_x = (vertex.x - min_x) / width
+    var uv_y = (vertex.y - min_y) / height
+    uvs.push_back(Vector2(uv_x, uv_y))
+
+  return uvs
+
 static func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var p := Polygon2D.new()
   var o := LightOccluder2D.new()
   var op := OccluderPolygon2D.new()
   var tex := PlaceholderTexture2D.new()
-  tex.size = Vector2(512, 512)
+  tex.size = Vector2(1, 1)
   p.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
   p.texture = tex
   p.color = Color.WHITE
   p.use_parent_material = true
   p.polygon = parr
+  p.uv = PackedVector2Array(calculate_uvs(parr))
   op.polygon = parr
   o.occluder = op
   the_parent.add_child(p)
