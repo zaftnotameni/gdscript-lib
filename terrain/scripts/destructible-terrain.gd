@@ -1,6 +1,7 @@
 class_name Zaft_DestructibleTerrain extends Node2D
 
 @export_category('features')
+@export var no_occluder := false
 @export var enable_areas := false
 @export var enable_polys := true
 @export var enable_bodys := true
@@ -40,20 +41,20 @@ func remove_terrain_intersecting_with_parr(parr:PackedVector2Array):
   var new_parrs := poly_a_arr_minus_b_to_array(parrs.duplicate(), parr)
   replace_parrs(new_parrs)
 
-static func poly_a_arr_plus_b_to_array(aarr:Array[PackedVector2Array],b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
+func poly_a_arr_plus_b_to_array(aarr:Array[PackedVector2Array],b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
   if not aarr or aarr.is_empty(): return result
   for a in aarr:
     if poly_a_plus_b_to_array(a,b,result):
       break
   return result
 
-static func poly_a_arr_minus_b_to_array(aarr:Array[PackedVector2Array],b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
+func poly_a_arr_minus_b_to_array(aarr:Array[PackedVector2Array],b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
   if not aarr or aarr.is_empty(): return result
   for a in aarr:
     poly_a_minus_b_to_array(a,b,result)
   return result
 
-static func poly_a_plus_b_to_array(a:PackedVector2Array,b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> bool:
+func poly_a_plus_b_to_array(a:PackedVector2Array,b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> bool:
   if not a or a.is_empty(): return false
   if not b or b.is_empty(): return false
   var iparrarr := Geometry2D.intersect_polygons(a,b)
@@ -65,38 +66,38 @@ static func poly_a_plus_b_to_array(a:PackedVector2Array,b:PackedVector2Array,res
     poly_arr_to_array(a, result)
     return false
 
-static func poly_a_minus_b_to_array(a:PackedVector2Array,b:PackedVector2Array,result:Array[PackedVector2Array]=[]):
+func poly_a_minus_b_to_array(a:PackedVector2Array,b:PackedVector2Array,result:Array[PackedVector2Array]=[]):
   if not a or a.is_empty(): return
   if not b or b.is_empty(): return
   for parr in Geometry2D.clip_polygons(a,b):
     var iparrarr := Geometry2D.intersect_polygons(parr,a)
     poly_arr_arr_to_array(iparrarr, result)
 
-static func poly_arr_arr_to_array(parrarr:Array[PackedVector2Array],result:Array[PackedVector2Array]=[]):
+func poly_arr_arr_to_array(parrarr:Array[PackedVector2Array],result:Array[PackedVector2Array]=[]):
   if not parrarr or parrarr.is_empty(): return
   for parr in parrarr:
     poly_arr_to_array(parr, result)
 
-static func poly_arr_arr_to_polys(parrarr:Array[PackedVector2Array],the_parent:Node):
+func poly_arr_arr_to_polys(parrarr:Array[PackedVector2Array],the_parent:Node):
   if not parrarr or parrarr.is_empty(): return
   for parr in parrarr:
     poly_arr_to_poly(parr, the_parent)
 
-static func poly_arr_arr_to_areas(parrarr:Array[PackedVector2Array],the_parent:Node):
+func poly_arr_arr_to_areas(parrarr:Array[PackedVector2Array],the_parent:Node):
   if not parrarr or parrarr.is_empty(): return
   for parr in parrarr:
     poly_arr_to_area(parr, the_parent)
 
-static func poly_arr_arr_to_bodys(parrarr:Array[PackedVector2Array],the_parent:Node):
+func poly_arr_arr_to_bodys(parrarr:Array[PackedVector2Array],the_parent:Node):
   if not parrarr or parrarr.is_empty(): return
   for parr in parrarr:
     poly_arr_to_body(parr, the_parent)
 
-static func poly_arr_to_array(parr:PackedVector2Array,result:Array[PackedVector2Array]=[]):
+func poly_arr_to_array(parr:PackedVector2Array,result:Array[PackedVector2Array]=[]):
   if not parr or parr.is_empty(): return
   result.push_back(parr)
 
-static func uv_for_vertexes(v0:PackedVector2Array=[]) -> PackedVector2Array:
+func uv_for_vertexes(v0:PackedVector2Array=[]) -> PackedVector2Array:
   var x0 = INF
   var y0 = INF
   var x1 = -INF
@@ -113,7 +114,7 @@ static func uv_for_vertexes(v0:PackedVector2Array=[]) -> PackedVector2Array:
     uv.append((v + d) / s)
   return PackedVector2Array(uv)
 
-static func calculate_uvs(vertices: Array) -> Array:
+func calculate_uvs(vertices: Array) -> Array:
   var min_x = INF
   var min_y = INF
   var max_x = -INF
@@ -140,10 +141,9 @@ static func calculate_uvs(vertices: Array) -> Array:
 
   return uvs
 
-static func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
+func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var p := Polygon2D.new()
-  var o := LightOccluder2D.new()
   var op := OccluderPolygon2D.new()
   var tex := PlaceholderTexture2D.new()
   tex.size = Vector2(1, 1)
@@ -154,11 +154,13 @@ static func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
   p.polygon = parr
   p.uv = PackedVector2Array(calculate_uvs(parr))
   op.polygon = parr
-  o.occluder = op
   the_parent.add_child(p)
-  p.add_child(o)
+  if not no_occluder:
+    var o := LightOccluder2D.new()
+    o.occluder = op
+    p.add_child(o)
 
-static func poly_arr_to_body(parr:PackedVector2Array,the_parent:Node):
+func poly_arr_to_body(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var b := StaticBody2D.new()
   var p := CollisionPolygon2D.new()
@@ -166,7 +168,7 @@ static func poly_arr_to_body(parr:PackedVector2Array,the_parent:Node):
   b.add_child(p)
   the_parent.add_child(b)
 
-static func poly_arr_to_area(parr:PackedVector2Array,the_parent:Node):
+func poly_arr_to_area(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var a := Area2D.new()
   var p := CollisionPolygon2D.new()
@@ -174,12 +176,12 @@ static func poly_arr_to_area(parr:PackedVector2Array,the_parent:Node):
   a.add_child(p)
   the_parent.add_child(a)
 
-static func poly_to_bodys(poly:Polygon2D,the_parent:Node=poly):
+func poly_to_bodys(poly:Polygon2D,the_parent:Node=poly):
   if not poly: return
   var parrarr := Geometry2D.decompose_polygon_in_convex(poly.polygon)
   poly_arr_arr_to_bodys(parrarr, the_parent)
 
-static func poly_to_areas(poly:Polygon2D,the_parent:Node=poly):
+func poly_to_areas(poly:Polygon2D,the_parent:Node=poly):
   if not poly: return
   var parrarr := Geometry2D.decompose_polygon_in_convex(poly.polygon)
   poly_arr_arr_to_areas(parrarr, the_parent)

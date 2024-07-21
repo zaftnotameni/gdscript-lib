@@ -41,7 +41,7 @@ void fragment() {
     float star = step(1.0 - star_density, random(uv));
 
     // Combine nebula and stars
-    vec4 color = nebula_color * (nebula * intensity);
+    vec4 color = nebula_color * 0.6 * (nebula * intensity);
     color = mix(color, star_color, star * nebula);
 
     COLOR = color;
