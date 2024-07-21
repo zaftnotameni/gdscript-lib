@@ -27,6 +27,29 @@ func create_default_shape() -> CollisionShape2D:
   add_child(shape)
   return shape
 
+const GRAVITY_WELL_GROUP_NAME := &'gravity-well'
+
+static func resolve_one() -> Zaft_GravityWell:
+  return Zaft_Autoload_Util.scene_tree().get_first_node_in_group(GRAVITY_WELL_GROUP_NAME)
+
+static func resolve_all() -> Array[Zaft_GravityWell]:
+  var res : Array[Zaft_GravityWell] = []
+  for w:Zaft_GravityWell in Zaft_Autoload_Util.scene_tree().get_nodes_in_group(GRAVITY_WELL_GROUP_NAME):
+    if w and not w.is_queued_for_deletion(): res.push_back(w)
+  return res
+
+static func resolve_closest(glopos:Vector2) -> Zaft_GravityWell:
+  var all := resolve_all()
+  if not all or all.is_empty(): return null
+  var res : Zaft_GravityWell = all.pop_back()
+  for w:Zaft_GravityWell in all:
+    if glopos.distance_squared_to(w.global_position) < glopos.distance_squared_to(res.global_position):
+      res = w
+  return res
+
+func _enter_tree() -> void:
+  add_to_group(GRAVITY_WELL_GROUP_NAME)
+
 func _ready() -> void:
   body_entered.connect(on_body_entered)
   body_exited.connect(on_body_exited)

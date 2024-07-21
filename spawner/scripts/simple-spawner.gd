@@ -51,7 +51,7 @@ func spawn():
   new_spawned.global_position = global_position
   spawned_list.push_back(new_spawned)
   sig_spawned.emit(new_spawned)
-  new_spawned.tree_exited.connect(remove_from_list, CONNECT_ONE_SHOT)
+  new_spawned.tree_exited.connect(remove_from_list.bind(new_spawned), CONNECT_ONE_SHOT)
 
 func _exit_tree() -> void: clear_existing_spawned()
 func _ready() -> void: if spawn_on_ready: spawn()

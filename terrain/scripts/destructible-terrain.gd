@@ -41,12 +41,26 @@ func remove_terrain_intersecting_with_parr(parr:PackedVector2Array):
   var new_parrs := poly_a_arr_minus_b_to_array(parrs.duplicate(), parr)
   replace_parrs(new_parrs)
 
+func grow_terrain_intersecting_with_parr(parr:PackedVector2Array, px:int):
+  var intersects := check_terrain_intersecting_with_parr(parr)
+  if not intersects: return
+  var new_parrs := grow_polys_by_pixels(parrs.duplicate(), px)
+  replace_parrs(new_parrs)
+
 func poly_a_arr_plus_b_to_array(aarr:Array[PackedVector2Array],b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
   if not aarr or aarr.is_empty(): return result
   for a in aarr:
     if poly_a_plus_b_to_array(a,b,result):
       break
   return result
+
+func grow_polys_by_pixels(aarr:Array[PackedVector2Array],px:=1,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
+  if not aarr or aarr.is_empty(): return result
+  for a in aarr:
+    for r in Geometry2D.offset_polygon(a, px):
+      result.push_back(r)
+  return result
+
 
 func poly_a_arr_minus_b_to_array(aarr:Array[PackedVector2Array],b:PackedVector2Array,result:Array[PackedVector2Array]=[]) -> Array[PackedVector2Array]:
   if not aarr or aarr.is_empty(): return result
@@ -163,6 +177,8 @@ func poly_arr_to_poly(parr:PackedVector2Array,the_parent:Node):
 func poly_arr_to_body(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var b := StaticBody2D.new()
+  for m in get_meta_list():
+    b.set_meta(m, get_meta(m))
   var p := CollisionPolygon2D.new()
   p.polygon = parr
   b.add_child(p)
@@ -172,6 +188,8 @@ func poly_arr_to_area(parr:PackedVector2Array,the_parent:Node):
   if not parr or parr.is_empty(): return
   var a := Area2D.new()
   var p := CollisionPolygon2D.new()
+  for m in get_meta_list():
+    a.set_meta(m, get_meta(m))
   p.polygon = parr
   a.add_child(p)
   the_parent.add_child(a)
