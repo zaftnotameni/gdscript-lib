@@ -155,3 +155,14 @@ static func string_format_time(time_seconds: float) -> String:
   var formatted_time = "%02d:%02d:%02d.%03d" % [hours, minutes, seconds, milliseconds]
   
   return formatted_time
+
+static func raycast_from_to(from_glopos:Vector2, to_glopos:Vector2) -> Dictionary:
+  var raycast_params := PhysicsRayQueryParameters2D.new()
+  raycast_params.from = from_glopos
+  raycast_params.to = to_glopos
+  var st : SceneTree = scene_tree()
+  var ci : CanvasItem = st.current_scene
+  var world : World2D = ci.get_world_2d()
+  var phys : PhysicsDirectSpaceState2D = world.direct_space_state
+  var result := phys.intersect_ray(raycast_params)
+  return result

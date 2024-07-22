@@ -1,5 +1,8 @@
 shader_type canvas_item;
 
+uniform vec2 parallax_offset = vec2(0.0,0.0);
+uniform vec2 parallax_strength = vec2(0.0,0.0);
+
 //starfield customization
 uniform float anim_speed : hint_range(-5.0, 5.0) = 0.0; 
 uniform float star_brightness : hint_range(0.0, 0.5) = 0.05; 
@@ -65,7 +68,9 @@ vec2 pixelate(vec2 uv) {
     }
 }
 void fragment() {
-    vec2 uv2 = pixelate(FRAGCOORD.xy / vec2(512));
+    vec2 xy = FRAGCOORD.xy;
+    xy += parallax_offset * 0.8;
+    vec2 uv2 = pixelate(xy / vec2(512));
     vec2 uvs = uv2 * vec2(512) / 512.0;
 
     float time = TIME;

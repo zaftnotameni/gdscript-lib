@@ -3,6 +3,9 @@ shader_type canvas_item;
 uniform vec2 mouse;
 uniform float time;
 
+uniform vec2 parallax_offset = vec2(0.0,0.0);
+uniform vec2 parallax_strength = vec2(0.0,0.0);
+
 const int iterations = 12;
 const float formuparam2 = 0.79;
 const float volsteps = 7.0;
@@ -44,17 +47,20 @@ float field(in vec3 p) {
 }
 
 void fragment() {
-    vec2 uv2 = 2. * FRAGCOORD.xy / vec2(512) - 1.;
+  vec2 xy = FRAGCOORD.xy;
+  xy += parallax_offset;
+  vec2 uv2 = 2. * xy / vec2(512) - 1.;
 	vec2 uvs = uv2 * vec2(512)  / 512.;
+  
 	
 	//float time = TIME;
 	float time2 = time;               
-    float speed = -speed2;
-    speed = .005 * cos(time2*0.02 + 3.1415926/4.0);          
+  float speed = -speed2;
+  speed = .005 * cos(time2*0.02 + 3.1415926/4.0);          
 	//speed = 0.0;	
-    float formuparam = formuparam2;
+  float formuparam = formuparam2;
 	
-    	//get coords and direction	
+  //get coords and direction	
 	vec2 uv = uvs;		       
 	//mouse rotation
 	float a_xz = 0.9;
