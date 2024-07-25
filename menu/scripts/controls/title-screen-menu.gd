@@ -58,6 +58,8 @@ func _ready() -> void:
     Zaft_Autoload_Util.control_set_font_size(b, 32)
     Zaft_Autoload_Util.control_set_minimum_x(b, 300.0)
     b.pressed.connect(on_button_pressed.bind(b.name, b))
+    if get('hide_%s' % b.name.to_snake_case()):
+      b.queue_free()
     if not get('hide_%s' % b.name.to_snake_case()):
       add_child(b)
 
