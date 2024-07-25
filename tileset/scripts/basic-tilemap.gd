@@ -4,7 +4,6 @@ class_name Z_BasicTilemapLayer extends TileMapLayer
 @export var test : String = ''
 
 func on_editor_save_setup():
-  print(tile_set.get_terrain_set_mode(0))
   print('setup')
 
 func on_editor_save_clear():
