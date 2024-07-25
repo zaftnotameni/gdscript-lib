@@ -1,4 +1,4 @@
-class_name Zaft_Bouncer extends Node
+class_name Z_Bouncer extends Node
 
 enum STATE { InitialFloorSnap = 0, Snapped, WallReached, CornerCase, TurnedCorner }
 

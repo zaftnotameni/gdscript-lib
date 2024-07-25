@@ -1,9 +1,9 @@
-class_name Zaft_AudioSliders_Node extends VBoxContainer
+class_name Z_AudioSliders_Node extends VBoxContainer
 
-@onready var slider_master := Zaft_AudioSlider_Node.for_master()
-@onready var slider_bgm := Zaft_AudioSlider_Node.for_bgm()
-@onready var slider_sfx := Zaft_AudioSlider_Node.for_sfx()
-@onready var slider_ui := Zaft_AudioSlider_Node.for_ui()
+@onready var slider_master := Z_AudioSlider_Node.for_master()
+@onready var slider_bgm := Z_AudioSlider_Node.for_bgm()
+@onready var slider_sfx := Z_AudioSlider_Node.for_sfx()
+@onready var slider_ui := Z_AudioSlider_Node.for_ui()
 
 func _ready() -> void:
   add_child(slider_master)

@@ -1,4 +1,4 @@
-class_name Zaft_Closer_Button extends Button
+class_name Z_Closer_Button extends Button
 
 @export var target : Node
 
@@ -13,31 +13,31 @@ const TARGET_ACTIONS = [
   "menu-back",
 ]
 
-var psoe : Zaft_PlaySoundOnEvent
+var psoe : Z_PlaySoundOnEvent
 var sound : AudioStreamPlayer
 
 func _enter_tree() -> void:
-  psoe = Zaft_PlaySoundOnEvent.new()
+  psoe = Z_PlaySoundOnEvent.new()
   psoe.should_play_on_mouse_enter = true
   psoe.should_play_on_mouse_exit = false
   psoe.should_play_on_focus_enter = true
   psoe.should_play_on_focus_exit = false
   psoe.should_play_on_pressed = true
   sound = AudioStreamPlayer.new()
-  sound.bus = Zaft_AudioDirector_Scene.BUS_NAME_UI
+  sound.bus = Z_AudioDirector_Scene.BUS_NAME_UI
   sound.stream = Gen_AllAudio.AUDIO_TOGGLE001
   psoe.add_child(sound)
   add_child.call_deferred(psoe)
 
 func _ready() -> void:
   text = "Close"
-  Zaft_Autoload_Util.control_set_font_size(self, 32)
+  Z_Autoload_Util.control_set_font_size(self, 32)
   if not target: target = find_closeable_parent()
   pressed.connect(close_target)
 
 func close_target():
   if target and not target.is_queued_for_deletion():
-    var t := Zaft_Autoload_Util.tween_fresh_eased_in_out_cubic()
+    var t := Z_Autoload_Util.tween_fresh_eased_in_out_cubic()
     t.tween_property(target, ^'position:y', -1800, 0.2).from_current()
     t.tween_callback(target.queue_free)
 

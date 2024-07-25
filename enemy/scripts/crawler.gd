@@ -1,4 +1,4 @@
-class_name Zaft_Crawler extends Node
+class_name Z_Crawler extends Node
 
 enum STATE { InitialFloorSnap = 0, Snapped, CornerCase, CornerTurned, WallReached }
 

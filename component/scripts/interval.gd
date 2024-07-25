@@ -1,4 +1,4 @@
-class_name Zaft_Interval extends Zaft_ComponentBase
+class_name Z_Interval extends Z_ComponentBase
 
 ## method called on the target node each time the interval is elapsed
 @export var method_on_interval: StringName

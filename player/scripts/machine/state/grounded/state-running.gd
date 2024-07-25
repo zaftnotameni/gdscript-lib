@@ -1,1 +1,1 @@
-class_name Zaft_PlayerStateRunning extends Zaft_PlayerStateGrounded
+class_name Z_PlayerStateRunning extends Z_PlayerStateGrounded

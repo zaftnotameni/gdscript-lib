@@ -1,6 +1,6 @@
-class_name Zaft_GameStateOnReady extends Node
+class_name Z_GameStateOnReady extends Node
 
-@export var game_state : Zaft_Autoload_State.GAME_STATE
+@export var game_state : Z_Autoload_State.GAME_STATE
 
 func _ready() -> void:
-  Zaft_Autoload_State.game_state = game_state
+  Z_Autoload_State.game_state = game_state

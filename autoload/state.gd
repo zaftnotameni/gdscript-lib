@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_State extends Node
+class_name Z_Autoload_State extends Node
 
 enum GAME_STATE { Initial, Loading, Title, Transition, Game, Paused }
 
@@ -19,16 +19,16 @@ static func set_game_state(v):
   __zaft.bus.sig_game_state_changed.emit(v,prev)
 
 func close_pause_menu():
-  var n := get_tree().get_first_node_in_group(Zaft_Autoload_Path.MENU_PAUSE)
+  var n := get_tree().get_first_node_in_group(Z_Autoload_Path.MENU_PAUSE)
   if not n: return
   n.queue_free()
 
 func show_pause_menu():
-  if not Zaft_Autoload_Config.scene_menu_pause: return
-  var n := Zaft_Autoload_Config.scene_menu_pause.instantiate()
+  if not Z_Autoload_Config.scene_menu_pause: return
+  var n := Z_Autoload_Config.scene_menu_pause.instantiate()
   n.process_mode = Node.PROCESS_MODE_ALWAYS
   __zaft.layer.menu.add_child(n)
-  n.add_to_group(Zaft_Autoload_Path.MENU_PAUSE)
+  n.add_to_group(Z_Autoload_Path.MENU_PAUSE)
 
 func on_pause() -> bool:
   if game_state != GAME_STATE.Game: return false
@@ -52,9 +52,9 @@ func on_back() -> bool:
   return true
 
 func _unhandled_input(event: InputEvent) -> void:
-  if Zaft_Autoload_Config.is_event_pause_pressed(event): if on_pause(): return
-  if Zaft_Autoload_Config.is_event_unpause_pressed(event): if on_unpause(): return
-  if Zaft_Autoload_Config.is_event_back_pressed(event): if on_back(): return
+  if Z_Autoload_Config.is_event_pause_pressed(event): if on_pause(): return
+  if Z_Autoload_Config.is_event_unpause_pressed(event): if on_unpause(): return
+  if Z_Autoload_Config.is_event_back_pressed(event): if on_back(): return
 
 func _enter_tree() -> void:
   process_mode = ProcessMode.PROCESS_MODE_ALWAYS

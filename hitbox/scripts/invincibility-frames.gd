@@ -1,4 +1,4 @@
-class_name Zaft_InvincibilityFrames_Node extends Node
+class_name Z_InvincibilityFrames_Node extends Node
 
 enum MODE { Physics = 0, Normal = 1 }
 
@@ -42,7 +42,7 @@ func invincibility_ran_out():
   elif 'invincible' in target_node:
     target_node.invincible = false
 
-func on_damage_taken(_data:Zaft_Hit_Data):
+func on_damage_taken(_data:Z_Hit_Data):
   if not target_node: return
   elapsed = 0.0
   invincible = true

@@ -1,4 +1,4 @@
-class_name Zaft_ShaderLoader extends FlowContainer
+class_name Z_ShaderLoader extends FlowContainer
 
 func _enter_tree() -> void:
   for sm:ShaderMaterial in Gen_AllMaterials.new().ALL_MATERIALS:

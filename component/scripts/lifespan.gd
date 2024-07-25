@@ -1,4 +1,4 @@
-class_name Zaft_Lifespan extends Zaft_ComponentBase
+class_name Z_Lifespan extends Z_ComponentBase
 
 ## method called on the target node when the lifespan is elapsed
 @export var method_when_lifespent : StringName

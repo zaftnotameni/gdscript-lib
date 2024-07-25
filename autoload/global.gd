@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_Global extends Node
+class_name Z_Autoload_Global extends Node
 
 signal sig_player_set(new_player:Node2D,prev_player:Node2D)
 signal sig_camera_set(new_cam:Camera2D,prev_cam:Camera2D)

@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_Environment extends Node
+class_name Z_Autoload_Environment extends Node
 
 const ENVIRONMENT : Environment = preload('res://zaft/lib/resource/world-environment.tres')
 

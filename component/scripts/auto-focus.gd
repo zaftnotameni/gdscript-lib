@@ -1,4 +1,4 @@
-class_name Zaft_AutoFocus extends Zaft_ComponentBase
+class_name Z_AutoFocus extends Z_ComponentBase
 
 @onready var control : Control = target_node
 

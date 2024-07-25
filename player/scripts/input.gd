@@ -1,4 +1,4 @@
-class_name Zaft_PlayerInput extends Node
+class_name Z_PlayerInput extends Node
 
 const PLAYER_INPUT_UP := &"player-up"
 const PLAYER_INPUT_DOWN := &"player-down" 

@@ -1,4 +1,4 @@
-class_name Zaft_FollowCamera extends Camera2D
+class_name Z_FollowCamera extends Camera2D
 
 @export var target_node : Node2D
 @export var follow_slerpiness : float = 5.0
@@ -8,7 +8,7 @@ class_name Zaft_FollowCamera extends Camera2D
 @export var home_position: Vector2
 @export var parallax_strength: float = 0.001
 
-@onready var shake := Zaft_CameraShake.new()
+@onready var shake := Z_CameraShake.new()
 
 func follow_target(c:Camera2D,p:Vector2,s:float,delta:float):
   if not c: return

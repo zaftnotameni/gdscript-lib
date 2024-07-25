@@ -1,5 +1,5 @@
 @tool
-class_name Zaft_PlayerWindrose extends Node2D
+class_name Z_PlayerWindrose extends Node2D
 
 enum DIR { RIGHT, UP, LEFT, DOWN }
 
@@ -11,7 +11,7 @@ func _enter_tree() -> void:
       var m := Marker2D.new()
       m.name = dir.to_pascal_case()
       m.position = v
-      Zaft_Autoload_Util.tool_add_child(self, m)
+      Z_Autoload_Util.tool_add_child(self, m)
 
 # func _draw() -> void:
 #   draw_circle(right() * 32, 16, Color.RED)

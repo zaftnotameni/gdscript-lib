@@ -1,4 +1,4 @@
-class_name Zaft_PlayerStateInitial extends Zaft_PlayerStateMachineState
+class_name Z_PlayerStateInitial extends Z_PlayerStateMachineState
 
 func _physics_process(_delta: float) -> void:
   if character.is_on_floor():

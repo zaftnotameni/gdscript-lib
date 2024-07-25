@@ -1,5 +1,5 @@
 @tool
-class_name Zaft_Primitive_Circle extends Node2D
+class_name Z_Primitive_Circle extends Node2D
 
 @export var radius : int = 16 : set = set_radius
 @export var center : Vector2 = Vector2.ZERO : set = set_center

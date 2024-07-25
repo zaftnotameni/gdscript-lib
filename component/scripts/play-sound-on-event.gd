@@ -1,4 +1,4 @@
-class_name Zaft_PlaySoundOnEvent extends Node
+class_name Z_PlaySoundOnEvent extends Node
 
 @export var should_play_on_mouse_enter := false
 @export var should_play_on_mouse_exit := false

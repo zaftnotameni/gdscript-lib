@@ -1,1 +1,1 @@
-class_name Zaft_Autoload_Level extends Node
+class_name Z_Autoload_Level extends Node

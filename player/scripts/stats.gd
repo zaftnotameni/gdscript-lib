@@ -1,4 +1,4 @@
-class_name Zaft_PlayerStats extends Node
+class_name Z_PlayerStats extends Node
 
 enum FACING { Right, Left }
 

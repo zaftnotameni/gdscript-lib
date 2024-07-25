@@ -1,4 +1,4 @@
-class_name Zaft_LeaderboardApi extends Node
+class_name Z_LeaderboardApi extends Node
 
 signal sig_auth_request_completed()
 signal sig_leaderboard_request_completed(items:Array)

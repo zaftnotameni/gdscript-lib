@@ -1,11 +1,11 @@
-class_name Zaft_SimpleDamageDealer extends Node
+class_name Z_SimpleDamageDealer extends Node
 
 @export var damage := 0
 
-signal sig_died(data:Zaft_Hit_Data)
-signal sig_deal(data:Zaft_Hit_Data)
+signal sig_died(data:Z_Hit_Data)
+signal sig_deal(data:Z_Hit_Data)
 
-func deal_damage(data:Zaft_Hit_Data):
+func deal_damage(data:Z_Hit_Data):
   if not data: return
   if data.handled: return
   data.damage = damage

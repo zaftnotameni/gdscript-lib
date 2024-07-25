@@ -1,19 +1,19 @@
-class_name Zaft_TitleScreen_Button extends Button
+class_name Z_TitleScreen_Button extends Button
 
 @onready var bus_pressed_signal_name := "sig_title_%s_pressed" % name.to_snake_case().to_lower()
 
-var psoe : Zaft_PlaySoundOnEvent
+var psoe : Z_PlaySoundOnEvent
 var sound : AudioStreamPlayer
 
 func _enter_tree() -> void:
-  psoe = Zaft_PlaySoundOnEvent.new()
+  psoe = Z_PlaySoundOnEvent.new()
   psoe.should_play_on_mouse_enter = true
   psoe.should_play_on_mouse_exit = false
   psoe.should_play_on_focus_enter = true
   psoe.should_play_on_focus_exit = false
   psoe.should_play_on_pressed = true
   sound = AudioStreamPlayer.new()
-  sound.bus = Zaft_AudioDirector_Scene.BUS_NAME_UI
+  sound.bus = Z_AudioDirector_Scene.BUS_NAME_UI
   sound.stream = Gen_AllAudio.AUDIO_TOGGLE001
   psoe.add_child(sound)
   add_child.call_deferred(psoe)

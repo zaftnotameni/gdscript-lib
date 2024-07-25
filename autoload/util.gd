@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_Util extends Node
+class_name Z_Autoload_Util extends Node
 
 static func setter(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
   if not o: return false

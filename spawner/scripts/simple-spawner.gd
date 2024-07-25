@@ -1,4 +1,4 @@
-class_name Zaft_SimpleSpawner extends Node2D
+class_name Z_SimpleSpawner extends Node2D
 
 enum SPAWN_MODE { Ignore, SingleClear, SingleWarns }
 
@@ -16,7 +16,7 @@ signal sig_despawned(despawned:CanvasItem)
 ## script must be a CanvasItem, is ignored if scene is set
 @export var script_to_spawn : Script
 @export_category('where')
-@export var layer : Zaft_Autoload_Layers.LAYERS
+@export var layer : Z_Autoload_Layers.LAYERS
 @export var container : Node2D
 
 var spawned_list : Array[CanvasItem] = []

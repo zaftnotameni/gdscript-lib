@@ -1,19 +1,19 @@
-class_name Zaft_Primitive_BackgroundColorWithRect extends ColorRect
+class_name Z_Primitive_BackgroundColorWithRect extends ColorRect
 
-@export var layer : Zaft_Autoload_Layers.LAYERS = Zaft_Autoload_Layers.LAYERS.background
+@export var layer : Z_Autoload_Layers.LAYERS = Z_Autoload_Layers.LAYERS.background
 @export var auto_parallax : Vector2
 
-func at_layer(target:=Zaft_Autoload_Layers.LAYERS.background) -> Zaft_Primitive_BackgroundColorWithRect:
+func at_layer(target:=Z_Autoload_Layers.LAYERS.background) -> Z_Primitive_BackgroundColorWithRect:
   layer = target
   return self
 
-func with_material(sm:ShaderMaterial, parallax:=Vector2.ZERO) -> Zaft_Primitive_BackgroundColorWithRect:
+func with_material(sm:ShaderMaterial, parallax:=Vector2.ZERO) -> Z_Primitive_BackgroundColorWithRect:
   auto_parallax = parallax
   sm.set_shader_parameter('parallax_auto', auto_parallax)
   material = sm
   return self
 
-func add_to_tree() -> Zaft_Primitive_BackgroundColorWithRect:
+func add_to_tree() -> Z_Primitive_BackgroundColorWithRect:
   assert(layer, 'layer must be set')
   assert(material, 'material must be set')
   __zaft.layer.layer_named(layer).add_child(self)

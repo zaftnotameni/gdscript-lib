@@ -1,18 +1,18 @@
-class_name Zaft_PlayerGravityBasedOrientation extends Area2D
+class_name Z_PlayerGravityBasedOrientation extends Area2D
 
-@onready var player : Zaft_PlayerCharacter = owner
-@export var body : Zaft_PlayerBody
-@export var windrose : Zaft_PlayerWindrose
+@onready var player : Z_PlayerCharacter = owner
+@export var body : Z_PlayerBody
+@export var windrose : Z_PlayerWindrose
 
 @onready var foot_cast_back : RayCast2D = %BackFootCast
 @onready var foot_cast_front : RayCast2D = %FrontFootCast
 
-var gravity_source : Zaft_GravityWell : get = get_closest_gravity_source
-var gravity_sources : Array[Zaft_GravityWell] = []
+var gravity_source : Z_GravityWell : get = get_closest_gravity_source
+var gravity_sources : Array[Z_GravityWell] = []
 
-func get_closest_gravity_source() -> Zaft_GravityWell:
-  var s : Zaft_GravityWell = null
-  for ss:Zaft_GravityWell in gravity_sources:
+func get_closest_gravity_source() -> Z_GravityWell:
+  var s : Z_GravityWell = null
+  for ss:Z_GravityWell in gravity_sources:
     if not s: s = ss; continue
     var d := s.global_position.distance_squared_to(global_position)
     var dd := ss.global_position.distance_squared_to(global_position)
@@ -20,20 +20,20 @@ func get_closest_gravity_source() -> Zaft_GravityWell:
   return s
 
 func _ready() -> void:
-  if not windrose: windrose = Zaft_ComponentBase.resolve_from(player, Zaft_PlayerWindrose)
-  if not body: body = Zaft_ComponentBase.resolve_at(player, Zaft_PlayerBody)
+  if not windrose: windrose = Z_ComponentBase.resolve_from(player, Z_PlayerWindrose)
+  if not body: body = Z_ComponentBase.resolve_at(player, Z_PlayerBody)
   add_child(body.duplicate())
 
 func _physics_process(_delta: float) -> void:
   on_gravity_source_updated()
 
-func leave_gravity_source(new_gravity_source:Zaft_GravityWell):
+func leave_gravity_source(new_gravity_source:Z_GravityWell):
   print_verbose('leave', new_gravity_source)
   if gravity_sources.size() > 1:
     gravity_sources.erase(new_gravity_source)
   on_gravity_source_updated()
 
-func enter_gravity_source(new_gravity_source:Zaft_GravityWell):
+func enter_gravity_source(new_gravity_source:Z_GravityWell):
   print_verbose('enter', new_gravity_source)
   if not new_gravity_source: return
   if not gravity_sources.has(new_gravity_source): gravity_sources.push_back(new_gravity_source)
@@ -45,7 +45,7 @@ func enter_gravity_source(new_gravity_source:Zaft_GravityWell):
 func on_grav_source_exit_tree():
   gravity_sources.clear()
   print_verbose('gravity-sources-before', gravity_sources)
-  var closest := Zaft_GravityWell.resolve_closest(global_position)
+  var closest := Z_GravityWell.resolve_closest(global_position)
   print_verbose('gravity-sources-after', closest)
   if closest: enter_gravity_source(closest)
 

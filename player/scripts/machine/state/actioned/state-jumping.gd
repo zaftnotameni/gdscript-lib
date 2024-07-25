@@ -1,1 +1,1 @@
-class_name Zaft_PlayerStateJumping extends Zaft_PlayerStateActioned
+class_name Z_PlayerStateJumping extends Z_PlayerStateActioned

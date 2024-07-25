@@ -1,9 +1,9 @@
-class_name Zaft_StaticCamera extends Camera2D
+class_name Z_StaticCamera extends Camera2D
 
 @export var target_node : Node2D
 @export var uses_physics_process : bool
 
-@onready var shake := Zaft_CameraShake.new()
+@onready var shake := Z_CameraShake.new()
 
 func do_process(delta:float):
   shake.do_process(delta)

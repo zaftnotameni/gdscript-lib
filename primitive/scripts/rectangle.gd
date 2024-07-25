@@ -1,5 +1,5 @@
 @tool
-class_name Zaft_Primitive_Rectangle extends Node2D
+class_name Z_Primitive_Rectangle extends Node2D
 
 @export var width : float = 32
 @export var height : float = 32

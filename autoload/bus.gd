@@ -1,6 +1,6 @@
-class_name Zaft_Autoload_Bus extends Node
+class_name Z_Autoload_Bus extends Node
 
-signal sig_game_state_changed(next:Zaft_Autoload_State.GAME_STATE,prev:Zaft_Autoload_State.GAME_STATE)
+signal sig_game_state_changed(next:Z_Autoload_State.GAME_STATE,prev:Z_Autoload_State.GAME_STATE)
 
 signal sig_camera_constant_trauma_request(amount:float)
 signal sig_camera_constant_trauma_relief(amount:float)

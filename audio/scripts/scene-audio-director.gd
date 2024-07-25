@@ -1,7 +1,7 @@
-class_name Zaft_AudioDirector_Scene extends Node
+class_name Z_AudioDirector_Scene extends Node
 
 const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
-@export var volume_preferences : Zaft_VolumePreferences_Resource
+@export var volume_preferences : Z_VolumePreferences_Resource
 
 @onready var streams_master : Node = $Streams/Master
 @onready var streams_bgm : Node = $Streams/BGM
@@ -151,9 +151,9 @@ func set_initial_volume():
   if ResourceLoader.exists(VOLUME_PREFERENCES_FILENAME):
     set_initial_volume_from(ResourceLoader.load(VOLUME_PREFERENCES_FILENAME))
   else:
-    set_initial_volume_from(Zaft_VolumePreferences_Resource.new())
+    set_initial_volume_from(Z_VolumePreferences_Resource.new())
 
-func set_initial_volume_from(prefs:=Zaft_VolumePreferences_Resource.new()):
+func set_initial_volume_from(prefs:=Z_VolumePreferences_Resource.new()):
   volume_preferences = prefs
   set_volume_linear(bus_index_master,prefs.master)
   set_volume_linear(bus_index_bgm,prefs.bgm)

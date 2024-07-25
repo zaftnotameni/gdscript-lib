@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_Path extends Node
+class_name Z_Autoload_Path extends Node
 
 const PLAYER_CHARACTER_STATE_MACHINE_GROUP := &'player-character-state-machine'
 const PLAYER_CHARACTER_GROUP := &'player-character'
@@ -9,7 +9,7 @@ const MAIN_CAMERA_PARALLAX_GROUP := &'main-camera-parallax'
 const MENU_PAUSE := &'menu-pause'
 
 static func group_all_nodes(g:StringName=&"Group Name") -> Array[Node]:
-  return Zaft_Autoload_Util.scene_tree().get_nodes_in_group(g)
+  return Z_Autoload_Util.scene_tree().get_nodes_in_group(g)
 
 static func group_only_node(g:StringName=&"Group Name") -> Node:
   var nodes := group_all_nodes(g)
@@ -31,13 +31,13 @@ static func group_main_camera_only_node(g:=MAIN_CAMERA_GROUP) -> Camera2D:
 static func group_player_character_only_node(g:=PLAYER_CHARACTER_GROUP) -> CharacterBody2D:
   return group_only_node(g)
 
-static func group_player_character_state_machine_only_node(g:=PLAYER_CHARACTER_STATE_MACHINE_GROUP) -> Zaft_StateMachine:
+static func group_player_character_state_machine_only_node(g:=PLAYER_CHARACTER_STATE_MACHINE_GROUP) -> Z_StateMachine:
   return group_only_node(g)
 
-static func group_stopwatch_only_node(g:=STOPWATCH_GROUP) -> Zaft_Stopwatch:
+static func group_stopwatch_only_node(g:=STOPWATCH_GROUP) -> Z_Stopwatch:
   return group_only_node(g)
 
-static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Zaft_LeaderboardApi:
+static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Z_LeaderboardApi:
   return group_only_node(g)
 
 static func await_for_ready(n:Node) -> Node:
@@ -51,6 +51,6 @@ static func await_for_ready(n:Node) -> Node:
 static func await_for_first_node_in_group(g:=PLAYER_CHARACTER_GROUP,max_attempts:=10) -> Node:
   var n := group_maybe_node(g)
   if n: return await await_for_ready(n)
-  await Zaft_Autoload_Util.scene_tree().process_frame
+  await Z_Autoload_Util.scene_tree().process_frame
   return await await_for_ready(await await_for_first_node_in_group(g,max_attempts-1))
 

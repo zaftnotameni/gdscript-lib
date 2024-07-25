@@ -1,4 +1,4 @@
-class_name Zaft_CameraShake extends Node
+class_name Z_CameraShake extends Node
 
 ## How quickly the shaking stops [0, 1].
 @export var decay : float = 0.8

@@ -1,4 +1,4 @@
-class_name Zaft_Stopwatch extends Zaft_ComponentBase
+class_name Z_Stopwatch extends Z_ComponentBase
 
 @export var autostart := false
 @export var running := false : set = set_running
@@ -6,7 +6,7 @@ class_name Zaft_Stopwatch extends Zaft_ComponentBase
 var elapsed : float = 0.0
 
 func _enter_tree() -> void:
-  add_to_group(Zaft_Autoload_Path.STOPWATCH_GROUP)
+  add_to_group(Z_Autoload_Path.STOPWATCH_GROUP)
 
 func _ready() -> void:
   super()

@@ -1,4 +1,4 @@
-class_name Zaft_VolumePreferences_Resource extends Resource
+class_name Z_VolumePreferences_Resource extends Resource
 
 @export var hacky := 50
 @export var master := 50

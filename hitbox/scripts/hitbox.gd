@@ -1,4 +1,4 @@
-class_name Zaft_Hitbox_Node extends Area2D
+class_name Z_Hitbox_Node extends Area2D
 
 enum MODE { None = 0, DealDamage = 1, TakeDamage = 2 }
 
@@ -9,13 +9,13 @@ enum MODE { None = 0, DealDamage = 1, TakeDamage = 2 }
 @export var health : int = 10
 @export var damage : int = 1
 
-signal sig_take_damage(data:Zaft_Hit_Data)
-signal sig_ignore_damage_invincible(data:Zaft_Hit_Data)
-signal sig_deal_damage(data:Zaft_Hit_Data)
-signal sig_died(data:Zaft_Hit_Data)
+signal sig_take_damage(data:Z_Hit_Data)
+signal sig_ignore_damage_invincible(data:Z_Hit_Data)
+signal sig_deal_damage(data:Z_Hit_Data)
+signal sig_died(data:Z_Hit_Data)
 
-func create_hit_data(b:Node) -> Zaft_Hit_Data:
-  var data := Zaft_Hit_Data.new()
+func create_hit_data(b:Node) -> Z_Hit_Data:
+  var data := Z_Hit_Data.new()
   data.target = b
   data.source = self
   data.dealer = damage_dealer

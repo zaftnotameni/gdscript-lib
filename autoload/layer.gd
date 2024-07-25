@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_Layers extends Node
+class_name Z_Autoload_Layers extends Node
 
 @onready var background:CanvasLayer=CanvasLayer.new()
 @onready var level:CanvasLayer=CanvasLayer.new()
@@ -21,7 +21,7 @@ class_name Zaft_Autoload_Layers extends Node
 func wipe_all_managed(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:
     var child := n.get_node(child_name.to_pascal_case()) as Node
-    Zaft_Autoload_Util.children_wipe(child)
+    Z_Autoload_Util.children_wipe(child)
 
 func _ready() -> void:
   add_managed_containers(managed)

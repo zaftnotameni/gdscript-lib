@@ -1,4 +1,4 @@
-class_name Zaft_DestructibleTerrain extends Node2D
+class_name Z_DestructibleTerrain extends Node2D
 
 @export_category('features')
 @export var no_occluder := false
@@ -210,9 +210,9 @@ func apply_polys(): poly_arr_arr_to_polys(parrs,polys)
 func apply_bodys(): poly_arr_arr_to_bodys(parrs,bodys)
 
 func clear_all_deferred(): clear_polys_deferred(); clear_bodys_deferred(); clear_areas_deferred();
-func clear_areas_deferred(): Zaft_Autoload_Util.children_wipe.call_deferred(areas)
-func clear_polys_deferred(): Zaft_Autoload_Util.children_wipe.call_deferred(polys)
-func clear_bodys_deferred(): Zaft_Autoload_Util.children_wipe.call_deferred(bodys)
+func clear_areas_deferred(): Z_Autoload_Util.children_wipe.call_deferred(areas)
+func clear_polys_deferred(): Z_Autoload_Util.children_wipe.call_deferred(polys)
+func clear_bodys_deferred(): Z_Autoload_Util.children_wipe.call_deferred(bodys)
 
 func validate_parrs():
   for parr:PackedVector2Array in parrs:

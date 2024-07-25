@@ -1,4 +1,4 @@
-class_name Zaft_Hit_Data extends RefCounted
+class_name Z_Hit_Data extends RefCounted
 
 enum HIT_DATA_MODE { Invalid = 0, Take, Deal }
 
@@ -14,7 +14,7 @@ var target : Node
 var mode : HIT_DATA_MODE = HIT_DATA_MODE.Invalid
 var handled := false
 
-func mark_as_handled(_h:=true) -> Zaft_Hit_Data:
+func mark_as_handled(_h:=true) -> Z_Hit_Data:
   handled = _h
   return self
 

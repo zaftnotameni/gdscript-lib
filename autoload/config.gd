@@ -1,4 +1,4 @@
-class_name Zaft_Autoload_Config extends Node
+class_name Z_Autoload_Config extends Node
 
 enum INPUT_ACTIONS { Pause, Unpause, Back }
 

@@ -1,18 +1,18 @@
-class_name Zaft_Autoload_All extends Node
+class_name Z_Autoload_All extends Node
 
-var config := Zaft_Autoload_Config.new()
-var util := Zaft_Autoload_Util.new()
-var bus := Zaft_Autoload_Bus.new()
-var layer := Zaft_Autoload_Layers.new()
-var state := Zaft_Autoload_State.new()
-var audio := Zaft_Autoload_Audio.new()
-var menu := Zaft_Autoload_Menu.new()
-var level := Zaft_Autoload_Level.new()
-var environment := Zaft_Autoload_Environment.new()
-var pool := Zaft_Autoload_Pool.new()
-var query := Zaft_Autoload_Query.new()
-var path := Zaft_Autoload_Path.new()
-var global := Zaft_Autoload_Global.new()
+var config := Z_Autoload_Config.new()
+var util := Z_Autoload_Util.new()
+var bus := Z_Autoload_Bus.new()
+var layer := Z_Autoload_Layers.new()
+var state := Z_Autoload_State.new()
+var audio := Z_Autoload_Audio.new()
+var menu := Z_Autoload_Menu.new()
+var level := Z_Autoload_Level.new()
+var environment := Z_Autoload_Environment.new()
+var pool := Z_Autoload_Pool.new()
+var query := Z_Autoload_Query.new()
+var path := Z_Autoload_Path.new()
+var global := Z_Autoload_Global.new()
 
 func _ready():
   config.name = "Config"

@@ -1,2 +1,2 @@
-class_name Zaft_Autoload_Menu extends Node
+class_name Z_Autoload_Menu extends Node
 

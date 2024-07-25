@@ -1,4 +1,4 @@
-class_name Zaft_Movement_Friction extends Resource
+class_name Z_Movement_Friction extends Resource
 
 static func apply_lerpstop_to(_velocity:Vector2,_lerp:float,_delta:float) -> Vector2:
   if not is_zero_approx(_velocity.x):

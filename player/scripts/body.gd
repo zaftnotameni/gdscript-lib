@@ -1,1 +1,1 @@
-class_name Zaft_PlayerBody extends CollisionShape2D
+class_name Z_PlayerBody extends CollisionShape2D

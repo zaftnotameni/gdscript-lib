@@ -1,4 +1,4 @@
-class_name Zaft_Submenu_Node extends Container
+class_name Z_Submenu_Node extends Container
 
 @export var sections : Array[PackedScene]
 @export var title : String = ""
@@ -8,7 +8,7 @@ class_name Zaft_Submenu_Node extends Container
 @onready var lbl_title := Label.new()
 @onready var vbox_layout := VBoxContainer.new()
 @onready var vbox_sections := VBoxContainer.new()
-@onready var closer : Zaft_Closer_Button = Zaft_Closer_Button.new()
+@onready var closer : Z_Closer_Button = Z_Closer_Button.new()
 
 func _ready() -> void:
   add_to_group("closeable")
@@ -28,8 +28,8 @@ func _ready() -> void:
     lbl_title.text = title
     lbl_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     lbl_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    Zaft_Autoload_Util.control_set_color(lbl_title,Color.WHITE)
-    Zaft_Autoload_Util.control_set_font_size(lbl_title,64)
+    Z_Autoload_Util.control_set_color(lbl_title,Color.WHITE)
+    Z_Autoload_Util.control_set_font_size(lbl_title,64)
 
     vbox_layout.add_child(lbl_title)
 

@@ -1,4 +1,4 @@
-class_name Zaft_GravityWell extends Area2D
+class_name Z_GravityWell extends Area2D
 
 const DEFAULT_GRAVITY_STRENGTH : int = 512
 const DEFAULT_GRAVITY_RADIUS : int = 512
@@ -29,20 +29,20 @@ func create_default_shape() -> CollisionShape2D:
 
 const GRAVITY_WELL_GROUP_NAME := &'gravity-well'
 
-static func resolve_one() -> Zaft_GravityWell:
-  return Zaft_Autoload_Util.scene_tree().get_first_node_in_group(GRAVITY_WELL_GROUP_NAME)
+static func resolve_one() -> Z_GravityWell:
+  return Z_Autoload_Util.scene_tree().get_first_node_in_group(GRAVITY_WELL_GROUP_NAME)
 
-static func resolve_all() -> Array[Zaft_GravityWell]:
-  var res : Array[Zaft_GravityWell] = []
-  for w:Zaft_GravityWell in Zaft_Autoload_Util.scene_tree().get_nodes_in_group(GRAVITY_WELL_GROUP_NAME):
+static func resolve_all() -> Array[Z_GravityWell]:
+  var res : Array[Z_GravityWell] = []
+  for w:Z_GravityWell in Z_Autoload_Util.scene_tree().get_nodes_in_group(GRAVITY_WELL_GROUP_NAME):
     if w and not w.is_queued_for_deletion(): res.push_back(w)
   return res
 
-static func resolve_closest(glopos:Vector2) -> Zaft_GravityWell:
+static func resolve_closest(glopos:Vector2) -> Z_GravityWell:
   var all := resolve_all()
   if not all or all.is_empty(): return null
-  var res : Zaft_GravityWell = all.pop_back()
-  for w:Zaft_GravityWell in all:
+  var res : Z_GravityWell = all.pop_back()
+  for w:Z_GravityWell in all:
     if glopos.distance_squared_to(w.global_position) < glopos.distance_squared_to(res.global_position):
       res = w
   return res

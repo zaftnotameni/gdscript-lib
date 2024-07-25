@@ -1,13 +1,13 @@
-class_name Zaft_PlayerStateGrounded extends Zaft_PlayerStateMachineState
+class_name Z_PlayerStateGrounded extends Z_PlayerStateMachineState
 
-@onready var gravity_orientation : Zaft_PlayerGravityBasedOrientation = Zaft_ComponentBase.resolve_from(owner, Zaft_PlayerGravityBasedOrientation)
-@onready var windrose : Zaft_PlayerWindrose = Zaft_ComponentBase.resolve_from(owner, Zaft_PlayerWindrose)
+@onready var gravity_orientation : Z_PlayerGravityBasedOrientation = Z_ComponentBase.resolve_from(owner, Z_PlayerGravityBasedOrientation)
+@onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
 
 func _unhandled_input(event: InputEvent) -> void:
-  if Zaft_PlayerInput.event_is_dash_just_pressed(event):
+  if Z_PlayerInput.event_is_dash_just_pressed(event):
     on_dash()
 
-func on_state_enter(_prev:Zaft_StateMachineState):
+func on_state_enter(_prev:Z_StateMachineState):
   pass
   # __zaft.bus.sig_camera_trauma_request.emit(0.1)
 
@@ -18,9 +18,9 @@ func on_dash():
 
 func update_facing_to_match(horz:Vector2):
   if horz.dot(windrose.right()) > 0:
-    character.stats.facing = Zaft_PlayerStats.FACING.Right
+    character.stats.facing = Z_PlayerStats.FACING.Right
   elif horz.dot(windrose.left()) > 0:
-    character.stats.facing = Zaft_PlayerStats.FACING.Left
+    character.stats.facing = Z_PlayerStats.FACING.Left
 
 func update_velocity_to_match(horz:Vector2):
   character.velocity += horz
@@ -43,9 +43,9 @@ func apply_jetpack(delta:float):
     character.velocity += windrose.up() * delta * 128
 
 func phys_proc_no_trans(delta:float):
-  var input_x := Zaft_PlayerInput.input_ad_scalar()
+  var input_x := Z_PlayerInput.input_ad_scalar()
 
-  if Zaft_PlayerInput.is_jump_pressed():
+  if Z_PlayerInput.is_jump_pressed():
     apply_jetpack(delta)
     machine.transition('jetpack', STATE.Airborne)
   else:

@@ -1,1 +1,1 @@
-class_name Zaft_PlayerStateIdling extends Zaft_PlayerStateStilling
+class_name Z_PlayerStateIdling extends Z_PlayerStateStilling

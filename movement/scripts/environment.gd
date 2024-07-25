@@ -1,4 +1,4 @@
-class_name Zaft_Movement_Environment_Resource extends Resource
+class_name Z_Movement_Environment_Resource extends Resource
 
 @export var player_size := Vector2(16.0, 16.0)
 @export var max_velocity_value := 0.0
@@ -56,8 +56,8 @@ func kinematic_equations():
   jump_gravity_down = (2.0 * jump_height) / (jump_time_to_land * jump_time_to_land)
   gravity = (jump_gravity_up + jump_gravity_down) / 2.0
 
-static func with(_player_size:=Vector2(16.0,16.0),_multiplier_base:=1.0) -> Zaft_Movement_Environment_Resource:
-  var result = Zaft_Movement_Environment_Resource.new()
+static func with(_player_size:=Vector2(16.0,16.0),_multiplier_base:=1.0) -> Z_Movement_Environment_Resource:
+  var result = Z_Movement_Environment_Resource.new()
   result.player_size = _player_size
   result.multiplier_base = _multiplier_base
   result.recalculate()

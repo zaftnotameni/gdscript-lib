@@ -1,7 +1,7 @@
-class_name Zaft_PlayerStateAirborne extends Zaft_PlayerStateMachineState
+class_name Z_PlayerStateAirborne extends Z_PlayerStateMachineState
 
-@onready var gravity_orientation : Zaft_PlayerGravityBasedOrientation = Zaft_ComponentBase.resolve_from(owner, Zaft_PlayerGravityBasedOrientation)
-@onready var windrose : Zaft_PlayerWindrose = Zaft_ComponentBase.resolve_from(owner, Zaft_PlayerWindrose)
+@onready var gravity_orientation : Z_PlayerGravityBasedOrientation = Z_ComponentBase.resolve_from(owner, Z_PlayerGravityBasedOrientation)
+@onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
 @onready var jetpack_particles : CPUParticles2D = %JetpackParticles
 @onready var jetpack_sfx : AudioStreamPlayer2D = %SfxJetpack
 @onready var gun_reticle : Node2D = %RobotGunReticle
@@ -10,7 +10,7 @@ var max_jetpack_velocity : int = 512
 
 func _unhandled_input(_event: InputEvent) -> void:
   pass
-  #if Zaft_PlayerInput.event_is_dash_just_pressed(event):
+  #if Z_PlayerInput.event_is_dash_just_pressed(event):
   #  on_dash()
 
 func on_dash():
@@ -54,7 +54,7 @@ func apply_gravity(delta:float):
   character.velocity += gravity_orientation.gravity_source.gravity_strength * delta * windrose.down()
 
 func _physics_process(delta: float) -> void:
-  if Zaft_PlayerInput.is_jump_pressed():
+  if Z_PlayerInput.is_jump_pressed():
     apply_jetpack(delta)
   elif gravity_orientation and gravity_orientation.gravity_source:
     apply_gravity(delta)

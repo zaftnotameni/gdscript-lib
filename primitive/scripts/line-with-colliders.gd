@@ -1,4 +1,4 @@
-class_name Zaft_Primitive_LineWithColliders extends Line2D
+class_name Z_Primitive_LineWithColliders extends Line2D
 
 func _enter_tree() -> void:
   for i in (points.size() - 1):

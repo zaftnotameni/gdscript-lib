@@ -1,11 +1,11 @@
-class_name Zaft_SimpleDamageReceiver extends Node
+class_name Z_SimpleDamageReceiver extends Node
 
 @export var health := 0
 
-signal sig_take(data:Zaft_Hit_Data)
-signal sig_died(data:Zaft_Hit_Data)
+signal sig_take(data:Z_Hit_Data)
+signal sig_died(data:Z_Hit_Data)
 
-func take_damage(data:Zaft_Hit_Data):
+func take_damage(data:Z_Hit_Data):
   if not data: return
   if data.handled: return
   data.health = health

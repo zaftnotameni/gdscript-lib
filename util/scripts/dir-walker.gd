@@ -1,4 +1,4 @@
-class_name Zaft_DirWalker extends Node
+class_name Z_DirWalker extends Node
 
 signal sig_result_found(file_path:String)
 signal sig_results_found(file_paths:Array[String])

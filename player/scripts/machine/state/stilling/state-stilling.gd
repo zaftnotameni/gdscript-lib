@@ -1,1 +1,1 @@
-class_name Zaft_PlayerStateStilling extends Zaft_PlayerStateGrounded
+class_name Z_PlayerStateStilling extends Z_PlayerStateGrounded

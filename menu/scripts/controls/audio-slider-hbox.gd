@@ -1,4 +1,4 @@
-class_name Zaft_AudioSlider_Node extends HBoxContainer
+class_name Z_AudioSlider_Node extends HBoxContainer
 
 @export var bus : BUS = BUS.Master
 
@@ -40,7 +40,7 @@ func setup_label(lbl:Label):
   lbl.grow_vertical = GROW_DIRECTION_BOTH
   lbl.size_flags_vertical = SIZE_FILL
   lbl.custom_minimum_size.x = 150
-  Zaft_Autoload_Util.control_set_font_size(lbl,32)
+  Z_Autoload_Util.control_set_font_size(lbl,32)
 
 func setup_name():
   setup_label(lbl_name)
@@ -96,20 +96,20 @@ func setup_slider():
   BUS.UI: __zaft.audio.director.play_test_ui,
 }
 
-static func for_master() -> Zaft_AudioSlider_Node:
+static func for_master() -> Z_AudioSlider_Node:
   return for_bus(BUS.Master)
 
-static func for_bgm() -> Zaft_AudioSlider_Node:
+static func for_bgm() -> Z_AudioSlider_Node:
   return for_bus(BUS.BGM)
 
-static func for_sfx() -> Zaft_AudioSlider_Node:
+static func for_sfx() -> Z_AudioSlider_Node:
   return for_bus(BUS.SFX)
 
-static func for_ui() -> Zaft_AudioSlider_Node:
+static func for_ui() -> Z_AudioSlider_Node:
   return for_bus(BUS.UI)
 
-static func for_bus(b:BUS) -> Zaft_AudioSlider_Node:
-  var x := Zaft_AudioSlider_Node.new()
+static func for_bus(b:BUS) -> Z_AudioSlider_Node:
+  var x := Z_AudioSlider_Node.new()
   x.bus = b
   x.name = BUS.find_key(b)
   return x
