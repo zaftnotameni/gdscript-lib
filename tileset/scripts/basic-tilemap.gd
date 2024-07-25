@@ -4,7 +4,7 @@ class_name Z_BasicTilemapLayer extends TileMapLayer
 @export var test : String = ''
 
 func on_editor_save_setup():
-  print('setup')
+  tile_set = Gen_AllTileSets.TILESET_TILESET_BASIC_PLACEHOLDER_32X32_WITH_BORDERS
 
 func on_editor_save_clear():
   print('clear')

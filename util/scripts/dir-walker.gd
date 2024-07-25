@@ -4,7 +4,7 @@ signal sig_result_found(file_path:String)
 signal sig_results_found(file_paths:Array[String])
 signal sig_partial_results_found(file_paths:Array[String])
 
-enum FT { Shader, Scene, Audio, Material, Script, Particle }
+enum FT { Shader, Scene, Audio, Material, Script, Particle, TileSet }
 
 @export var base_path : String = 'res://'
 @export var output_path : String = 'res://zaft/generated'
@@ -19,11 +19,25 @@ func _ready() -> void:
   create_if_needed(output_path)
   find_files_recursive(base_path, results)
   create_materials_for_shaders()
-  print(JSON.stringify(results, '  '))
+  for k in results.keys():
+    print_rich('\n[b]%s[/b]\n%s' % [FT.find_key(k), JSON.stringify(results[k], '\t')])
   create_all_for_scenes()
   create_all_for_audio()
   create_all_for_materials()
   create_all_for_shaders()
+  create_all_for_tilesets()
+
+func create_all_for_tilesets():
+  var scripts_dir := generated_relative_dir_for(FT.Script)
+  var script_contents := 'class_name Gen_AllTileSets extends Node\n'
+  for s:String in results[FT.TileSet]:
+    var file_name : String = s.split('/')[-1]
+    var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
+    script_contents += 'const TILESET_%s : TileSet = preload("%s")\n' % [scene_name, s]
+
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-tilesets.gd', FileAccess.WRITE)
+  f.store_string(script_contents)
+  f.close()
 
 func create_all_for_shaders():
   var scripts_dir := generated_relative_dir_for(FT.Script)
@@ -105,6 +119,10 @@ static func is_file_ext(file_path:String,extensions:=[]) -> bool:
 static func is_particle_file(_file_path:String) -> bool:
   return false
 
+static func is_tileset_file(file_path:String) -> bool:
+  if not is_file_ext(file_path, ['.tres']): return false
+  return load(file_path) is TileSet
+
 static func is_material_file(file_path:String) -> bool:
   if not is_file_ext(file_path, ['.tres']): return false
   return load(file_path) is CanvasItemMaterial or load(file_path) is ShaderMaterial
@@ -137,6 +155,7 @@ static func generated_relative_folder_name_for(ft:FT) -> String:
     FT.Audio: return 'audio'
     FT.Script: return 'scripts'
     FT.Particle: return 'particles'
+    FT.TileSet: return 'tilesets'
   return 'other'
 
 static func matcher_for_file_type(ft:FT) -> Callable:
@@ -146,6 +165,7 @@ static func matcher_for_file_type(ft:FT) -> Callable:
     FT.Shader: return is_shader_file
     FT.Scene: return is_scene_file
     FT.Audio: return is_audio_file
+    FT.TileSet: return is_tileset_file
   return is_not_interesting_file
 
 func find_files_recursive(path:String,the_results:={},depth:int=0):
