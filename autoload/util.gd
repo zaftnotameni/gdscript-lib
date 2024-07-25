@@ -1,5 +1,13 @@
 class_name Zaft_Autoload_Util extends Node
 
+static func setter(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
+  if not o: return false
+  var val = o.get(k)
+  if val == v: return false
+  o.set(k,v) 
+  if s: s.emit(v,val)
+  return true
+
 static func scene_tree() -> SceneTree:
   return Engine.get_main_loop()
 
