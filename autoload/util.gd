@@ -8,6 +8,14 @@ static func setter(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
   if s: s.emit(v,val)
   return true
 
+static func setter_float(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
+  if not o: return false
+  var val = o.get(k)
+  if is_equal_approx(val, v): return false
+  o.set(k,v) 
+  if s: s.emit(v,val)
+  return true
+
 static func scene_tree() -> SceneTree:
   return Engine.get_main_loop()
 

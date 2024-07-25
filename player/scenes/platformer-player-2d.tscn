@@ -1,0 +1,146 @@
+[gd_scene load_steps=26 format=3 uid="uid://dmg887tpn51ot"]
+
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/machine.gd" id="2_ix4ke"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/state-initial.gd" id="3_23rml"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/stilling/state-idling.gd" id="4_bn5lt"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/stilling/state-stilling.gd" id="5_h6cs7"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/grounded/state-walking.gd" id="6_w7xyr"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/grounded/state-running.gd" id="7_tx5up"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/grounded/state-moving.gd" id="8_q3u2l"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/grounded/state-coyoteing.gd" id="9_5cwaw"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/grounded/state-grounded.gd" id="10_kcot2"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/airborne/state-falling.gd" id="11_ag6da"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/airborne/state-ascending.gd" id="12_m5yxt"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/airborne/state-descending.gd" id="13_7qfr6"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/airborne/state-airborne.gd" id="14_aay7k"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/actioned/state-jumping.gd" id="15_pqq4o"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/actioned/state-dashing.gd" id="16_l48qq"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/actioned/state-rolling.gd" id="17_fhu4u"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/actioned/state-dodging.gd" id="18_yb4jb"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/actioned/state-actioned.gd" id="19_w34qy"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/stats.gd" id="20_3wh7d"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/windrose.gd" id="21_08xxj"]
+[ext_resource type="Script" path="res://zaft/lib/player/scripts/debugger.gd" id="23_17pmi"]
+[ext_resource type="Script" path="res://zaft/lib/primitive/scripts/rectangle.gd" id="23_toksl"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qavx"]
+radius = 14.0
+height = 32.0
+
+[node name="PlatformerPlayer2D" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 524288
+script = ExtResource("1_j258b")
+
+[node name="Z_PlayerBody" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_8qavx")
+script = ExtResource("2_16n43")
+
+[node name="C" type="Node2D" parent="."]
+
+[node name="Z_PlayerStateMachine" type="Node" parent="C"]
+script = ExtResource("2_ix4ke")
+machine_mode = 1
+
+[node name="Initial" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("3_23rml")
+
+[node name="Idling" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("4_bn5lt")
+
+[node name="Stilling" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("5_h6cs7")
+
+[node name="Walking" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("6_w7xyr")
+
+[node name="Running" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("7_tx5up")
+
+[node name="Moving" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("8_q3u2l")
+
+[node name="Coyoteing" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("9_5cwaw")
+
+[node name="Grounded" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("10_kcot2")
+
+[node name="Falling" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("11_ag6da")
+
+[node name="Ascending" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("12_m5yxt")
+
+[node name="Descending" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("13_7qfr6")
+
+[node name="Airborne" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("14_aay7k")
+
+[node name="Jumping" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("15_pqq4o")
+
+[node name="Dashing" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("16_l48qq")
+
+[node name="Rolling" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("17_fhu4u")
+
+[node name="Dodging" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("18_yb4jb")
+
+[node name="Actioned" type="Node" parent="C/Z_PlayerStateMachine"]
+process_mode = 4
+script = ExtResource("19_w34qy")
+
+[node name="Z_PlayerStats" type="Node" parent="C"]
+script = ExtResource("20_3wh7d")
+
+[node name="Z_PlayerWindrose" type="Node2D" parent="C"]
+script = ExtResource("21_08xxj")
+
+[node name="Right" type="Marker2D" parent="C/Z_PlayerWindrose"]
+position = Vector2(1, 0)
+
+[node name="Up" type="Marker2D" parent="C/Z_PlayerWindrose"]
+position = Vector2(0, -1)
+
+[node name="Left" type="Marker2D" parent="C/Z_PlayerWindrose"]
+position = Vector2(-1, 0)
+
+[node name="Down" type="Marker2D" parent="C/Z_PlayerWindrose"]
+position = Vector2(0, 1)
+
+[node name="Z_PlayerDebugger" type="Node2D" parent="C"]
+script = ExtResource("23_17pmi")
+debug_machine = true
+
+[node name="V" type="Node2D" parent="."]
+
+[node name="Z_Primitive_Rectangle" type="Node2D" parent="V"]
+script = ExtResource("23_toksl")
+use_polygon = true
+
+[node name="DeleteMePlease" type="Polygon2D" parent="V/Z_Primitive_Rectangle"]
+color = Color(1, 0.411765, 0.705882, 1)
+polygon = PackedVector2Array(-16, -16, -16, 16, 16, 16, 16, -16, -16, -16)
+uv = PackedVector2Array(0, 0, 0, 1, 1, 1, 1, 0, 0, 0)

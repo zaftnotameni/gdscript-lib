@@ -1,72 +1,68 @@
 class_name Z_PlayerStats extends Node
 
+signal sig_facing_changed(player_stats:Z_PlayerStats)
+
 enum FACING { Right, Left }
-
-signal sig_energy_changed()
-signal sig_fuel_changed()
-signal sig_energy_rejected()
-signal sig_fuel_rejected()
-
-func setter(thing:StringName, v:Variant):
-  if is_equal_approx(get(thing), v): return true
-  if v >= 0:
-    set(thing, v)
-    print_verbose('%s is now at %s' % [thing, v])
-    emit_signal(&'sig_%s_changed' % thing)
-    return true
-  else:
-    emit_signal(&'sig_%s_rejected' % thing)
-    return false
-
-func setter_rel(thing:StringName, v:Variant):
-  if is_zero_approx(v): return true
-  return setter(thing, get(thing) + v)
-
-func update_fuel(v): return setter(&'fuel', v)
-func update_energy(v): return setter(&'energy', v)
-func update_fuel_rel(v): return setter_rel(&'fuel', v)
-func update_energy_rel(v): return setter_rel(&'energy', v)
-
-## in %
-@export var energy : float = 100
-## in %
-@export var fuel : float = 100
-
-## in %/use
-@export var fuel_cons_dash_air: float = 5
-## in %/use
-@export var energy_cons_dash_gnd: float = 10
-
-## in %/sec
-@export var energy_sol_gain : float = 1
-## in %/sec
-@export var energy_ion_cons : float = 1
-## in %/sec
-@export var energy_mine_cons : float = 1
-## in %/sec
-@export var fuel_cons_jetpack : float = 1
 
 # directions
 @export var facing : FACING
 
-## in pixels
-@export var player_width : int = 24
-## in pixels
-@export var player_height : int = 64
+# in pxs
+@export var jump_height : float = G_Settings.player_height * 2
 
 ## in secs
 @export var dash_duration : float = 0.1
 ## in secs
 @export var coyote_duration : float = 0.1
+## in secs
+@export var jump_time_to_peak : float = 0.4
+## in secs
+@export var jump_time_to_land : float = 0.3
 
 ## in pixels/sec
-@export var max_speed_from_input : int = player_width * 10
+@export var max_speed_from_input : int = G_Settings.player_width * 10
 ## in pixels/sec
-@export var initial_speed_from_input : int = max_speed_from_input
+@export var initial_speed_from_input : int = G_Settings.player_width * 5
 ## in pixels/sec
 @export var dash_initial_speed : int = max_speed_from_input * 4
 
 ## in pixels/sec/sec
-@export var acceleration_from_input : int = 128
+@export var acceleration_from_input : int = max_speed_from_input * 2
 ## in pixels/sec/sec
-@export var decceleration_from_lack_of_input : int = 2048
+@export var decceleration_from_lack_of_input : int = max_speed_from_input * 16
+
+var jump_velocity : float
+var jump_gravity_up : float
+var jump_gravity_down : float
+var fall_gravity : float
+
+func run_kinematic_equations():
+  jump_velocity = (2.0 * jump_height) / jump_time_to_peak
+  jump_gravity_up = (2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)
+  jump_gravity_down = (2.0 * jump_height) / (jump_time_to_land * jump_time_to_land)
+  fall_gravity = (jump_gravity_up + jump_gravity_down) / 2.0
+
+func _process(_delta:float) -> void:
+  input_x = Z_PlayerInput.input_x()
+  vel_x = player_velocity_x()
+  compute_facing()
+
+func _enter_tree() -> void:
+  run_kinematic_equations()
+
+func compute_facing() -> void:
+  if is_player_pressing_left_or_right():
+    update_facing(FACING.Right if input_x > 0 else FACING.Left)
+  elif not is_zero_approx(vel_x):
+    update_facing(FACING.Right if vel_x > 0 else FACING.Left)
+
+func is_player_pressing_left_or_right() -> bool: return not is_zero_approx(input_x)
+func player_velocity_x() -> float: return player.velocity.x
+func update_facing(f:FACING) -> bool: return Z_Autoload_Util.setter(self, &'facing', f, sig_facing_changed)
+
+# input
+var input_x : float
+var vel_x : float
+
+@onready var player : Z_PlayerCharacter = owner
+
