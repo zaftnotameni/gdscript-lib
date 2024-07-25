@@ -156,8 +156,10 @@ func find_files_recursive(path:String,the_results:={},depth:int=0):
     if not file_name or file_name.is_empty():
       break
     var file_path = path + ('' if path.ends_with('/') else '/') + file_name
+    if file_path.contains('/.'): continue
     if file_path.contains('res://.'): continue
     if file_path.contains('res://addons'): continue
+    if file_path.contains('res://zaft/test'): continue
     if file_path.contains(output_path): continue
     print(file_path)
     if dir.current_is_dir():
