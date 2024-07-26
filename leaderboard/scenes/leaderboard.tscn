@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://zaft/lib/leaderboard/scripts/leaderboard-scene-controller.gd" id="4_4d8ja"]
 [ext_resource type="Script" path="res://zaft/lib/component/scripts/auto-focus.gd" id="4_s60sm"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjuc1"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccvoc"]
 bg_color = Color(0.4, 0.2, 0.6, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsoej"]
@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qjuc1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ccvoc")
 script = ExtResource("1_qptxs")
 
 [node name="Game_EdgyMarginContainer" type="MarginContainer" parent="."]

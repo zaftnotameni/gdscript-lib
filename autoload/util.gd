@@ -19,15 +19,21 @@ static func setter_float(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
 static func scene_tree() -> SceneTree:
   return Engine.get_main_loop()
 
+static func tool_add_child_to_scene_root(child:Node):
+  if not child: return
+  if Engine.is_editor_hint():
+    scene_tree().edited_scene_root.add_child(child)
+    child.owner = scene_tree().edited_scene_root
+
 static func tool_add_child(parent:Node,child:Node,custom_owner:Node=parent):
   if not parent: return
   if not child: return
   parent.add_child(child)
-  if Engine.is_editor_hint():
+  if custom_owner:
+    child.owner = custom_owner
+  elif Engine.is_editor_hint():
     if not parent.get_tree(): return
     child.owner = parent.get_tree().get_edited_scene_root()
-  else:
-    child.owner = custom_owner
 
 static func timer_bump(t:Timer, only_if_running:=false) -> Timer:
   if not t: return t

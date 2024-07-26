@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://cc4pdlhbeovpo"]
+
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-scene-controller.gd" id="1_g7nkt"]
+[ext_resource type="Script" path="res://zaft/lib/child-labor/scripts/tooler.gd" id="2_i81nj"]
+[ext_resource type="PackedScene" uid="uid://dqdvxpa0wjgjc" path="res://zaft/lib/input/scenes/controls-wasd.tscn" id="3_j64du"]
+[ext_resource type="PackedScene" uid="uid://dnjew2ijgxc3f" path="res://zaft/lib/input/scenes/controls-arrows.tscn" id="4_5mwli"]
+[ext_resource type="Texture2D" uid="uid://bjtcekr3g15t2" path="res://zaft/lib/input/images/keyboard_space_outline.png" id="5_cnaqa"]
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/input-icon-control.gd" id="6_b2iue"]
+[ext_resource type="Texture2D" uid="uid://d1u83spjuqa64" path="res://zaft/lib/input/images/keyboard_shift_outline.png" id="7_l00el"]
+[ext_resource type="Texture2D" uid="uid://grr51a1bx61t" path="res://zaft/lib/input/images/keyboard_r_outline.png" id="8_dpdxr"]
+
+[node name="Controls" type="GridContainer"]
+columns = 3
+
+[node name="Z_ControlsSceneController" type="Node" parent="."]
+script = ExtResource("1_g7nkt")
+
+[node name="Z_Tooler" type="Node" parent="Z_ControlsSceneController"]
+script = ExtResource("2_i81nj")
+setup_on_save = true
+clear_on_save = true
+setup = true
+
+[node name="LabelMovement" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Movement"
+
+[node name="HBoxMovement" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Wasd" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("3_j64du")]
+layout_mode = 2
+
+[node name="Arrows" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("4_5mwli")]
+layout_mode = 2
+
+[node name="LabelMovementJoyPlaceholder" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "MovementJoyPlaceholder"
+
+[node name="LabelJump" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Jump"
+
+[node name="HBoxJump" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="JumpSpace" type="TextureRect" parent="HBoxJump"]
+layout_mode = 2
+texture = ExtResource("5_cnaqa")
+script = ExtResource("6_b2iue")
+
+[node name="LabelJumpJoyPlaceholder" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "JumpJoyPlaceholder"
+
+[node name="LabelDash" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Dash"
+
+[node name="HBoxDash" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="DashShift" type="TextureRect" parent="HBoxDash"]
+layout_mode = 2
+texture = ExtResource("7_l00el")
+script = ExtResource("6_b2iue")
+k = 4194325
+
+[node name="LabelDashJoyPlaceholder" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "DashJoyPlaceholder"
+
+[node name="LabelRespawn" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Respawn"
+
+[node name="HBoxRespawn" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RespawnR" type="TextureRect" parent="HBoxRespawn"]
+layout_mode = 2
+texture = ExtResource("8_dpdxr")
+script = ExtResource("6_b2iue")
+k = 82
+
+[node name="LabelRespawnJoyPlaceholder" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "RespawnJoyPlaceholder"

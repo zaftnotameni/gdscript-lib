@@ -23,12 +23,11 @@ signal sig_upload_completed()
 @export var session_token = ''
 @export var auth_on_ready := false
 
-var auth_http = HTTPRequest.new()
-var leaderboard_http = HTTPRequest.new()
-var submit_score_http = HTTPRequest.new()
-
-var set_name_http = HTTPRequest.new()
-var get_name_http = HTTPRequest.new()
+var auth_http : HTTPRequest
+var leaderboard_http : HTTPRequest
+var submit_score_http : HTTPRequest
+var set_name_http : HTTPRequest
+var get_name_http : HTTPRequest
 
 const LL_DATA_FILE := 'user://lootlocker_data_%s.data'
 const LL_USER_FILE := 'user://lootlocker_name_%s.data'
@@ -49,6 +48,13 @@ func _enter_tree() -> void:
   add_to_group(Z_Autoload_Path.LEADERBOARD_GROUP)
 
 func _ready() -> void:
+  if not Z_Autoload_Config.disable_remote_leaderboard:
+    auth_http = HTTPRequest.new()
+    leaderboard_http = HTTPRequest.new()
+    submit_score_http = HTTPRequest.new()
+    set_name_http = HTTPRequest.new()
+    get_name_http = HTTPRequest.new()
+
   fl_name_set = name_file_exists()
   if name_file_exists():
     var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)

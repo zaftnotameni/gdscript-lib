@@ -27,7 +27,9 @@ static var scene_menu_defeat: PackedScene
 static var scene_menu_defeat_background: PackedScene
 
 static var player_auto_spawns_follow_camera_when_spawns : bool = true
-static var disable_remote_leaderboard : bool = false
+static var disable_remote_leaderboard : bool = true
+
+static var menu_background_color : Color = Color('#311b27')
 
 var physics_layers_by_name := {}
 var physics_layers_by_index := {}

@@ -4,7 +4,7 @@ signal sig_result_found(file_path:String)
 signal sig_results_found(file_paths:Array[String])
 signal sig_partial_results_found(file_paths:Array[String])
 
-enum FT { Shader, Scene, Audio, Material, Script, Particle, TileSet }
+enum FT { Shader, Scene, Audio, Material, Script, Particle, TileSet, Image }
 
 @export var base_path : String = 'res://'
 @export var output_path : String = 'res://zaft/generated'
@@ -26,6 +26,19 @@ func _ready() -> void:
   create_all_for_materials()
   create_all_for_shaders()
   create_all_for_tilesets()
+  create_all_for_images()
+
+func create_all_for_images():
+  var scripts_dir := generated_relative_dir_for(FT.Script)
+  var script_contents := 'class_name Gen_AllImages extends Node\n'
+  for s:String in results[FT.Image]:
+    var file_name : String = s.split('/')[-1]
+    var scene_name : String = file_name.to_snake_case().replace('-', '_').to_upper().split('.')[0]
+    script_contents += 'const IMAGE_%s : Texture2D = preload("%s")\n' % [scene_name, s]
+
+  var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-images.gd', FileAccess.WRITE)
+  f.store_string(script_contents)
+  f.close()
 
 func create_all_for_tilesets():
   var scripts_dir := generated_relative_dir_for(FT.Script)
@@ -116,6 +129,9 @@ static func is_file_ext(file_path:String,extensions:=[]) -> bool:
   for ext:String in extensions: if file_path.ends_with(ext): return true
   return false
 
+static func is_image_file(file_path:String) -> bool:
+  return is_file_ext(file_path, ['.png', '.svg'])
+
 static func is_particle_file(_file_path:String) -> bool:
   return false
 
@@ -156,6 +172,7 @@ static func generated_relative_folder_name_for(ft:FT) -> String:
     FT.Script: return 'scripts'
     FT.Particle: return 'particles'
     FT.TileSet: return 'tilesets'
+    FT.Image: return 'images'
   return 'other'
 
 static func matcher_for_file_type(ft:FT) -> Callable:
@@ -166,6 +183,7 @@ static func matcher_for_file_type(ft:FT) -> Callable:
     FT.Scene: return is_scene_file
     FT.Audio: return is_audio_file
     FT.TileSet: return is_tileset_file
+    FT.Image: return is_image_file
   return is_not_interesting_file
 
 func find_files_recursive(path:String,the_results:={},depth:int=0):
