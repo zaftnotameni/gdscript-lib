@@ -41,11 +41,12 @@ func phys_proc_no_trans(delta:float):
 
   character.move_and_slide()
 
-  if Z_PlayerInput.is_jump_pressed():
-    machine.transition('jump', STATE.Jumping)
-
 func _physics_process(delta: float) -> void:
   phys_proc_no_trans(delta)
 
+  if Z_PlayerInput.is_jump_just_pressed():
+    machine.transition('jump', STATE.Jumping)
+    return
   if not character.is_on_floor():
     machine.transition('coyoted', STATE.Coyoteing)
+    return

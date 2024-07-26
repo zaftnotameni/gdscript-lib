@@ -22,6 +22,8 @@ enum FACING { Right, Left }
 ## in pixels/sec
 @export var max_speed_from_input : int = G_Settings.player_width * 10
 ## in pixels/sec
+@export var max_speed_from_gravity : int = G_Settings.screen_height * 2
+## in pixels/sec
 @export var initial_speed_from_input : int = G_Settings.player_width * 5
 ## in pixels/sec
 @export var dash_initial_speed : int = max_speed_from_input * 4

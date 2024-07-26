@@ -1,5 +1,6 @@
 class_name Z_TitleScreen_Menu extends VBoxContainer
 
+@export var scene_leaderboard : PackedScene
 @export var scene_test : PackedScene
 @export var scene_continue : PackedScene
 @export var scene_load : PackedScene
@@ -7,6 +8,7 @@ class_name Z_TitleScreen_Menu extends VBoxContainer
 @export var scene_options : PackedScene
 @export var scene_about : PackedScene
 
+@export var hide_leaderboard : bool
 @export var hide_test : bool
 @export var hide_continue : bool
 @export var hide_load : bool
@@ -15,6 +17,7 @@ class_name Z_TitleScreen_Menu extends VBoxContainer
 @export var hide_about : bool
 @export var hide_exit : bool
 
+@onready var btn_leaderboard := Z_TitleScreen_Button.new()
 @onready var btn_test := Z_TitleScreen_Button.new()
 @onready var btn_continue := Z_TitleScreen_Button.new()
 @onready var btn_load := Z_TitleScreen_Button.new()
@@ -28,6 +31,7 @@ class_name Z_TitleScreen_Menu extends VBoxContainer
   btn_continue,
   btn_load,
   btn_start,
+  btn_leaderboard,
   btn_options,
   btn_about,
   btn_exit,
@@ -48,6 +52,7 @@ func _ready() -> void:
   btn_continue.name = "Continue"
   btn_load.name = "Load"
   btn_start.name = "Start"
+  btn_leaderboard.name = "Leaderboard"
   btn_options.name = "Options"
   btn_about.name = "About"
   btn_exit.name = "Exit"

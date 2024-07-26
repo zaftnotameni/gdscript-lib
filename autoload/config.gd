@@ -27,6 +27,7 @@ static var scene_menu_defeat: PackedScene
 static var scene_menu_defeat_background: PackedScene
 
 static var player_auto_spawns_follow_camera_when_spawns : bool = true
+static var disable_remote_leaderboard : bool = false
 
 var physics_layers_by_name := {}
 var physics_layers_by_index := {}

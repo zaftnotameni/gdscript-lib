@@ -9,7 +9,12 @@ func _physics_process(delta: float) -> void:
   phys_proc_no_trans(delta)
 
   elapsed += delta
+  if Z_PlayerInput.is_jump_just_pressed():
+    machine.transition('jump', STATE.Jumping)
+    return
   if character.is_on_floor():
     machine.transition('uncoyoted', STATE.Grounded)
-  elif elapsed > character.stats.coyote_duration:
+    return
+  if elapsed > character.stats.coyote_duration:
     machine.transition('fellout', STATE.Airborne)
+    return

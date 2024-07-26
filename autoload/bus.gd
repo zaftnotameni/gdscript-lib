@@ -16,6 +16,7 @@ signal sig_audio_bgm_volume_changed(volume:int,ui:Label)
 signal sig_audio_sfx_volume_changed(volume:int,ui:Label)
 signal sig_audio_ui_volume_changed(volume:int,ui:Label)
 
+signal sig_title_leaderboard_pressed()
 signal sig_title_continue_pressed()
 signal sig_title_start_pressed()
 signal sig_title_load_pressed()
