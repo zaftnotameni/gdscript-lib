@@ -8,6 +8,15 @@ static func setter(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
   if s: s.emit(v,val)
   return true
 
+static func setter_float_relative(o:Object,k:StringName,delta:Variant,s:Signal) -> bool:
+  if not o: return false
+  var old_val = o.get(k)
+  if is_zero_approx(delta): return false
+  var new_val = old_val + delta
+  o.set(k, new_val) 
+  if s: s.emit(new_val,old_val)
+  return true
+
 static func setter_float(o:Object,k:StringName,v:Variant,s:Signal) -> bool:
   if not o: return false
   var val = o.get(k)
@@ -100,7 +109,7 @@ static func node_turn_on(_b:Node):
   _b.process_mode = Node.PROCESS_MODE_INHERIT
   _b.show()
 
-static func node_is_there(_node:Node) -> bool:
+static func node_is_there(_node) -> bool:
   return _node and is_instance_valid(_node) and not _node.is_queued_for_deletion()
 
 static func node_safe_qfree(_node:Node):

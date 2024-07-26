@@ -17,14 +17,16 @@ var kinematic_player : CharacterBody2D :
 
 func register_player(v:Node2D) -> Node2D:
   if player == v: return
-  sig_player_set.emit(v, player)
+  var old_value = player
   player = v
+  sig_player_set.emit(player, old_value)
   return v
 
 func register_camera(v:Camera2D) -> Camera2D:
   if camera == v: return
-  sig_camera_set.emit(v, camera)
+  var old_value = camera
   camera = v
+  sig_camera_set.emit(camera, old_value)
   return v
 
 func register_level(v:Node2D) -> Node2D:

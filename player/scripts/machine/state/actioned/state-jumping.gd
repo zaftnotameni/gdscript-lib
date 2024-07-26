@@ -1,6 +1,7 @@
 class_name Z_PlayerStateJumping extends Z_PlayerStateActioned
 
 @onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
+@onready var player : Z_PlayerCharacter = owner
 
 var jump_cancelled : bool = false
 
@@ -9,7 +10,8 @@ func _unhandled_input(event: InputEvent) -> void:
     jump_cancelled = true
 
 func on_dash():
-  machine.transition('dash-air', STATE.Dashing)
+  if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_air):
+    machine.transition('dash-air', STATE.Dashing)
 
 func on_state_enter(_x=null):
   character.velocity.y = -character.stats.jump_velocity

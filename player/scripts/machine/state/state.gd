@@ -1,5 +1,6 @@
 class_name Z_PlayerStateMachineState extends Z_StateMachineState
 
+@export var blocks_facing_changes : bool
 @export var character : Z_PlayerCharacter
 @export var machine : Z_PlayerStateMachine
 @export var stats : Z_PlayerStats

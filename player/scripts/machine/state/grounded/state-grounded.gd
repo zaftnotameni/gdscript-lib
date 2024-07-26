@@ -1,6 +1,7 @@
 class_name Z_PlayerStateGrounded extends Z_PlayerStateMachineState
 
 @onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
+@onready var player : Z_PlayerCharacter = owner
 
 func _unhandled_input(event: InputEvent) -> void:
   if Z_PlayerInput.event_is_dash_just_pressed(event):
@@ -10,7 +11,8 @@ func on_state_enter(_prev:Z_StateMachineState):
   pass
 
 func on_dash():
-  machine.transition('dash-gnd', STATE.Dashing)
+  if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_gnd):
+    machine.transition('dash-gnd', STATE.Dashing)
 
 func initial_speed_from_input(input_x:float) -> float: return input_x * character.stats.initial_speed_from_input
 func is_same_direction_as_input(input_x:float) -> bool: return sign(input_x) == sign(character.velocity.x)

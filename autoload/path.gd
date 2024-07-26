@@ -25,6 +25,9 @@ static func first_node(g:StringName=&"Group Name") -> Node:
   assert(node, "must have at least one element in group %s" % g)
   return node
 
+static func group_main_camera_maybe_first_node(g:=MAIN_CAMERA_GROUP) -> Camera2D:
+  return Z_Autoload_Util.scene_tree().get_first_node_in_group(g)
+
 static func group_main_camera_only_node(g:=MAIN_CAMERA_GROUP) -> Camera2D:
   return group_only_node(g)
 

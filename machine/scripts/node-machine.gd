@@ -50,6 +50,9 @@ func next_curr_prev(next:Z_StateMachineState):
   state_prev = state_curr
   state_curr = next
 
+func is_state_by_index(_state_index:int=0) -> bool:
+  return get_child(_state_index) == state_curr
+
 func state_by_index(_state_index:int=0) -> Z_StateMachineState:
   return get_child(_state_index)
 
@@ -63,18 +66,22 @@ func _ready() -> void:
 
 func enable_processing(n:Node=self):
   if not n: return
+  n.process_mode = Node.PROCESS_MODE_INHERIT
   n.set_physics_process(machine_mode == MACHINE_MODE.Physics)
   n.set_process(machine_mode == MACHINE_MODE.Normal)
   n.set_process_input(true)
   n.set_process_shortcut_input(true)
   n.set_process_unhandled_input(true)
   n.set_process_unhandled_key_input(true)
+  # print_verbose('enabled processing: ', n)
 
 func disable_processing(n:Node=self):
   if not n: return
+  n.process_mode = Node.PROCESS_MODE_DISABLED
   n.set_physics_process(false)
   n.set_process(false)
   n.set_process_input(false)
   n.set_process_shortcut_input(false)
   n.set_process_unhandled_input(false)
   n.set_process_unhandled_key_input(false)
+  # print_verbose('disabled processing: ', n)

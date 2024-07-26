@@ -4,6 +4,24 @@ signal sig_facing_changed(player_stats:Z_PlayerStats)
 
 enum FACING { Right, Left }
 
+### Game Specific
+signal sig_heat_changed(new_heat,old_heat)
+signal sig_heat_rejected(heat,delta)
+
+## in % 0 to 100, not 0 to 1
+@export var heat : float = 0.0
+@export var heat_dash_cost_gnd : float = 5.0
+@export var heat_dash_cost_air : float = 10.0
+
+func try_update_heat_relative(heat_delta:float=0.0) -> bool:
+  if heat + heat_delta > 100.0: sig_heat_rejected.emit(heat, heat_delta); return false
+  Z_Autoload_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
+  return true
+
+func update_heat_relative(heat_delta:float=0.0) -> float:
+  Z_Autoload_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
+  return heat
+
 # directions
 @export var facing : FACING
 
@@ -11,7 +29,7 @@ enum FACING { Right, Left }
 @export var jump_height : float = G_Settings.player_height * 2
 
 ## in secs
-@export var dash_duration : float = 0.1
+@export var dash_duration : float = 0.2
 ## in secs
 @export var coyote_duration : float = 0.1
 ## in secs
@@ -26,7 +44,7 @@ enum FACING { Right, Left }
 ## in pixels/sec
 @export var initial_speed_from_input : int = G_Settings.player_width * 5
 ## in pixels/sec
-@export var dash_initial_speed : int = max_speed_from_input * 2
+@export var dash_initial_speed : int = max_speed_from_input * 3
 
 ## in pixels/sec/sec
 @export var acceleration_from_input : int = max_speed_from_input * 2
@@ -53,6 +71,8 @@ func _enter_tree() -> void:
   run_kinematic_equations()
 
 func compute_facing() -> void:
+  if player.machine.state_curr.blocks_facing_changes: return
+  if player.machine.is_state_by_index(Z_PlayerStateMachineState.STATE.Dashing): return
   if is_player_pressing_left_or_right():
     update_facing(FACING.Right if input_x > 0 else FACING.Left)
   elif not is_zero_approx(vel_x):

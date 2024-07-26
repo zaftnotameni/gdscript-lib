@@ -1,12 +1,14 @@
 class_name Z_PlayerStateAirborne extends Z_PlayerStateMachineState
 
 @onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
+@onready var player : Z_PlayerCharacter = owner
 
 func _unhandled_input(_event: InputEvent) -> void:
   pass
 
 func on_dash():
-  machine.transition('dash-air', STATE.Dashing)
+  if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_air):
+    machine.transition('dash-air', STATE.Dashing)
 
 func on_state_enter(_x=null):
   pass

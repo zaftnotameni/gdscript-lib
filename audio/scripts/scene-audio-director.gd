@@ -88,11 +88,15 @@ func play_pitched_2d(player: AudioStreamPlayer2D, pitch_scale: float = 1.0, only
   player.pitch_scale = pitch_scale
   player.play()
 
-func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false):
+func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
   if OS.has_feature('web'):
     player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_SAMPLE
+    if not player.tree_exiting.is_connected(player.stop):
+      player.tree_exiting.connect(player.stop, CONNECT_ONE_SHOT)
   if only_if_not_playing:
     if player.playing: return
+  if loop:
+    player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
   player.pitch_scale = pitch_scale
   player.play()
 

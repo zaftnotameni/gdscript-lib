@@ -6,7 +6,6 @@ var elapsed : float = 0.0
 
 func on_state_exit(_prev:Z_StateMachineState):
   elapsed = 0.0
-  pass
 
 func on_state_enter(_prev:Z_StateMachineState):
   elapsed = 0.0

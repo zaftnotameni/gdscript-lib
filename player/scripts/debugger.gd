@@ -4,6 +4,7 @@ class_name Z_PlayerDebugger extends Node2D
 @export var debug_velocity : bool = false
 @export var debug_max_velocity : bool = false
 @export var debug_machine: bool = false
+@export var debug_on_web: bool = false
 
 @onready var player : Z_PlayerCharacter = owner
 
@@ -31,8 +32,10 @@ func _exit_tree() -> void:
     lbl_machine.queue_free()
     lbl_machine = null
 
+func should_debug() -> bool: return debug_on_web or not OS.has_feature('web')
+
 func _ready() -> void:
-  if debug_machine:
+  if debug_machine and should_debug():
     Z_Autoload_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
     resolve_machine().sig_state_did_transition.connect(on_machine_state_change)
 

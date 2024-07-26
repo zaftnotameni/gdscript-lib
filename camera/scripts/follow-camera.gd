@@ -27,9 +27,10 @@ func update_parallax(c:Camera2D):
 
 func do_process(delta:float):
   shake.do_process(delta)
-  if target_node:
+  if Z_Autoload_Util.node_is_there(target_node):
     follow_target(self, target_node.global_position, follow_slerpiness, delta)
   else:
+    target_node = null
     follow_target(self, home_position, home_slerpiness, delta)
 
 func _ready() -> void:
@@ -49,9 +50,11 @@ func on_player_global_changed(p:Node2D,_prev=null):
   target_node = p
 
 func _enter_tree() -> void:
+  print_verbose('follow camera enter tree')
   add_to_group(__zaft.path.MAIN_CAMERA_GROUP)
   __zaft.global.register_camera(self)
 
 func _exit_tree() -> void:
+  print_verbose('follow camera exit tree')
   if __zaft.global.camera == self:
     __zaft.global.register_camera(null)
