@@ -8,17 +8,28 @@ var jump_cancelled : bool = false
 func _unhandled_input(event: InputEvent) -> void:
   if Z_PlayerInput.event_is_jump_released(event):
     jump_cancelled = true
+  if Z_PlayerInput.event_is_dash_just_pressed(event):
+    on_dash()
 
 func on_dash():
   if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_air):
     machine.transition('dash-air', STATE.Dashing)
 
+var t : Tween
+
 func on_state_enter(_x=null):
   character.velocity.y = -character.stats.jump_velocity
   character.move_and_slide()
   jump_cancelled = false
+  t = Z_Autoload_Util.tween_fresh_eased_in_out_cubic(t)
+  var sprite : Sprite2D = player.viz.get_node('Sprite2D')
+  t.tween_property(sprite, 'scale:x', 0.8, 0.2)
+  t.parallel().tween_property(sprite, 'scale:y', 1.2, 0.2)
+  t.tween_property(sprite, 'scale:x', 1.0, 0.1)
+  t.parallel().tween_property(sprite, 'scale:y', 1.0, 0.1)
 
 func on_state_exit(_x=null):
+  if t and t.is_running(): t.kill(); t = null
   jump_cancelled = false
 
 func going_up() -> bool: return character.velocity.y < 0

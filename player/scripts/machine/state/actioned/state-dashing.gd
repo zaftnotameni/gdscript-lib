@@ -5,9 +5,13 @@ class_name Z_PlayerStateDashing extends Z_PlayerStateActioned
 var elapsed : float = 0.0
 
 func on_state_exit(_prev:Z_StateMachineState):
+  character.viz.skew = 0
   elapsed = 0.0
 
 func on_state_enter(_prev:Z_StateMachineState):
+  match character.stats.facing:
+    Z_PlayerStats.FACING.Right: character.viz.skew = deg_to_rad(-10)
+    Z_PlayerStats.FACING.Left: character.viz.skew = deg_to_rad(10)
   elapsed = 0.0
   __zaft.bus.sig_camera_trauma_request.emit(0.2)
 
@@ -20,6 +24,9 @@ func _physics_process(delta: float) -> void:
   character.move_and_slide()
 
   elapsed += delta
+  if Z_PlayerInput.is_jump_just_pressed():
+    machine.transition('jump', STATE.Jumping)
+    return
   if elapsed > character.stats.dash_duration:
     if character.is_on_floor():
       machine.transition('dash-end-gnd', STATE.Grounded)

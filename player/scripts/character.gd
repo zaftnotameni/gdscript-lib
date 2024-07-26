@@ -32,6 +32,8 @@ func _ready() -> void:
     camera = Z_Autoload_Path.group_main_camera_maybe_first_node()
     camera = camera if Z_Autoload_Util.node_is_there(camera) else Z_FollowCamera.new()
     camera.target_node = self
+    camera.zoom = Vector2(2,2)
+
     if not camera.is_inside_tree():
       __zaft.layer.player.add_child.call_deferred(camera)
   machine.start.call_deferred()

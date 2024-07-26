@@ -10,6 +10,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func on_state_enter(_prev:Z_StateMachineState):
   pass
 
+func on_state_exit(_next:Z_StateMachineState):
+  character.viz.skew = 0
+
 func on_dash():
   if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_gnd):
     machine.transition('dash-gnd', STATE.Dashing)
@@ -30,7 +33,13 @@ func player_pressing_left_or_right(input_x: float, delta:float):
   else:
     character.velocity.x = initial_speed
 
+  var skewer = min(10.0 * abs(character.velocity.x) / character.stats.max_speed_from_input, 10.0)
+  match character.stats.facing:
+    Z_PlayerStats.FACING.Right: character.viz.skew = deg_to_rad(-skewer)
+    Z_PlayerStats.FACING.Left: character.viz.skew = deg_to_rad(skewer)
+
 func player_not_pressing_left_nor_right(_input_x: float, _delta:float):
+  character.viz.skew = 0
   character.velocity.x = 0.0
 
 func phys_proc_no_trans(delta:float):

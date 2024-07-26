@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dmg887tpn51ot"]
+[gd_scene load_steps=26 format=3 uid="uid://dmg887tpn51ot"]
 
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
@@ -23,8 +23,7 @@
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/stats.gd" id="20_3wh7d"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/windrose.gd" id="21_08xxj"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/debugger.gd" id="23_17pmi"]
-[ext_resource type="Script" path="res://zaft/lib/primitive/scripts/rectangle.gd" id="23_toksl"]
-[ext_resource type="Material" uid="uid://cno2uipk8irse" path="res://zaft/generated/materials/icy_material.tres" id="24_te0lm"]
+[ext_resource type="Texture2D" uid="uid://dau2h3o33uwvl" path="res://zaft/lib/player/images/player-sprite-32x32.png" id="24_tevcc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qavx"]
 radius = 14.0
@@ -137,13 +136,5 @@ debug_machine = true
 
 [node name="V" type="Node2D" parent="."]
 
-[node name="Z_Primitive_Rectangle" type="Node2D" parent="V"]
-material = ExtResource("24_te0lm")
-script = ExtResource("23_toksl")
-use_polygon = true
-
-[node name="DeleteMePlease" type="Polygon2D" parent="V/Z_Primitive_Rectangle"]
-material = ExtResource("24_te0lm")
-use_parent_material = true
-polygon = PackedVector2Array(-16, -16, -16, 16, 16, 16, 16, -16, -16, -16)
-uv = PackedVector2Array(0, 0, 0, 1, 1, 1, 1, 0, 0, 0)
+[node name="Sprite2D" type="Sprite2D" parent="V"]
+texture = ExtResource("24_tevcc")
