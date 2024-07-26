@@ -6,19 +6,20 @@
 [ext_resource type="Script" path="res://zaft/lib/leaderboard/scripts/leaderboard-scene-controller.gd" id="4_4d8ja"]
 [ext_resource type="Script" path="res://zaft/lib/component/scripts/auto-focus.gd" id="4_s60sm"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccvoc"]
-bg_color = Color(0.4, 0.2, 0.6, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bj2g4"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsoej"]
 bg_color = Color(0, 0, 0, 0.301961)
 
 [node name="Leaderboard" type="PanelContainer"]
+process_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ccvoc")
+theme_override_styles/panel = SubResource("StyleBoxFlat_bj2g4")
 script = ExtResource("1_qptxs")
 
 [node name="Game_EdgyMarginContainer" type="MarginContainer" parent="."]

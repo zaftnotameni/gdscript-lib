@@ -42,6 +42,7 @@ func on_button_pressed(btn_name:String,b:Button):
   if ps:
     var s := ps.instantiate()
     s.tree_exited.connect(b.grab_focus, CONNECT_ONE_SHOT)
+    s.process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
     __zaft.layer.menu.add_child(s)
     var t := Z_Autoload_Util.tween_fresh_eased_in_out_cubic()
     t.tween_property(s, ^'position:y', 0, 0.2).from(-1800)

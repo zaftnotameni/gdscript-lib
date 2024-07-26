@@ -31,6 +31,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
   text = "Close"
+  process_mode = ProcessMode.PROCESS_MODE_ALWAYS
   Z_Autoload_Util.control_set_font_size(self, 32)
   if not target: target = find_closeable_parent()
   pressed.connect(close_target)
@@ -38,7 +39,8 @@ func _ready() -> void:
 func close_target():
   if target and not target.is_queued_for_deletion():
     var t := Z_Autoload_Util.tween_fresh_eased_in_out_cubic()
-    t.tween_property(target, ^'position:y', -1800, 0.2).from_current()
+    t.set_pause_mode(Tween.TweenPauseMode.TWEEN_PAUSE_PROCESS)
+    t.tween_property(target, ^'position:y', -1800, 0.2).from(0)
     t.tween_callback(target.queue_free)
 
 func _input(event: InputEvent) -> void:
