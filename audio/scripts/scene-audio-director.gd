@@ -8,10 +8,12 @@ const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
 @onready var streams_sfx : Node = $Streams/SFX
 @onready var streams_ui : Node = $Streams/UI
 
-@onready var test_sound_master : Node = $Streams/Master/Test
-@onready var test_sound_bgm : Node = $Streams/BGM/Test
-@onready var test_sound_sfx : Node = $Streams/SFX/Test
-@onready var test_sound_ui : Node = $Streams/UI/Test
+@onready var test_sound_master : AudioStreamPlayer = $Streams/Master/Test
+@onready var test_sound_bgm : AudioStreamPlayer = $Streams/BGM/Test
+@onready var test_sound_sfx : AudioStreamPlayer = $Streams/SFX/Test
+@onready var test_sound_ui : AudioStreamPlayer = $Streams/UI/Test
+
+@onready var sfx_die : AudioStreamPlayer = $Streams/SFX/Die
 
 const BUS_NAME_MASTER := "Master"
 const BUS_NAME_BGM := "BGM"
@@ -80,21 +82,51 @@ func play_test_sfx():
 func play_test_ui():
   play_pitched(test_sound_ui)
 
-func play_pitched_2d(player: AudioStreamPlayer2D, pitch_scale: float = 1.0, only_if_not_playing:= false):
-  if OS.has_feature('web'):
-    player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_SAMPLE
+func play_pitched_2d(player: AudioStreamPlayer2D, pitch_scale: float = 1.0, only_if_not_playing:= false, loop := false):
   if only_if_not_playing:
     if player.playing: return
-  player.pitch_scale = pitch_scale
-  player.play()
-
-func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
   if OS.has_feature('web'):
     player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_SAMPLE
     if not player.tree_exiting.is_connected(player.stop):
       player.tree_exiting.connect(player.stop, CONNECT_ONE_SHOT)
+  if loop:
+    player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
+  player.pitch_scale = pitch_scale
+  player.play()
+
+func play_pitched_force_stream_2d(player: AudioStreamPlayer2D, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
+  player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_STREAM
   if only_if_not_playing:
     if player.playing: return
+  if loop:
+    player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
+  player.pitch_scale = pitch_scale
+  player.play()
+
+func play_pitched_force_stream(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
+  player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_STREAM
+  if only_if_not_playing:
+    if player.playing: return
+  if loop:
+    player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
+  player.pitch_scale = pitch_scale
+  player.play()
+
+func play_pitched_no_hax(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
+  if only_if_not_playing:
+    if player.playing: return
+  if loop:
+    player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
+  player.pitch_scale = pitch_scale
+  player.play()
+
+func play_pitched(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
+  if only_if_not_playing:
+    if player.playing: return
+  if OS.has_feature('web'):
+    player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_SAMPLE
+    if not player.tree_exiting.is_connected(player.stop):
+      player.tree_exiting.connect(player.stop, CONNECT_ONE_SHOT)
   if loop:
     player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
   player.pitch_scale = pitch_scale

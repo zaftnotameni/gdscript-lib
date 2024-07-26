@@ -116,7 +116,8 @@ func create_materials_for_shaders():
     var f : String = s.split('/')[-1]
     var sm_file_name : String = f.to_snake_case().replace('_', '-').split('.')[0]
     var m_file_name : String = materials_dir.get_current_dir() + '/' + sm_file_name + '_material.tres'
-    ResourceSaver.save(sm, m_file_name)
+    if not ResourceLoader.exists(m_file_name):
+      ResourceSaver.save(sm, m_file_name)
     if not results.has(FT.Material):
       results[FT.Material] = []
     if not results[FT.Material].has(m_file_name):

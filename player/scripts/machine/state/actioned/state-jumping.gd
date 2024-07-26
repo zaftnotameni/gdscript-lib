@@ -18,6 +18,7 @@ func on_dash():
 var t : Tween
 
 func on_state_enter(_x=null):
+  __zaft.audio.director.play_pitched_2d(sfx_jump, 1, true, false)
   character.velocity.y = -character.stats.jump_velocity
   character.move_and_slide()
   jump_cancelled = false
@@ -75,4 +76,5 @@ func _physics_process(delta: float) -> void:
   phys_proc_no_trans(delta)
 
   if character.is_on_floor():
+    __zaft.audio.director.play_pitched_2d(sfx_land, 1, true, false)
     machine.transition('landed', STATE.Grounded)

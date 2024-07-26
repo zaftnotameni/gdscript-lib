@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dmg887tpn51ot"]
+[gd_scene load_steps=33 format=3 uid="uid://dmg887tpn51ot"]
 
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
@@ -23,14 +23,30 @@
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/stats.gd" id="20_3wh7d"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/windrose.gd" id="21_08xxj"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/debugger.gd" id="23_17pmi"]
+[ext_resource type="Material" uid="uid://ees451sxquq" path="res://zaft/generated/materials/outline_material.tres" id="24_oky8o"]
 [ext_resource type="Texture2D" uid="uid://dau2h3o33uwvl" path="res://zaft/lib/player/images/player-sprite-32x32.png" id="24_tevcc"]
+[ext_resource type="AudioStream" uid="uid://iqdoic6ccyj5" path="res://zaft/lib/player/audio/land.mp3" id="26_e8w6a"]
+[ext_resource type="AudioStream" uid="uid://0s60rxdnldjw" path="res://zaft/lib/player/audio/jump.mp3" id="27_hyy0b"]
+[ext_resource type="AudioStream" uid="uid://bsd7qfapubscp" path="res://zaft/lib/player/audio/dash.wav" id="28_om2n4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qavx"]
 radius = 14.0
 height = 32.0
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_b487k"]
+polygon = PackedVector2Array(-16, -16, -16, 16, 16, 16, 16, -16)
+
+[sub_resource type="Gradient" id="Gradient_ryd02"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kktvy"]
+gradient = SubResource("Gradient_ryd02")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [node name="PlatformerPlayer2D" type="CharacterBody2D"]
-collision_layer = 0
+collision_layer = 128
 collision_mask = 524288
 script = ExtResource("1_j258b")
 
@@ -137,4 +153,34 @@ debug_machine = true
 [node name="V" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="V"]
+material = ExtResource("24_oky8o")
 texture = ExtResource("24_tevcc")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="V"]
+occluder = SubResource("OccluderPolygon2D_b487k")
+
+[node name="PointLight2D" type="PointLight2D" parent="V"]
+energy = 0.4
+range_layer_min = -20
+range_layer_max = 5
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_kktvy")
+texture_scale = 2.0
+
+[node name="S" type="Node2D" parent="."]
+
+[node name="SfxLand" type="AudioStreamPlayer2D" parent="S"]
+unique_name_in_owner = true
+stream = ExtResource("26_e8w6a")
+bus = &"SFX"
+
+[node name="SfxJump" type="AudioStreamPlayer2D" parent="S"]
+unique_name_in_owner = true
+stream = ExtResource("27_hyy0b")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="SfxDash" type="AudioStreamPlayer2D" parent="S"]
+unique_name_in_owner = true
+stream = ExtResource("28_om2n4")
+bus = &"SFX"

@@ -5,6 +5,12 @@ class_name Z_PlayerStateMachineState extends Z_StateMachineState
 @export var machine : Z_PlayerStateMachine
 @export var stats : Z_PlayerStats
 
+@onready var sfx_land : AudioStreamPlayer2D = %SfxLand
+@onready var sfx_jump : AudioStreamPlayer2D = %SfxJump
+@onready var sfx_dash : AudioStreamPlayer2D = %SfxDash
+@onready var sfx_step : AudioStreamPlayer2D = %SfxLand
+@onready var sfx_overheat : AudioStreamPlayer2D = %SfxLand
+
 func on_state_enter(_prev:Z_StateMachineState): pass
 func on_state_exit(_next:Z_StateMachineState): pass
 
