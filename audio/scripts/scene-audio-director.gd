@@ -14,6 +14,7 @@ const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
 @onready var test_sound_ui : AudioStreamPlayer = $Streams/UI/Test
 
 @onready var sfx_die : AudioStreamPlayer = $Streams/SFX/Die
+@onready var sfx_respawn_active : AudioStreamPlayer = $Streams/SFX/RespawnActive
 
 const BUS_NAME_MASTER := "Master"
 const BUS_NAME_BGM := "BGM"

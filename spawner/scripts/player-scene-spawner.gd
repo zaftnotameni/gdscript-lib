@@ -44,6 +44,7 @@ func get_respawn_action():
 func _unhandled_input(event: InputEvent) -> void:
   if not spawn_action_name: return
   if event.is_action_pressed(spawn_action_name):
+    __zaft.audio.director.play_pitched(__zaft.audio.director.sfx_respawn_active, 1, true, false)
     spawn()
 
 const RESPAWN_ACTIONS := [

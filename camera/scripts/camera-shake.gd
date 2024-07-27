@@ -15,9 +15,11 @@ class_name Z_CameraShake extends Node
 ## Trauma exponent. Use [2, 3].
 @export var trauma_power : float = 2
 
+@export var auto_physics_process : bool = false
+
 @export var noise_y : float = 0.0
 
-@onready var camera : Camera2D = __zaft.global.camera
+var camera : Camera2D
 @onready var noise : FastNoiseLite = FastNoiseLite.new()
 
 func on_trauma_requested(t:float, m:float=1.0):
@@ -47,7 +49,15 @@ func connect_signals():
   __zaft.bus.sig_camera_trauma_relief.connect(on_trauma_relieved)
   __zaft.bus.sig_camera_trauma_clear.connect(on_trauma_cleared)
 
+func with_auto_physics_process(val:=false) -> Z_CameraShake:
+  auto_physics_process = val
+  return self
+
 func _ready() -> void:
+  set_physics_process(auto_physics_process)
+  if not camera:
+    var parent := get_parent() as Camera2D
+    camera = parent if parent else __zaft.global.camera
   init_noise()
   connect_signals()
 
@@ -56,6 +66,8 @@ func init_noise():
   noise.frequency = 0.25
   noise.fractal_octaves = 2
   noise_y = 0.0
+
+func _physics_process(delta: float) -> void: do_process(delta)
 
 func do_process(delta:float):
   if constant_trauma and not is_zero_approx(constant_trauma) and constant_trauma > 0:

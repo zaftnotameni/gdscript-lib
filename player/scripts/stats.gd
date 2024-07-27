@@ -15,20 +15,25 @@ signal sig_overheat()
 @export var heat_dash_cost_air : float = 10.0
 @export var heat_per_second_from_sun : float = 1.0
 @export var heat_per_second_from_candle : float = 5.0
+@export var heat_per_second_from_shade : float = 0.5
+@export var heat_per_second_from_fridge : float = 5.0
 
 func try_update_heat_relative(heat_delta:float=0.0) -> bool:
   if heat + heat_delta > 100.0: sig_heat_rejected.emit(heat, heat_delta); return false
   Z_Autoload_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
+  if heat <= 0: heat = 0
   return true
 
 func update_heat(new_heat:float=0.0) -> float:
   Z_Autoload_Util.setter_float(self, &'heat', new_heat, sig_heat_changed)
   if heat >= 100: sig_overheat.emit()
+  if heat <= 0: heat = 0
   return heat
 
 func update_heat_relative(heat_delta:float=0.0) -> float:
   Z_Autoload_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
   if heat >= 100: sig_overheat.emit()
+  if heat <= 0: heat = 0
   return heat
 
 # directions

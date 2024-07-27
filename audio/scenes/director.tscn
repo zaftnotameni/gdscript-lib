@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ceedsxl72brk8"]
+[gd_scene load_steps=7 format=3 uid="uid://ceedsxl72brk8"]
 
 [ext_resource type="Script" path="res://zaft/lib/audio/scripts/scene-audio-director.gd" id="1_pnv2a"]
 [ext_resource type="AudioStream" uid="uid://b05ntruyqb77" path="res://zaft/lib/asset/audio/ui/tick_002.ogg" id="2_1tauf"]
 [ext_resource type="AudioStream" uid="uid://dl21br2ubi7od" path="res://zaft/lib/asset/audio/ui/tick_001.ogg" id="2_mrk8h"]
 [ext_resource type="AudioStream" uid="uid://2lsoua2r8hew" path="res://zaft/lib/player/audio/die.mp3" id="3_ax2dm"]
 [ext_resource type="AudioStream" uid="uid://cqw7yum3gu142" path="res://zaft/lib/asset/audio/ui/toggle_001.ogg" id="3_qx1n5"]
+[ext_resource type="AudioStream" uid="uid://dsrxu8rymbv0y" path="res://zaft/lib/spawner/audio/respawn.wav" id="4_4stvi"]
 
 [node name="AudioDirector" type="Node"]
 script = ExtResource("1_pnv2a")
@@ -28,6 +29,10 @@ stream = ExtResource("2_mrk8h")
 
 [node name="Die" type="AudioStreamPlayer" parent="Streams/SFX"]
 stream = ExtResource("3_ax2dm")
+bus = &"SFX"
+
+[node name="RespawnActive" type="AudioStreamPlayer" parent="Streams/SFX"]
+stream = ExtResource("4_4stvi")
 bus = &"SFX"
 
 [node name="UI" type="Node" parent="Streams"]
