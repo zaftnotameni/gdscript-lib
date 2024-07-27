@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://be2m35n7074ii"]
+
+[ext_resource type="Script" path="res://zaft/game/menu/scripts/edgy-margin-container.gd" id="1_t58ou"]
+[ext_resource type="Script" path="res://zaft/lib/leaderboard/scripts/timer-ui-scene-controller.gd" id="2_gx7ox"]
+[ext_resource type="Script" path="res://zaft/lib/leaderboard/scripts/timer-label.gd" id="2_xefti"]
+
+[node name="TimerUI" type="PanelContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -294.0
+offset_bottom = 106.0
+grow_horizontal = 0
+
+[node name="Game_EdgyMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+script = ExtResource("1_t58ou")
+
+[node name="LabelTimeElapsed" type="Label" parent="Game_EdgyMarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "--:--:--.---"
+script = ExtResource("2_xefti")
+
+[node name="Z_TimerUISceneController" type="Node" parent="."]
+script = ExtResource("2_gx7ox")

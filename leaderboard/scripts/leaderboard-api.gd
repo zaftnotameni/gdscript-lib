@@ -45,7 +45,12 @@ var leaderboard_user = {}
 var leaderboard_auth = {}
 
 func _enter_tree() -> void:
+  name = 'LeaderboardAPI'
   add_to_group(Z_Autoload_Path.LEADERBOARD_GROUP)
+
+func auths_on_ready(yes_or_no:=false) -> Z_LeaderboardApi:
+  auth_on_ready = yes_or_no
+  return self
 
 func _ready() -> void:
   if not Z_Autoload_Config.disable_remote_leaderboard:

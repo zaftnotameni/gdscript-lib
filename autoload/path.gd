@@ -1,10 +1,12 @@
 class_name Z_Autoload_Path extends Node
 
+const PLAYER_SCENE_SPAWNER_GROUP := &'player-scene-spawner'
 const PLAYER_CHARACTER_STATE_MACHINE_GROUP := &'player-character-state-machine'
 const PLAYER_CHARACTER_GROUP := &'player-character'
 const MAIN_CAMERA_GROUP := &'main-camera'
 const STOPWATCH_GROUP := &'stopwatch'
 const LEADERBOARD_GROUP := &'leaderboard'
+const LOCAL_TIMES_GROUP := &'local-times'
 const MAIN_CAMERA_PARALLAX_GROUP := &'main-camera-parallax'
 const MENU_PAUSE := &'menu-pause'
 
@@ -41,6 +43,12 @@ static func group_stopwatch_only_node(g:=STOPWATCH_GROUP) -> Z_Stopwatch:
   return group_only_node(g)
 
 static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Z_LeaderboardApi:
+  return group_only_node(g)
+
+static func group_local_times_only_node(g:=LOCAL_TIMES_GROUP) -> Z_LocalTimes:
+  return group_only_node(g)
+
+static func group_player_scene_spawner_only_node(g:=PLAYER_SCENE_SPAWNER_GROUP) -> Z_PlayerSceneSpawner:
   return group_only_node(g)
 
 static func await_for_ready(n:Node) -> Node:

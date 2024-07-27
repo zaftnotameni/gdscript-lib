@@ -1,4 +1,4 @@
-class_name Z_SceneSpawner extends Node2D
+class_name Z_PlayerSceneSpawner extends Node2D
 
 @export_category('when')
 @export var spawn_action_name : StringName
@@ -12,6 +12,9 @@ class_name Z_SceneSpawner extends Node2D
 @export var layer : Z_Autoload_Layers.LAYERS
 @export var container : Node2D
 @export var spawned : Node2D
+
+func _enter_tree() -> void:
+  add_to_group(Z_Autoload_Path.PLAYER_SCENE_SPAWNER_GROUP)
 
 func spawn():
   assert(scene, 'missing scene at %s' % get_path())

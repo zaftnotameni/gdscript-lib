@@ -160,7 +160,7 @@ texture = ExtResource("24_tevcc")
 occluder = SubResource("OccluderPolygon2D_b487k")
 
 [node name="PointLight2D" type="PointLight2D" parent="V"]
-energy = 0.4
+energy = 0.3
 range_layer_min = -20
 range_layer_max = 5
 shadow_enabled = true

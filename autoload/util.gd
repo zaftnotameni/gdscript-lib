@@ -90,6 +90,9 @@ static func control_set_bottom_right_min_size(con:Control):
 static func control_set_top_left_min_size(con:Control):
   con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_TOP_LEFT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
 
+static func control_set_top_right_min_size(con:Control):
+  con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_TOP_RIGHT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
+
 static func control_set_color(con:Control,col:Color=Color.HOT_PINK):
   con.add_theme_color_override("font_color",col)
 
@@ -177,6 +180,7 @@ static func children_make_all_visible(_node:Node):
       child.visible = true
 
 static func string_format_time(time_seconds: float) -> String:
+  if time_seconds <= 0: return '--:--:--.---'
   var total_seconds = int(time_seconds)
   var milliseconds = int((time_seconds - total_seconds) * 1000)
   
