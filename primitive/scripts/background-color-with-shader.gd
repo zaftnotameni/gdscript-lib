@@ -3,6 +3,10 @@ class_name Z_Primitive_BackgroundColorWithRect extends ColorRect
 @export var layer : Z_Autoload_Layers.LAYERS = Z_Autoload_Layers.LAYERS.background
 @export var auto_parallax : Vector2
 
+func hidden(is_hidden:=false) -> Z_Primitive_BackgroundColorWithRect:
+  visible = not is_hidden
+  return self
+
 func at_layer(target:=Z_Autoload_Layers.LAYERS.background) -> Z_Primitive_BackgroundColorWithRect:
   layer = target
   return self

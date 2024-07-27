@@ -101,7 +101,7 @@ func create_all_for_scenes():
   for s:String in results[FT.Scene]:
     var file_name : String = s.split('/')[-1]
     var scene_name : String = file_name.to_pascal_case().replace('-', '_').to_upper().split('.')[0]
-    script_contents += 'const SCENE_%s : PackedScene = preload("%s")\n' % [scene_name, s]
+    script_contents += 'static var SCENE_%s : PackedScene = load("%s")\n' % [scene_name, s]
 
   var f := FileAccess.open(scripts_dir.get_current_dir() + '/all-scenes.gd', FileAccess.WRITE)
   f.store_string(script_contents)
