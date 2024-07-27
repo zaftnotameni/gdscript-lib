@@ -1,16 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://cc4pdlhbeovpo"]
+[gd_scene load_steps=19 format=3 uid="uid://cc4pdlhbeovpo"]
 
 [ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-scene-controller.gd" id="1_g7nkt"]
 [ext_resource type="Script" path="res://zaft/lib/child-labor/scripts/tooler.gd" id="2_i81nj"]
-[ext_resource type="PackedScene" uid="uid://dqdvxpa0wjgjc" path="res://zaft/lib/input/scenes/controls-wasd.tscn" id="3_j64du"]
-[ext_resource type="PackedScene" uid="uid://dnjew2ijgxc3f" path="res://zaft/lib/input/scenes/controls-arrows.tscn" id="4_5mwli"]
-[ext_resource type="Texture2D" uid="uid://bjtcekr3g15t2" path="res://zaft/lib/input/images/keyboard_space_outline.png" id="5_cnaqa"]
-[ext_resource type="Script" path="res://zaft/lib/input/scripts/input-icon-control.gd" id="6_b2iue"]
-[ext_resource type="Texture2D" uid="uid://d1u83spjuqa64" path="res://zaft/lib/input/images/keyboard_shift_outline.png" id="7_l00el"]
-[ext_resource type="Texture2D" uid="uid://grr51a1bx61t" path="res://zaft/lib/input/images/keyboard_r_outline.png" id="8_dpdxr"]
+[ext_resource type="PackedScene" uid="uid://dqdvxpa0wjgjc" path="res://zaft/lib/input/scenes/controls-wasd.tscn" id="3_8qq87"]
+[ext_resource type="PackedScene" uid="uid://dnjew2ijgxc3f" path="res://zaft/lib/input/scenes/controls-arrows.tscn" id="4_2om1u"]
+[ext_resource type="Texture2D" uid="uid://bjtcekr3g15t2" path="res://zaft/lib/input/images/keyboard_space_outline.png" id="5_ik7qe"]
+[ext_resource type="Texture2D" uid="uid://mfrmc3m635mc" path="res://zaft/lib/input/images/xbox_dpad_vertical_outline.png" id="5_nljp8"]
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/input-icon-control.gd" id="6_f5wbk"]
+[ext_resource type="Texture2D" uid="uid://d1u83spjuqa64" path="res://zaft/lib/input/images/keyboard_shift_outline.png" id="7_8on8e"]
+[ext_resource type="Texture2D" uid="uid://dftjsdu3ukvdx" path="res://zaft/lib/input/images/xbox_dpad_horizontal_outline.png" id="7_ft7ee"]
+[ext_resource type="Texture2D" uid="uid://grr51a1bx61t" path="res://zaft/lib/input/images/keyboard_r_outline.png" id="8_rmoe5"]
+[ext_resource type="Texture2D" uid="uid://cnx21tp4j2a4m" path="res://zaft/lib/input/images/playstation_dpad_vertical_outline.png" id="8_tpw6m"]
+[ext_resource type="Texture2D" uid="uid://cvyhwdwj5i3r6" path="res://zaft/lib/input/images/playstation_dpad_horizontal_outline.png" id="9_4f5qe"]
+[ext_resource type="Texture2D" uid="uid://coi6gk106c368" path="res://zaft/lib/input/images/xbox_button_a_outline.png" id="11_eyh1a"]
+[ext_resource type="Texture2D" uid="uid://cbilp0ifvmqm" path="res://zaft/lib/input/images/playstation_button_cross_outline.png" id="12_gqis3"]
+[ext_resource type="Texture2D" uid="uid://d03rb3fkn0ejj" path="res://zaft/lib/input/images/xbox_button_b_outline.png" id="14_n7p8d"]
+[ext_resource type="Texture2D" uid="uid://efh0ehl42aah" path="res://zaft/lib/input/images/playstation_button_circle_outline.png" id="15_hq3sy"]
+[ext_resource type="Texture2D" uid="uid://deueysmjdcu5" path="res://zaft/lib/input/images/xbox_button_y_outline.png" id="17_fbt8y"]
+[ext_resource type="Texture2D" uid="uid://bc7q5tsvhiqsw" path="res://zaft/lib/input/images/playstation_button_triangle_outline.png" id="18_b4r1c"]
 
 [node name="Controls" type="GridContainer"]
-columns = 3
+theme_override_constants/h_separation = 32
+theme_override_constants/v_separation = 8
+columns = 4
 
 [node name="Z_ControlsSceneController" type="Node" parent="."]
 script = ExtResource("1_g7nkt")
@@ -21,77 +33,158 @@ setup_on_save = true
 clear_on_save = true
 setup = true
 
+[node name="LabelAction" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Action"
+horizontal_alignment = 2
+
+[node name="LabelKeyboard" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Keyboard"
+horizontal_alignment = 1
+
+[node name="LabelXbox" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Xbox"
+
+[node name="LabelPlaystation" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Playstation"
+
 [node name="LabelMovement" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Movement"
+horizontal_alignment = 2
 
 [node name="HBoxMovement" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Wasd" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("3_j64du")]
+[node name="Wasd" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("3_8qq87")]
 layout_mode = 2
 
-[node name="Arrows" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("4_5mwli")]
+[node name="Arrows" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("4_2om1u")]
 layout_mode = 2
 
-[node name="LabelMovementJoyPlaceholder" type="Label" parent="."]
+[node name="HBoxMovementJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "MovementJoyPlaceholder"
+
+[node name="@TextureRect@44322" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
+layout_mode = 2
+texture = ExtResource("5_nljp8")
+script = ExtResource("6_f5wbk")
+
+[node name="@TextureRect@44323" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
+layout_mode = 2
+texture = ExtResource("7_ft7ee")
+script = ExtResource("6_f5wbk")
+
+[node name="HBoxMovementJoyPlaceholderP" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="@TextureRect@44324" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
+layout_mode = 2
+texture = ExtResource("8_tpw6m")
+script = ExtResource("6_f5wbk")
+
+[node name="@TextureRect@44325" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
+layout_mode = 2
+texture = ExtResource("9_4f5qe")
+script = ExtResource("6_f5wbk")
 
 [node name="LabelJump" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Jump"
+horizontal_alignment = 2
 
 [node name="HBoxJump" type="HBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="JumpSpace" type="TextureRect" parent="HBoxJump"]
 layout_mode = 2
-texture = ExtResource("5_cnaqa")
-script = ExtResource("6_b2iue")
+texture = ExtResource("5_ik7qe")
+script = ExtResource("6_f5wbk")
+k = 32
 
-[node name="LabelJumpJoyPlaceholder" type="Label" parent="."]
+[node name="HBoxJumpJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "JumpJoyPlaceholder"
+
+[node name="@TextureRect@44326" type="TextureRect" parent="HBoxJumpJoyPlaceholderX"]
+layout_mode = 2
+texture = ExtResource("11_eyh1a")
+script = ExtResource("6_f5wbk")
+
+[node name="HBoxJumpJoyPlaceholderP" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="@TextureRect@44327" type="TextureRect" parent="HBoxJumpJoyPlaceholderP"]
+layout_mode = 2
+texture = ExtResource("12_gqis3")
+script = ExtResource("6_f5wbk")
 
 [node name="LabelDash" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Dash"
+horizontal_alignment = 2
 
 [node name="HBoxDash" type="HBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="DashShift" type="TextureRect" parent="HBoxDash"]
 layout_mode = 2
-texture = ExtResource("7_l00el")
-script = ExtResource("6_b2iue")
+texture = ExtResource("7_8on8e")
+script = ExtResource("6_f5wbk")
 k = 4194325
 
-[node name="LabelDashJoyPlaceholder" type="Label" parent="."]
+[node name="HBoxDashJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "DashJoyPlaceholder"
+
+[node name="@TextureRect@44328" type="TextureRect" parent="HBoxDashJoyPlaceholderX"]
+layout_mode = 2
+texture = ExtResource("14_n7p8d")
+script = ExtResource("6_f5wbk")
+
+[node name="HBoxDashJoyPlaceholderP" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="@TextureRect@44329" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
+layout_mode = 2
+texture = ExtResource("15_hq3sy")
+script = ExtResource("6_f5wbk")
 
 [node name="LabelRespawn" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Respawn"
+horizontal_alignment = 2
 
 [node name="HBoxRespawn" type="HBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="RespawnR" type="TextureRect" parent="HBoxRespawn"]
 layout_mode = 2
-texture = ExtResource("8_dpdxr")
-script = ExtResource("6_b2iue")
+texture = ExtResource("8_rmoe5")
+script = ExtResource("6_f5wbk")
 k = 82
 
-[node name="LabelRespawnJoyPlaceholder" type="Label" parent="."]
+[node name="HBoxRespawnJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "RespawnJoyPlaceholder"
+
+[node name="@TextureRect@44330" type="TextureRect" parent="HBoxRespawnJoyPlaceholderX"]
+layout_mode = 2
+texture = ExtResource("17_fbt8y")
+script = ExtResource("6_f5wbk")
+
+[node name="HBoxRespawnJoyPlaceholderP" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="@TextureRect@44331" type="TextureRect" parent="HBoxRespawnJoyPlaceholderP"]
+layout_mode = 2
+texture = ExtResource("18_b4r1c")
+script = ExtResource("6_f5wbk")

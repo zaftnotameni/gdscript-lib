@@ -4,6 +4,7 @@ static func outline_image_for(k:K) -> Texture2D:
   return Gen_AllImages['IMAGE_KEYBOARD_%s_OUTLINE' % K.find_key(k).to_snake_case().to_upper()]
 
 enum K {
+  None = 0,
   W = KEY_W,
   A = KEY_A,
   S = KEY_S,
