@@ -45,6 +45,7 @@ var leaderboard_user = {}
 var leaderboard_auth = {}
 
 func _enter_tree() -> void:
+  process_mode = ProcessMode.PROCESS_MODE_ALWAYS
   name = 'LeaderboardAPI'
   add_to_group(Z_Autoload_Path.LEADERBOARD_GROUP)
 
