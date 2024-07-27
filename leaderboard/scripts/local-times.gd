@@ -26,6 +26,13 @@ func load_from_file():
   local_times_top_10 = JSON.parse_string(fa.get_line())
   fa.close()
 
+func best_time() -> float:
+  var best : float = -1
+  for t in local_times_top_10:
+    if best < 0: best = t; continue
+    if t > 0 and t < best: best = t; continue
+  return best
+
 func add_local_time(new_local_time:float):
   for i in local_times_top_10.size():
     if local_times_top_10[i] <= 0 or local_times_top_10[i] > new_local_time:
