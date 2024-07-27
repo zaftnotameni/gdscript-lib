@@ -53,10 +53,10 @@ horizontal_alignment = 2
 [node name="HBoxMovement" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Wasd" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("3_8qq87")]
+[node name="Wasd" parent="HBoxMovement" instance=ExtResource("3_8qq87")]
 layout_mode = 2
 
-[node name="Arrows" type="HBoxContainer" parent="HBoxMovement" instance=ExtResource("4_2om1u")]
+[node name="Arrows" parent="HBoxMovement" instance=ExtResource("4_2om1u")]
 layout_mode = 2
 
 [node name="HBoxMovementJoyPlaceholderX" type="HBoxContainer" parent="."]

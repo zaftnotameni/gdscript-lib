@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dmg887tpn51ot"]
+[gd_scene load_steps=35 format=3 uid="uid://dmg887tpn51ot"]
 
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
@@ -23,8 +23,10 @@
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/stats.gd" id="20_3wh7d"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/windrose.gd" id="21_08xxj"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/debugger.gd" id="23_17pmi"]
+[ext_resource type="Material" uid="uid://g4j77xe3iw8q" path="res://zaft/generated/materials/melting-pixelatey_material.tres" id="24_kqhn7"]
 [ext_resource type="Material" uid="uid://ees451sxquq" path="res://zaft/generated/materials/outline_material.tres" id="24_oky8o"]
 [ext_resource type="Texture2D" uid="uid://dau2h3o33uwvl" path="res://zaft/lib/player/images/player-sprite-32x32.png" id="24_tevcc"]
+[ext_resource type="Script" path="res://zaft/game/player/scripts/overheat.gd" id="24_whmii"]
 [ext_resource type="AudioStream" uid="uid://iqdoic6ccyj5" path="res://zaft/lib/player/audio/land.mp3" id="26_e8w6a"]
 [ext_resource type="AudioStream" uid="uid://0s60rxdnldjw" path="res://zaft/lib/player/audio/jump.mp3" id="27_hyy0b"]
 [ext_resource type="AudioStream" uid="uid://bsd7qfapubscp" path="res://zaft/lib/player/audio/dash.wav" id="28_om2n4"]
@@ -37,7 +39,8 @@ height = 32.0
 polygon = PackedVector2Array(-16, -16, -16, 16, 16, 16, 16, -16)
 
 [sub_resource type="Gradient" id="Gradient_ryd02"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0.270423, 0.439437, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_kktvy"]
 gradient = SubResource("Gradient_ryd02")
@@ -146,11 +149,15 @@ position = Vector2(-1, 0)
 [node name="Down" type="Marker2D" parent="C/Z_PlayerWindrose"]
 position = Vector2(0, 1)
 
+[node name="G_PlayerOverheat" type="Node" parent="C"]
+script = ExtResource("24_whmii")
+
 [node name="Z_PlayerDebugger" type="Node2D" parent="C"]
 script = ExtResource("23_17pmi")
 debug_machine = true
 
 [node name="V" type="Node2D" parent="."]
+material = ExtResource("24_kqhn7")
 
 [node name="Sprite2D" type="Sprite2D" parent="V"]
 material = ExtResource("24_oky8o")
@@ -160,7 +167,6 @@ texture = ExtResource("24_tevcc")
 occluder = SubResource("OccluderPolygon2D_b487k")
 
 [node name="PointLight2D" type="PointLight2D" parent="V"]
-energy = 0.3
 range_layer_min = -20
 range_layer_max = 5
 shadow_enabled = true

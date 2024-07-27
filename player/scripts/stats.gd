@@ -7,6 +7,7 @@ enum FACING { Right, Left }
 ### Game Specific
 signal sig_heat_changed(new_heat,old_heat)
 signal sig_heat_rejected(heat,delta)
+signal sig_overheat()
 
 ## in % 0 to 100, not 0 to 1
 @export var heat : float = 0.0
@@ -18,8 +19,14 @@ func try_update_heat_relative(heat_delta:float=0.0) -> bool:
   Z_Autoload_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
   return true
 
+func update_heat(new_heat:float=0.0) -> float:
+  Z_Autoload_Util.setter_float(self, &'heat', new_heat, sig_heat_changed)
+  if heat >= 100: sig_overheat.emit()
+  return heat
+
 func update_heat_relative(heat_delta:float=0.0) -> float:
   Z_Autoload_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
+  if heat >= 100: sig_overheat.emit()
   return heat
 
 # directions

@@ -1,6 +1,6 @@
 class_name Z_Autoload_State extends Node
 
-enum GAME_STATE { Initial, Loading, Title, Transition, Game, Paused }
+enum GAME_STATE { Initial, Loading, Title, Transition, Game, SceneTransitionInGame, PlayerDying, Paused }
 
 static var game_state := GAME_STATE.Initial : set = set_game_state
 
@@ -10,6 +10,12 @@ static func title(): game_state = GAME_STATE.Title
 static func transition(): game_state = GAME_STATE.Transition
 static func game(): game_state = GAME_STATE.Game
 static func paused(): game_state = GAME_STATE.Paused
+
+static func mark_as_dying():
+  __zaft.state.game_state = __zaft.state.GAME_STATE.PlayerDying
+
+static func mark_as_game():
+  __zaft.state.game_state = __zaft.state.GAME_STATE.Game
 
 static func set_game_state(v):
   if v == game_state: return

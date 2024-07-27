@@ -105,6 +105,18 @@ static func control_set_minimum_x(con:Control,x:float=100.0):
 static func control_set_minimum_y(con:Control,y:float=100.0):
   con.custom_minimum_size.y = y
 
+static func pause_never_process(_b:Node):
+  _b.process_mode = Node.PROCESS_MODE_DISABLED
+
+static func pause_always_process(_b:Node):
+  _b.process_mode = Node.PROCESS_MODE_ALWAYS
+
+static func pause_respects_pause(_b:Node):
+  _b.process_mode = Node.PROCESS_MODE_PAUSABLE
+
+static func pause_inherits(_b:Node):
+  _b.process_mode = Node.PROCESS_MODE_INHERIT
+
 static func node_turn_off(_b:Node):
   if not _b: return
   _b.hide()
