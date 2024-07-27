@@ -1,7 +1,5 @@
-[gd_scene load_steps=19 format=3 uid="uid://cc4pdlhbeovpo"]
+[gd_scene load_steps=17 format=3 uid="uid://cc4pdlhbeovpo"]
 
-[ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-scene-controller.gd" id="1_g7nkt"]
-[ext_resource type="Script" path="res://zaft/lib/child-labor/scripts/tooler.gd" id="2_i81nj"]
 [ext_resource type="PackedScene" uid="uid://dqdvxpa0wjgjc" path="res://zaft/lib/input/scenes/controls-wasd.tscn" id="3_8qq87"]
 [ext_resource type="PackedScene" uid="uid://dnjew2ijgxc3f" path="res://zaft/lib/input/scenes/controls-arrows.tscn" id="4_2om1u"]
 [ext_resource type="Texture2D" uid="uid://bjtcekr3g15t2" path="res://zaft/lib/input/images/keyboard_space_outline.png" id="5_ik7qe"]
@@ -23,15 +21,6 @@
 theme_override_constants/h_separation = 32
 theme_override_constants/v_separation = 8
 columns = 4
-
-[node name="Z_ControlsSceneController" type="Node" parent="."]
-script = ExtResource("1_g7nkt")
-
-[node name="Z_Tooler" type="Node" parent="Z_ControlsSceneController"]
-script = ExtResource("2_i81nj")
-setup_on_save = true
-clear_on_save = true
-setup = true
 
 [node name="LabelAction" type="Label" parent="."]
 layout_mode = 2
@@ -73,12 +62,12 @@ layout_mode = 2
 [node name="HBoxMovementJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44322" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
+[node name="@TextureRect@93143" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
 layout_mode = 2
 texture = ExtResource("5_nljp8")
 script = ExtResource("6_f5wbk")
 
-[node name="@TextureRect@44323" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
+[node name="@TextureRect@93144" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
 layout_mode = 2
 texture = ExtResource("7_ft7ee")
 script = ExtResource("6_f5wbk")
@@ -86,12 +75,12 @@ script = ExtResource("6_f5wbk")
 [node name="HBoxMovementJoyPlaceholderP" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44324" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
+[node name="@TextureRect@93145" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
 layout_mode = 2
 texture = ExtResource("8_tpw6m")
 script = ExtResource("6_f5wbk")
 
-[node name="@TextureRect@44325" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
+[node name="@TextureRect@93146" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
 layout_mode = 2
 texture = ExtResource("9_4f5qe")
 script = ExtResource("6_f5wbk")
@@ -114,7 +103,7 @@ k = 32
 [node name="HBoxJumpJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44326" type="TextureRect" parent="HBoxJumpJoyPlaceholderX"]
+[node name="@TextureRect@93147" type="TextureRect" parent="HBoxJumpJoyPlaceholderX"]
 layout_mode = 2
 texture = ExtResource("11_eyh1a")
 script = ExtResource("6_f5wbk")
@@ -122,7 +111,7 @@ script = ExtResource("6_f5wbk")
 [node name="HBoxJumpJoyPlaceholderP" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44327" type="TextureRect" parent="HBoxJumpJoyPlaceholderP"]
+[node name="@TextureRect@93148" type="TextureRect" parent="HBoxJumpJoyPlaceholderP"]
 layout_mode = 2
 texture = ExtResource("12_gqis3")
 script = ExtResource("6_f5wbk")
@@ -145,7 +134,7 @@ k = 4194325
 [node name="HBoxDashJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44328" type="TextureRect" parent="HBoxDashJoyPlaceholderX"]
+[node name="@TextureRect@93149" type="TextureRect" parent="HBoxDashJoyPlaceholderX"]
 layout_mode = 2
 texture = ExtResource("14_n7p8d")
 script = ExtResource("6_f5wbk")
@@ -153,7 +142,7 @@ script = ExtResource("6_f5wbk")
 [node name="HBoxDashJoyPlaceholderP" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44329" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
+[node name="@TextureRect@93150" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
 layout_mode = 2
 texture = ExtResource("15_hq3sy")
 script = ExtResource("6_f5wbk")
@@ -176,7 +165,7 @@ k = 82
 [node name="HBoxRespawnJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44330" type="TextureRect" parent="HBoxRespawnJoyPlaceholderX"]
+[node name="@TextureRect@93151" type="TextureRect" parent="HBoxRespawnJoyPlaceholderX"]
 layout_mode = 2
 texture = ExtResource("17_fbt8y")
 script = ExtResource("6_f5wbk")
@@ -184,7 +173,7 @@ script = ExtResource("6_f5wbk")
 [node name="HBoxRespawnJoyPlaceholderP" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@44331" type="TextureRect" parent="HBoxRespawnJoyPlaceholderP"]
+[node name="@TextureRect@93152" type="TextureRect" parent="HBoxRespawnJoyPlaceholderP"]
 layout_mode = 2
 texture = ExtResource("18_b4r1c")
 script = ExtResource("6_f5wbk")
