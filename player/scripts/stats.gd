@@ -15,6 +15,7 @@ signal sig_overheat()
 @export var heat_dash_cost_air : float = 10.0
 @export var heat_per_second_from_sun : float = 1.0
 @export var heat_per_second_from_candle : float = 5.0
+@export var heat_per_second_from_lava : float = 5000.0
 @export var heat_per_second_from_shade : float = 0.5
 @export var heat_per_second_from_fridge : float = 5.0
 

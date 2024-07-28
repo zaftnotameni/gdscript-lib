@@ -15,18 +15,23 @@ func create_if_needed(abs_path:String):
   if DirAccess.dir_exists_absolute(abs_path): return
   DirAccess.make_dir_recursive_absolute(abs_path)
 
+const LOG_FILE_NAME : String = 'res://zaft/generated/log.txt'
+
 func _ready() -> void:
   create_if_needed(output_path)
   find_files_recursive(base_path, results)
   create_materials_for_shaders()
+  var fa := FileAccess.open(LOG_FILE_NAME, FileAccess.WRITE)
   for k in results.keys():
-    print_rich('\n[b]%s[/b]\n%s' % [FT.find_key(k), JSON.stringify(results[k], '\t')])
+    fa.store_string('\n[b]%s[/b]\n%s' % [FT.find_key(k), JSON.stringify(results[k], '\t')])
+  fa.close()
   create_all_for_scenes()
   create_all_for_audio()
   create_all_for_materials()
   create_all_for_shaders()
   create_all_for_tilesets()
   create_all_for_images()
+  get_tree().quit()
 
 func create_all_for_images():
   var scripts_dir := generated_relative_dir_for(FT.Script)

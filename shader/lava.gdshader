@@ -32,7 +32,7 @@ float flow(vec2 p) {
 	vec2 bp = p;
 	
 	for(float i = 1.; i < 7.; ++i) {
-		p += localTime() * .6;
+		p -= localTime() * .6;
 		bp += localTime() * 1.9;
 		vec2 gr = gradn(i * p * .34 + localTime() * 1.);
 		gr *= makem2(localTime() * 6. - (.05 * p.x + 0.03 * p.y) * 40.);
@@ -47,17 +47,17 @@ float flow(vec2 p) {
 }
 
 void fragment() {
-	vec2 resolution = 1. / SCREEN_PIXEL_SIZE;
-	vec2 fragCoord = FRAGCOORD.xy;
-	fragCoord = vec2(fragCoord.x, resolution.y - fragCoord.y);
-	vec2 p = fragCoord / resolution - 0.5;
+  vec2 resolution = vec2(1600.0, 900.0);
+	vec2 p = UV - 0.5;
 	
 	p.x *= resolution.x / resolution.y;
+  p.x *= resolution.x / resolution.y;
+  p.x *= resolution.x / resolution.y;
 	p *= 3.;
 	
 	float rz = flow(p);
-	vec3 col = vec3(.2, .07, .01) / rz;
+	vec3 col = vec3(.42, .17, .01) / rz;
 	col = pow(col, vec3(1.4));
 	
-	COLOR = vec4(col, 1.0);
+	COLOR = vec4(col, max(UV.y, 0.2));
 }
