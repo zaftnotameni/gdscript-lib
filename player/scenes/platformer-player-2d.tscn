@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://dmg887tpn51ot"]
+[gd_scene load_steps=46 format=3 uid="uid://dmg887tpn51ot"]
 
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
@@ -81,6 +81,19 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_ahp4k"]
 colors = PackedColorArray(0.0384, 0.96, 0.94464, 0.592157, 0.12, 1, 0.941333, 0.407843)
 
+[sub_resource type="Gradient" id="Gradient_fdfbx"]
+offsets = PackedFloat32Array(0.0204082)
+colors = PackedColorArray(0.380392, 0.827451, 0.890196, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lxggi"]
+gradient = SubResource("Gradient_fdfbx")
+width = 28
+height = 28
+use_hdr = true
+
+[sub_resource type="Gradient" id="Gradient_ado8u"]
+colors = PackedColorArray(0.380392, 0.827451, 0.890196, 1, 0.38, 0.827, 0.89, 0)
+
 [node name="PlatformerPlayer2D" type="CharacterBody2D"]
 collision_layer = 128
 collision_mask = 524288
@@ -150,6 +163,25 @@ radial_accel_min = -40.0
 scale_amount_curve = SubResource("Curve_e1xy2")
 color_ramp = SubResource("Gradient_ahp4k")
 hue_variation_max = 1.0
+
+[node name="PartyDashTrail" type="CPUParticles2D" parent="V"]
+unique_name_in_owner = true
+emitting = false
+amount = 12
+lifetime = 0.2
+texture = SubResource("GradientTexture2D_lxggi")
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_ado8u")
+
+[node name="PartyDashSplash" type="CPUParticles2D" parent="V"]
+unique_name_in_owner = true
+emitting = false
+gravity = Vector2(0, 0)
+
+[node name="PartyLandSplash" type="CPUParticles2D" parent="V"]
+unique_name_in_owner = true
+emitting = false
+gravity = Vector2(0, 0)
 
 [node name="C" type="Node2D" parent="."]
 
