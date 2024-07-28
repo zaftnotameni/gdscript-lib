@@ -29,6 +29,10 @@ func spawn():
   else:
     __zaft.layer.layer_named(layer).add_child(s)
     s.global_position = global_position
+    if G_State.cheats_on:
+      var ship := G_ShipZoneScene.resolve_maybe()
+      if ship and ship.spawner_target:
+        s.global_position = ship.spawner_target.global_position
   spawned = s
 
 func _ready() -> void:

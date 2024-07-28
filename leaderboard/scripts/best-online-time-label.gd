@@ -24,4 +24,5 @@ func _ready() -> void:
   api = Z_Autoload_Path.group_leaderboard_only_node()
   api.sig_leaderboard_request_completed.connect(on_leaderboards)
   api.sig_upload_completed.connect(on_upload)
-  api._upload_score(roundi(1000 * (stopwatch.elapsed if stopwatch.elapsed > 0 else DUMMY_TIME)))
+  if G_State.allow_time_in_leaderboard:
+    api._upload_score(roundi(1000 * (stopwatch.elapsed if stopwatch.elapsed > 0 else DUMMY_TIME)))
