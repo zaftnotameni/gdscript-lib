@@ -2,6 +2,7 @@ class_name Z_PlayerStateJumping extends Z_PlayerStateActioned
 
 @onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
 @onready var player : Z_PlayerCharacter = owner
+@onready var party_splash : CPUParticles2D = %PartyJumpSplash
 
 var jump_cancelled : bool = false
 
@@ -18,6 +19,7 @@ func on_dash():
 var t : Tween
 
 func on_state_enter(_x=null):
+  party_splash.emitting = true
   __zaft.audio.director.play_pitched_2d(sfx_jump, 1, true, false)
   character.velocity.y = -character.stats.jump_velocity
   character.move_and_slide()
