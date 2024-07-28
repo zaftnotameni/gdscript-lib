@@ -87,6 +87,12 @@ static func control_set_margin(con:MarginContainer,margin:int=0):
 static func control_set_bottom_right_min_size(con:Control):
   con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_BOTTOM_RIGHT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
 
+static func control_set_hshrink_center(con:Control):
+  con.size_flags_horizontal = Control.SizeFlags.SIZE_SHRINK_CENTER
+
+static func control_set_center_min_size(con:Control):
+  con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_CENTER, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
+
 static func control_set_top_left_min_size(con:Control):
   con.set_anchors_and_offsets_preset(Control.LayoutPreset.PRESET_TOP_LEFT, Control.LayoutPresetMode.PRESET_MODE_MINSIZE)
 
