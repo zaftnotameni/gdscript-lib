@@ -14,11 +14,18 @@ static func paused(): game_state = GAME_STATE.Paused
 static func mark_as_scene_transition_in_game():
   __zaft.state.game_state = __zaft.state.GAME_STATE.SceneTransitionInGame
 
+static func is_dying() -> bool:
+  return __zaft.state.game_state == __zaft.state.GAME_STATE.PlayerDying
+
 static func mark_as_dying():
   __zaft.state.game_state = __zaft.state.GAME_STATE.PlayerDying
 
+static func is_game() -> bool:
+  return __zaft.state.game_state == __zaft.state.GAME_STATE.Game
+
 static func mark_as_game():
   __zaft.state.game_state = __zaft.state.GAME_STATE.Game
+
 
 static func set_game_state(v):
   if v == game_state: return
