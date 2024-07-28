@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dmg887tpn51ot"]
+[gd_scene load_steps=52 format=3 uid="uid://dmg887tpn51ot"]
 
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
@@ -63,7 +63,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
 [sub_resource type="Gradient" id="Gradient_t6s3p"]
-colors = PackedColorArray(0.0384, 0.96, 0.94464, 0.592157, 0.12, 1, 0.941333, 0.407843)
+colors = PackedColorArray(0.0384, 0.96, 0.94464, 0.592157, 0.12, 1, 0.941, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jbudr"]
 gradient = SubResource("Gradient_mg62e")
@@ -93,6 +93,38 @@ use_hdr = true
 
 [sub_resource type="Gradient" id="Gradient_ado8u"]
 colors = PackedColorArray(0.380392, 0.827451, 0.890196, 1, 0.38, 0.827, 0.89, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uobhx"]
+gradient = SubResource("Gradient_mg62e")
+width = 8
+height = 8
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Curve" id="Curve_w4uiw"]
+_data = [Vector2(0.0630137, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_3ocoe"]
+colors = PackedColorArray(0.0384, 0.96, 0.94464, 0.592157, 0.12, 1, 0.941333, 0.407843)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t0ook"]
+gradient = SubResource("Gradient_mg62e")
+width = 8
+height = 8
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Curve" id="Curve_svmlk"]
+_data = [Vector2(0.0630137, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_awyqv"]
+colors = PackedColorArray(0.0384, 0.96, 0.94464, 0.592157, 0.12, 1, 0.941333, 0.407843)
 
 [node name="PlatformerPlayer2D" type="CharacterBody2D"]
 collision_layer = 128
@@ -131,6 +163,7 @@ unique_name_in_owner = true
 position = Vector2(0, 16)
 emitting = false
 amount = 64
+lifetime = 2.0
 texture = SubResource("GradientTexture2D_nqh3j")
 emission_shape = 3
 emission_rect_extents = Vector2(4, 1)
@@ -175,13 +208,48 @@ color_ramp = SubResource("Gradient_ado8u")
 
 [node name="PartyDashSplash" type="CPUParticles2D" parent="V"]
 unique_name_in_owner = true
+position = Vector2(0, 14)
 emitting = false
+amount = 64
+lifetime = 0.4
+speed_scale = 3.0
+explosiveness = 0.5
+randomness = 0.5
+lifetime_randomness = 0.5
+texture = SubResource("GradientTexture2D_uobhx")
+emission_shape = 3
+emission_rect_extents = Vector2(16, 1)
+direction = Vector2(0, -1)
 gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 50.0
+radial_accel_min = -40.0
+scale_amount_curve = SubResource("Curve_w4uiw")
+color_ramp = SubResource("Gradient_3ocoe")
+hue_variation_max = 1.0
 
 [node name="PartyLandSplash" type="CPUParticles2D" parent="V"]
 unique_name_in_owner = true
+position = Vector2(0, 14)
 emitting = false
+amount = 32
+lifetime = 0.75
+one_shot = true
+preprocess = 0.1
+speed_scale = 1.5
+explosiveness = 1.0
+randomness = 0.5
+texture = SubResource("GradientTexture2D_t0ook")
+emission_shape = 3
+emission_rect_extents = Vector2(16, 1)
+direction = Vector2(0, -1)
 gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+radial_accel_min = -40.0
+scale_amount_curve = SubResource("Curve_svmlk")
+color_ramp = SubResource("Gradient_awyqv")
+hue_variation_max = 1.0
 
 [node name="C" type="Node2D" parent="."]
 

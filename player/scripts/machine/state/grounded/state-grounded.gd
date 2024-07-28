@@ -2,13 +2,15 @@ class_name Z_PlayerStateGrounded extends Z_PlayerStateMachineState
 
 @onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
 @onready var player : Z_PlayerCharacter = owner
+@onready var party_land_splash : CPUParticles2D = %PartyLandSplash
 
 func _unhandled_input(event: InputEvent) -> void:
   if Z_PlayerInput.event_is_dash_just_pressed(event):
     on_dash()
 
 func on_state_enter(_prev:Z_StateMachineState):
-  pass
+  if via_transition == 'landed':
+    party_land_splash.emitting = true
 
 func on_state_exit(_next:Z_StateMachineState):
   character.viz.skew = 0
