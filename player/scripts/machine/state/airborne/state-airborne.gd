@@ -3,8 +3,10 @@ class_name Z_PlayerStateAirborne extends Z_PlayerStateMachineState
 @onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
 @onready var player : Z_PlayerCharacter = owner
 
-func _unhandled_input(_event: InputEvent) -> void:
-  pass
+func _unhandled_input(event: InputEvent) -> void:
+  if via_transition == 'spawn-check':
+    if Z_PlayerInput.event_is_dash_just_pressed(event):
+      on_dash()
 
 func on_dash():
   if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_air):
