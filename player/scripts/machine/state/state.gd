@@ -9,6 +9,7 @@ class_name Z_PlayerStateMachineState extends Z_StateMachineState
 @onready var sfx_jump : AudioStreamPlayer2D = %SfxJump
 @onready var sfx_dash : AudioStreamPlayer2D = %SfxDash
 @onready var sfx_step : AudioStreamPlayer2D = %SfxLand
+@onready var sfx_deny : AudioStreamPlayer2D = %SfxDeny
 @onready var sfx_overheat : AudioStreamPlayer2D = %SfxLand
 
 func on_state_enter(_prev:Z_StateMachineState): pass

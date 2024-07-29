@@ -11,6 +11,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func on_dash():
   if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_air):
     machine.transition('dash-air', STATE.Dashing)
+  else:
+    __zaft.audio.director.play_pitched_2d(sfx_deny, 1, true, false)
+    __zaft.bus.sig_camera_trauma_request.emit(0.2)
 
 func on_state_enter(_x=null):
   pass
