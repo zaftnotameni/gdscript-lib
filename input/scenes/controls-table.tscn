@@ -5,17 +5,17 @@
 [ext_resource type="Texture2D" uid="uid://c41cq0sfivd5e" path="res://zaft/lib/input/images/keyboard_arrow_left_outline.png" id="4_g4lke"]
 [ext_resource type="Texture2D" uid="uid://ppfousr0llav" path="res://zaft/lib/input/images/keyboard_arrow_right_outline.png" id="5_3h7l8"]
 [ext_resource type="Texture2D" uid="uid://bjtcekr3g15t2" path="res://zaft/lib/input/images/keyboard_space_outline.png" id="5_ik7qe"]
-[ext_resource type="Texture2D" uid="uid://mfrmc3m635mc" path="res://zaft/lib/input/images/xbox_dpad_vertical_outline.png" id="5_nljp8"]
 [ext_resource type="Script" path="res://zaft/lib/input/scripts/input-icon-control.gd" id="6_f5wbk"]
 [ext_resource type="Texture2D" uid="uid://d1u83spjuqa64" path="res://zaft/lib/input/images/keyboard_shift_outline.png" id="7_8on8e"]
 [ext_resource type="Texture2D" uid="uid://dftjsdu3ukvdx" path="res://zaft/lib/input/images/xbox_dpad_horizontal_outline.png" id="7_ft7ee"]
 [ext_resource type="Texture2D" uid="uid://grr51a1bx61t" path="res://zaft/lib/input/images/keyboard_r_outline.png" id="8_rmoe5"]
-[ext_resource type="Texture2D" uid="uid://cnx21tp4j2a4m" path="res://zaft/lib/input/images/playstation_dpad_vertical_outline.png" id="8_tpw6m"]
 [ext_resource type="Texture2D" uid="uid://cvyhwdwj5i3r6" path="res://zaft/lib/input/images/playstation_dpad_horizontal_outline.png" id="9_4f5qe"]
 [ext_resource type="Texture2D" uid="uid://c2yygl40td34u" path="res://zaft/lib/input/images/keyboard_w_outline.png" id="11_1r213"]
 [ext_resource type="Texture2D" uid="uid://coi6gk106c368" path="res://zaft/lib/input/images/xbox_button_a_outline.png" id="11_eyh1a"]
+[ext_resource type="Texture2D" uid="uid://yxatp0y8iyl3" path="res://zaft/lib/input/images/xbox_button_x_outline.png" id="12_ao2wh"]
 [ext_resource type="Texture2D" uid="uid://cjc2injdaky4c" path="res://zaft/lib/input/images/keyboard_arrow_up_outline.png" id="12_fkfvg"]
 [ext_resource type="Texture2D" uid="uid://cbilp0ifvmqm" path="res://zaft/lib/input/images/playstation_button_cross_outline.png" id="12_gqis3"]
+[ext_resource type="Texture2D" uid="uid://dj1t6v2vkdrut" path="res://zaft/lib/input/images/playstation_button_square_outline.png" id="13_animm"]
 [ext_resource type="Texture2D" uid="uid://d03rb3fkn0ejj" path="res://zaft/lib/input/images/xbox_button_b_outline.png" id="14_n7p8d"]
 [ext_resource type="Texture2D" uid="uid://efh0ehl42aah" path="res://zaft/lib/input/images/playstation_button_circle_outline.png" id="15_hq3sy"]
 [ext_resource type="Texture2D" uid="uid://kuif6tbvpbwi" path="res://zaft/lib/input/images/keyboard_s_outline.png" id="16_hnm0h"]
@@ -86,11 +86,6 @@ k = 4194321
 [node name="HBoxMovementJoyPlaceholderX" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@93143" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
-layout_mode = 2
-texture = ExtResource("5_nljp8")
-script = ExtResource("6_f5wbk")
-
 [node name="@TextureRect@93144" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
 layout_mode = 2
 texture = ExtResource("7_ft7ee")
@@ -98,11 +93,6 @@ script = ExtResource("6_f5wbk")
 
 [node name="HBoxMovementJoyPlaceholderP" type="HBoxContainer" parent="."]
 layout_mode = 2
-
-[node name="@TextureRect@93145" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
-layout_mode = 2
-texture = ExtResource("8_tpw6m")
-script = ExtResource("6_f5wbk")
 
 [node name="@TextureRect@93146" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
 layout_mode = 2
@@ -187,12 +177,22 @@ layout_mode = 2
 texture = ExtResource("14_n7p8d")
 script = ExtResource("6_f5wbk")
 
+[node name="_TextureRect_93147" type="TextureRect" parent="HBoxDashJoyPlaceholderX"]
+layout_mode = 2
+texture = ExtResource("12_ao2wh")
+script = ExtResource("6_f5wbk")
+
 [node name="HBoxDashJoyPlaceholderP" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="@TextureRect@93150" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
+[node name="_TextureRect_93150" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
 layout_mode = 2
 texture = ExtResource("15_hq3sy")
+script = ExtResource("6_f5wbk")
+
+[node name="_TextureRect_93148" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
+layout_mode = 2
+texture = ExtResource("13_animm")
 script = ExtResource("6_f5wbk")
 
 [node name="LabelRespawn" type="Label" parent="."]
