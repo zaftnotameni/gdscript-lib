@@ -35,9 +35,14 @@ func _physics_process(delta: float) -> void:
   if Z_PlayerInput.is_jump_just_pressed():
     machine.transition('jump', STATE.Jumping)
     return
+  if elapsed > 0.2 and not Z_PlayerInput.is_dash_pressed() and character.is_on_floor():
+    machine.transition('dash-end-gnd', STATE.Grounded)
+    return
   if elapsed > character.stats.dash_duration:
     if character.is_on_floor():
       machine.transition('dash-end-gnd', STATE.Grounded)
+      return
     else:
       machine.transition('dash-end-air', STATE.Airborne)
+      return
 
