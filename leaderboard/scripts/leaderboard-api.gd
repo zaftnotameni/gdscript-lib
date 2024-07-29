@@ -111,6 +111,7 @@ func _authentication_request():
   auth_http.request_completed.connect(_on_authentication_request_completed)
   auth_http.request("https://api.lootlocker.io/game/v2/session/guest", headers, HTTPClient.METHOD_POST, JSON.stringify(data))
   print_verbose(data)
+  fl_authenticated = true
 
 func _on_authentication_request_completed(_result, _response_code, _headers, body):
   var json = JSON.new()
