@@ -41,7 +41,7 @@ func update_heat_relative(heat_delta:float=0.0) -> float:
 @export var facing : FACING
 
 # in pxs
-@export var jump_height : float = G_Settings.player_height * 2
+@export var jump_height : float = G_Settings.player_height * 2.125
 
 ## in secs
 @export var dash_duration : float = 0.5

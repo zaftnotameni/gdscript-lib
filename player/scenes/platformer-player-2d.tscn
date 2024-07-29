@@ -33,9 +33,8 @@
 [ext_resource type="AudioStream" uid="uid://bsd7qfapubscp" path="res://zaft/lib/player/audio/dash.wav" id="28_om2n4"]
 [ext_resource type="AudioStream" uid="uid://btm6macsuak60" path="res://zaft/lib/player/audio/deny.mp3" id="32_myst3"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qavx"]
-radius = 14.0
-height = 32.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qy3no"]
+size = Vector2(28, 32)
 
 [sub_resource type="Gradient" id="Gradient_fdfbx"]
 offsets = PackedFloat32Array(0.0204082)
@@ -139,7 +138,7 @@ collision_mask = 524288
 script = ExtResource("1_j258b")
 
 [node name="Z_PlayerBody" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_8qavx")
+shape = SubResource("RectangleShape2D_qy3no")
 script = ExtResource("2_16n43")
 
 [node name="V" type="Node2D" parent="."]
