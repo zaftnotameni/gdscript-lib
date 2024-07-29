@@ -35,8 +35,11 @@ func on_state_enter(_x=null):
   t.parallel().tween_property(sprite, 'scale:y', 1.0, 0.1)
 
 func on_state_exit(_x=null):
-  if t and t.is_running(): t.kill(); t = null
   jump_cancelled = false
+  t = Z_Autoload_Util.tween_fresh_eased_in_out_cubic(t)
+  var sprite : Sprite2D = player.viz.get_node('Sprite2D')
+  t.tween_property(sprite, 'scale:x', 1.0, 0.1)
+  t.parallel().tween_property(sprite, 'scale:y', 1.0, 0.1)
 
 func going_up() -> bool: return character.velocity.y < 0
 func initial_speed_from_input(input_x:float) -> float: return input_x * character.stats.initial_speed_from_input
