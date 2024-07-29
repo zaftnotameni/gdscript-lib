@@ -17,7 +17,7 @@ signal sig_overheat()
 @export var heat_per_second_from_candle : float = 5.0
 @export var heat_per_second_from_lava : float = 5000.0
 @export var heat_per_second_from_shade : float = 0.5
-@export var heat_per_second_from_fridge : float = 5.0
+@export var heat_per_second_from_fridge : float = 10.0
 
 func try_update_heat_relative(heat_delta:float=0.0) -> bool:
   if heat + heat_delta > 100.0: sig_heat_rejected.emit(heat, heat_delta); return false
