@@ -16,6 +16,12 @@ const VOLUME_PREFERENCES_FILENAME = "user://volume-preferences1.tres"
 @onready var sfx_die : AudioStreamPlayer = $Streams/SFX/Die
 @onready var sfx_respawn_active : AudioStreamPlayer = $Streams/SFX/RespawnActive
 
+@onready var bgm_title_screen: AudioStreamPlayer = $Streams/BGM/TitleScreen
+@onready var bgm_level: AudioStreamPlayer = $Streams/BGM/Level
+@onready var bgm_ending: AudioStreamPlayer = $Streams/BGM/Ending
+
+@onready var exclusive_bgm = [bgm_title_screen, bgm_level, bgm_ending]
+
 const BUS_NAME_MASTER := "Master"
 const BUS_NAME_BGM := "BGM"
 const BUS_NAME_SFX := "SFX"
@@ -104,13 +110,31 @@ func play_pitched_force_stream_2d(player: AudioStreamPlayer2D, pitch_scale: floa
   player.pitch_scale = pitch_scale
   player.play()
 
-func play_pitched_force_stream(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
+func play_force_stream_bgm_level(): play_force_stream_bgm(bgm_level)
+func play_force_stream_bgm_title_screen(): play_force_stream_bgm(bgm_title_screen)
+func play_force_stream_bgm_ending(): play_force_stream_bgm(bgm_ending)
+func play_force_stream_bgm(player: AudioStreamPlayer):
+  for p:AudioStreamPlayer in exclusive_bgm:
+    if p != player:
+      p.stream_paused = true
+      p.stop()
+      p.playing = false
+      p.process_mode = Node.PROCESS_MODE_DISABLED
+  if player.playing: return
+  player.process_mode = Node.PROCESS_MODE_ALWAYS
   player.playback_type = AudioServer.PlaybackType.PLAYBACK_TYPE_STREAM
-  if only_if_not_playing:
-    if player.playing: return
-  if loop:
-    player.finished.connect(play_pitched.bind(player, pitch_scale, only_if_not_playing, loop), CONNECT_ONE_SHOT)
-  player.pitch_scale = pitch_scale
+  match player:
+    bgm_title_screen:
+      if not player.finished.is_connected(play_force_stream_bgm_title_screen):
+        player.finished.connect(play_force_stream_bgm_title_screen, CONNECT_ONE_SHOT)
+    bgm_level:
+      if not player.finished.is_connected(play_force_stream_bgm_level):
+        player.finished.connect(play_force_stream_bgm_level, CONNECT_ONE_SHOT)
+    bgm_ending:
+      if not player.finished.is_connected(play_force_stream_bgm_ending):
+        player.finished.connect(play_force_stream_bgm_ending, CONNECT_ONE_SHOT)
+  player.pitch_scale = 1.0
+  player.stream_paused = false
   player.play()
 
 func play_pitched_no_hax(player: AudioStreamPlayer, pitch_scale: float = 1.0, only_if_not_playing := false, loop := false):
