@@ -44,10 +44,16 @@ var leaderboard_items = []
 var leaderboard_user = {}
 var leaderboard_auth = {}
 
+const FOX := 6443056
+const FOX_ITCH := 'https://www.twitch.tv/foxhollowgames'
+const PICKLE := 6438359
+const PICKLE_ITCH := 'https://itch.io/profile/picklejargames'
 const COLE := 6448563
 const COLE_LINK := 'https://www.youtube.com/watch?v=pAcdioyMXPo'
+const COLE_ITCH := 'https://colecantcode.itch.io/'
 const NOODLE := 6438414
 const NOODLE_LINK := 'https://www.youtube.com/watch?v=UIJjcvVf8uI'
+const NOODLE_ITCH := 'https://teamcloids.itch.io/'
 
 func _enter_tree() -> void:
   process_mode = ProcessMode.PROCESS_MODE_ALWAYS
@@ -272,11 +278,10 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
     for item in items:
       var p_name := player_name_from_item(item)
       var time_in_sec := time_from_item_in_seconds(item)
-      var lbl_name :Control = NameLabelType.new() if NameLabelType else Label.new()
+      var lbl_name :Control
       var lbl_time :Control = TimeLabelType.new() if TimeLabelType else Label.new()
       var btn_yt : Control
       lbl_time.text = Z_Autoload_Util.string_format_time(time_in_sec)
-      lbl_name.text = p_name
       if item and item.has('player') and item.player and item.player.has('id') and item.player.id:
         if item.player.id == COLE:
           btn_yt = TextureButton.new()
@@ -286,6 +291,16 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
           btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
           btn_yt.tooltip_text = 'See Full Run on YouTube'
           btn_yt.pressed.connect(open_cole_video)
+          lbl_name = LinkButton.new()
+          lbl_name.uri = COLE_ITCH
+        elif item.player.id == FOX:
+          btn_yt = Label.new()
+          lbl_name = LinkButton.new()
+          lbl_name.uri = FOX_ITCH
+        elif item.player.id == PICKLE:
+          btn_yt = Label.new()
+          lbl_name = LinkButton.new()
+          lbl_name.uri = PICKLE_ITCH
         elif item.player.id == NOODLE:
           btn_yt = TextureButton.new()
           btn_yt.texture_normal = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
@@ -294,8 +309,13 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
           btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
           btn_yt.tooltip_text = 'See Full Run on YouTube'
           btn_yt.pressed.connect(open_noodle_video)
+          lbl_name = LinkButton.new()
+          lbl_name.uri = NOODLE_ITCH
         else:
+          lbl_name = NameLabelType.new() if NameLabelType else Label.new()
           btn_yt = Label.new()
+      lbl_name.text = p_name
+      Z_Autoload_Util.control_set_font_size(lbl_name, 24)
       var margin_container := MarginContainer.new()
       margin_container.add_theme_constant_override(&'margin_right', 12)
       margin_container.add_child(btn_yt)
