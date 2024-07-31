@@ -25,7 +25,7 @@ func setup_local_times():
 func on_leaderboards(items:=[]):
   if items: label_status.text = 'Times retrieved: %s' % items.size()
   for grid_entry in time_grid.get_children():
-    if [&'LabelPlayer', &'LabelTime'].has(grid_entry.name): continue
+    if [&'LabelPlayer', &'LabelTime', &'LabelYouTube'].has(grid_entry.name): continue
     grid_entry.queue_free()
   Z_LeaderboardApi.items_to_labels.call_deferred(time_grid, items, Z_LeaderboardPlayerLabel, Z_LeaderboardTimeLabel)
 

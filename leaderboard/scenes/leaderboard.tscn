@@ -46,7 +46,7 @@ metadata/_tab_index = 0
 
 [node name="Online" type="VBoxContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 12
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
 layout_mode = 2
@@ -55,14 +55,14 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 placeholder_text = "Player Name"
 max_length = 30
 
 [node name="ButtonName" type="Button" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Update Name"
 
 [node name="HSeparator_3" type="HSeparator" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
@@ -79,9 +79,15 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 4
-columns = 2
+columns = 3
+
+[node name="LabelYouTube" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
+horizontal_alignment = 2
+clip_text = true
 
 [node name="LabelPlayer" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
 layout_mode = 2
@@ -118,7 +124,7 @@ theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
-metadata/_tab_index = 0
+metadata/_tab_index = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Offline"]
 layout_mode = 2

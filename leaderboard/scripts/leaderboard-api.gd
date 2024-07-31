@@ -44,6 +44,11 @@ var leaderboard_items = []
 var leaderboard_user = {}
 var leaderboard_auth = {}
 
+const COLE := 6448563
+const COLE_LINK := 'https://www.youtube.com/watch?v=pAcdioyMXPo'
+const NOODLE := 6438414
+const NOODLE_LINK := 'https://www.youtube.com/watch?v=UIJjcvVf8uI'
+
 func _enter_tree() -> void:
   process_mode = ProcessMode.PROCESS_MODE_ALWAYS
   name = 'LeaderboardAPI'
@@ -134,7 +139,7 @@ func _get_leaderboards():
     sig_leaderboard_request_completed.emit([])
     return
   print_verbose("Getting leaderboards")
-  var url = "https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/list?count=10"
+  var url = "https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/list?count=50"
   var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
   leaderboard_http = HTTPRequest.new()
   add_child(leaderboard_http)
@@ -255,6 +260,12 @@ static func time_from_item_in_seconds(item:={}) -> float:
         return item.score / 1000.0
   return -1
 
+static func open_cole_video():
+  OS.shell_open(COLE_LINK)
+
+static func open_noodle_video():
+  OS.shell_open(NOODLE_LINK)
+
 ## parent: ideally a grid container with 2 columns
 static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, TimeLabelType:Script=null):
   if items and not items.is_empty():
@@ -263,7 +274,31 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
       var time_in_sec := time_from_item_in_seconds(item)
       var lbl_name :Control = NameLabelType.new() if NameLabelType else Label.new()
       var lbl_time :Control = TimeLabelType.new() if TimeLabelType else Label.new()
+      var btn_yt : Control
       lbl_time.text = Z_Autoload_Util.string_format_time(time_in_sec)
       lbl_name.text = p_name
+      if item and item.has('player') and item.player and item.player.has('id') and item.player.id:
+        if item.player.id == COLE:
+          btn_yt = TextureButton.new()
+          btn_yt.texture_normal = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.texture_pressed = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.texture_hover = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.tooltip_text = 'See Full Run on YouTube'
+          btn_yt.pressed.connect(open_cole_video)
+        elif item.player.id == NOODLE:
+          btn_yt = TextureButton.new()
+          btn_yt.texture_normal = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.texture_pressed = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.texture_hover = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
+          btn_yt.tooltip_text = 'See Full Run on YouTube'
+          btn_yt.pressed.connect(open_noodle_video)
+        else:
+          btn_yt = Label.new()
+      var margin_container := MarginContainer.new()
+      margin_container.add_theme_constant_override(&'margin_right', 12)
+      margin_container.add_child(btn_yt)
+      parent.add_child(margin_container)
       parent.add_child(lbl_name)
       parent.add_child(lbl_time)
