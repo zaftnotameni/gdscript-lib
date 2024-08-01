@@ -283,7 +283,8 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
       var btn_yt : Control
       lbl_time.text = Z_Autoload_Util.string_format_time(time_in_sec)
       if item and item.has('player') and item.player and item.player.has('id') and item.player.id:
-        if item.player.id == COLE:
+        if false: pass
+        elif item.player.id == COLE:
           btn_yt = TextureButton.new()
           btn_yt.texture_normal = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
           btn_yt.texture_pressed = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
@@ -309,6 +310,22 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
           btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
           btn_yt.tooltip_text = 'See Full Run on YouTube'
           btn_yt.pressed.connect(open_noodle_video)
+          lbl_name = LinkButton.new()
+          lbl_name.uri = NOODLE_ITCH
+        elif player_name_from_item(item) == 'cole':
+          btn_yt = Label.new()
+          lbl_name = LinkButton.new()
+          lbl_name.uri = COLE_ITCH
+        elif player_name_from_item(item) == 'Fox Hollow Games':
+          btn_yt = Label.new()
+          lbl_name = LinkButton.new()
+          lbl_name.uri = FOX_ITCH
+        elif player_name_from_item(item) == 'The Pickle':
+          btn_yt = Label.new()
+          lbl_name = LinkButton.new()
+          lbl_name.uri = PICKLE_ITCH
+        elif player_name_from_item(item) == 'Noodlesoup29':
+          btn_yt = Label.new()
           lbl_name = LinkButton.new()
           lbl_name.uri = NOODLE_ITCH
         else:
