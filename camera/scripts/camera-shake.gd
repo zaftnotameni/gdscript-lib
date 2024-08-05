@@ -42,12 +42,12 @@ func on_constant_trauma_cleared():
   constant_trauma = 0.0
 
 func connect_signals():
-  __zaft.bus.sig_camera_constant_trauma_request.connect(on_constant_trauma_requested)
-  __zaft.bus.sig_camera_constant_trauma_relief.connect(on_constant_trauma_relieved)
-  __zaft.bus.sig_camera_constant_trauma_clear.connect(on_constant_trauma_cleared)
-  __zaft.bus.sig_camera_trauma_request.connect(on_trauma_requested)
-  __zaft.bus.sig_camera_trauma_relief.connect(on_trauma_relieved)
-  __zaft.bus.sig_camera_trauma_clear.connect(on_trauma_cleared)
+  __z.bus.sig_camera_constant_trauma_request.connect(on_constant_trauma_requested)
+  __z.bus.sig_camera_constant_trauma_relief.connect(on_constant_trauma_relieved)
+  __z.bus.sig_camera_constant_trauma_clear.connect(on_constant_trauma_cleared)
+  __z.bus.sig_camera_trauma_request.connect(on_trauma_requested)
+  __z.bus.sig_camera_trauma_relief.connect(on_trauma_relieved)
+  __z.bus.sig_camera_trauma_clear.connect(on_trauma_cleared)
 
 func with_auto_physics_process(val:=false) -> Z_CameraShake:
   auto_physics_process = val
@@ -57,7 +57,7 @@ func _ready() -> void:
   set_physics_process(auto_physics_process)
   if not camera:
     var parent := get_parent() as Camera2D
-    camera = parent if parent else __zaft.global.camera
+    camera = parent if parent else __z.global.camera
   init_noise()
   connect_signals()
 

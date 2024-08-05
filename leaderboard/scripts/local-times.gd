@@ -6,7 +6,7 @@ const LOCAL_TIMES_FILE_NAME := 'user://localtimes.json'
 @onready var local_times_top_10 : Array = []
 
 func _enter_tree() -> void:
-  add_to_group(Z_Autoload_Path.LOCAL_TIMES_GROUP)
+  add_to_group(Z_Path.LOCAL_TIMES_GROUP)
   name = 'LocalTimes'
 
 func _ready() -> void:
@@ -34,7 +34,6 @@ func best_time() -> float:
   return best
 
 func add_local_time(new_local_time:float):
-  if not G_State.allow_time_in_leaderboard: return
   for i in local_times_top_10.size():
     if local_times_top_10[i] <= 0 or local_times_top_10[i] > new_local_time:
       local_times_top_10[i] = new_local_time

@@ -11,7 +11,7 @@ func _enter_tree() -> void:
       var m := Marker2D.new()
       m.name = dir.to_pascal_case()
       m.position = v
-      Z_Autoload_Util.tool_add_child(self, m)
+      Z_Util.tool_add_child(self, m)
 
 # func _draw() -> void:
 #   draw_circle(right() * 32, 16, Color.RED)

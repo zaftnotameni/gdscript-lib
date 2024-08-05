@@ -28,8 +28,8 @@ func _ready() -> void:
     lbl_title.text = title
     lbl_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     lbl_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    Z_Autoload_Util.control_set_color(lbl_title,Color.WHITE)
-    Z_Autoload_Util.control_set_font_size(lbl_title,64)
+    Z_Util.control_set_color(lbl_title,Color.WHITE)
+    Z_Util.control_set_font_size(lbl_title,64)
 
     vbox_layout.add_child(lbl_title)
 

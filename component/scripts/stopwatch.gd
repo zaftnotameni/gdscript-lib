@@ -15,10 +15,10 @@ func process_using_idleframe() -> Z_Stopwatch:
   process_using = Z_ComponentBase.PROCESS_USING.Normal
   return self
 
-func on_game_state_changed(next:Z_Autoload_State.GAME_STATE,_prev:Z_Autoload_State.GAME_STATE):
-  if autostart_when_in_game_mode and next == Z_Autoload_State.GAME_STATE.Game:
+func on_game_state_changed(next:Z_State.GAME_STATE,_prev:Z_State.GAME_STATE):
+  if autostart_when_in_game_mode and next == Z_State.GAME_STATE.Game:
     set_running(true)
-  elif next == Z_Autoload_State.GAME_STATE.Title:
+  elif next == Z_State.GAME_STATE.Title:
     set_running(false)
     elapsed = 0.0
   else:
@@ -26,7 +26,7 @@ func on_game_state_changed(next:Z_Autoload_State.GAME_STATE,_prev:Z_Autoload_Sta
 
 func _enter_tree() -> void:
   name = 'Stopwatch'
-  add_to_group(Z_Autoload_Path.STOPWATCH_GROUP)
+  add_to_group(Z_Path.STOPWATCH_GROUP)
 
 func _ready() -> void:
   process_mode = ProcessMode.PROCESS_MODE_ALWAYS
@@ -37,7 +37,7 @@ func _ready() -> void:
   else:
     set_process(false)
     set_physics_process(false)
-  __zaft.bus.sig_game_state_changed.connect(on_game_state_changed)
+  __z.bus.sig_game_state_changed.connect(on_game_state_changed)
 
 func reset():
   elapsed = 0.0

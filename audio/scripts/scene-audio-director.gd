@@ -222,8 +222,8 @@ func set_initial_volume_from(prefs:=Z_VolumePreferences_Resource.new()):
   set_volume_linear(bus_index_ui,prefs.ui)
 
 func connect_to_bus():
-  __zaft.bus.sig_audio_ui_volume_changed.connect(on_ui_volume_changed)
-  __zaft.bus.sig_audio_sfx_volume_changed.connect(on_sfx_volume_changed)
-  __zaft.bus.sig_audio_bgm_volume_changed.connect(on_bgm_volume_changed)
-  __zaft.bus.sig_audio_master_volume_changed.connect(on_master_volume_changed)
+  __z.bus.sig_audio_ui_volume_changed.connect(on_ui_volume_changed)
+  __z.bus.sig_audio_sfx_volume_changed.connect(on_sfx_volume_changed)
+  __z.bus.sig_audio_bgm_volume_changed.connect(on_bgm_volume_changed)
+  __z.bus.sig_audio_master_volume_changed.connect(on_master_volume_changed)
 

@@ -40,7 +40,7 @@ func setup_label(lbl:Label):
   lbl.grow_vertical = GROW_DIRECTION_BOTH
   lbl.size_flags_vertical = SIZE_FILL
   lbl.custom_minimum_size.x = 150
-  Z_Autoload_Util.control_set_font_size(lbl,32)
+  Z_Util.control_set_font_size(lbl,32)
 
 func setup_name():
   setup_label(lbl_name)
@@ -64,9 +64,9 @@ func setup_slider():
   slider.name = "Value"
   slider.rounded = true
   update_slider_from_bus()
-  slider.focus_entered.connect(__zaft.bus.sig_control_slider_focus_enter.emit.bind(slider))
-  slider.mouse_entered.connect(__zaft.bus.sig_control_slider_mouse_enter.emit.bind(slider))
-  slider.mouse_exited.connect(__zaft.bus.sig_control_slider_mouse_exit.emit.bind(slider))
+  slider.focus_entered.connect(__z.bus.sig_control_slider_focus_enter.emit.bind(slider))
+  slider.mouse_entered.connect(__z.bus.sig_control_slider_mouse_enter.emit.bind(slider))
+  slider.mouse_exited.connect(__z.bus.sig_control_slider_mouse_exit.emit.bind(slider))
 
 @onready var volume_names = {
   BUS.Master: "Master",
@@ -76,24 +76,24 @@ func setup_slider():
 }
 
 @onready var volume_signals = {
-  BUS.Master: __zaft.bus.sig_audio_master_volume_changed,
-  BUS.BGM: __zaft.bus.sig_audio_bgm_volume_changed,
-  BUS.SFX: __zaft.bus.sig_audio_sfx_volume_changed,
-  BUS.UI: __zaft.bus.sig_audio_ui_volume_changed,
+  BUS.Master: __z.bus.sig_audio_master_volume_changed,
+  BUS.BGM: __z.bus.sig_audio_bgm_volume_changed,
+  BUS.SFX: __z.bus.sig_audio_sfx_volume_changed,
+  BUS.UI: __z.bus.sig_audio_ui_volume_changed,
 }
 
 @onready var volume_getters = {
-  BUS.Master: __zaft.audio.director.get_volume_master,
-  BUS.BGM: __zaft.audio.director.get_volume_bgm,
-  BUS.SFX: __zaft.audio.director.get_volume_sfx,
-  BUS.UI: __zaft.audio.director.get_volume_ui,
+  BUS.Master: __z.audio.director.get_volume_master,
+  BUS.BGM: __z.audio.director.get_volume_bgm,
+  BUS.SFX: __z.audio.director.get_volume_sfx,
+  BUS.UI: __z.audio.director.get_volume_ui,
 }
 
 @onready var volume_testers = {
-  BUS.Master: __zaft.audio.director.play_test_master,
-  BUS.BGM: __zaft.audio.director.play_test_bgm,
-  BUS.SFX: __zaft.audio.director.play_test_sfx,
-  BUS.UI: __zaft.audio.director.play_test_ui,
+  BUS.Master: __z.audio.director.play_test_master,
+  BUS.BGM: __z.audio.director.play_test_bgm,
+  BUS.SFX: __z.audio.director.play_test_sfx,
+  BUS.UI: __z.audio.director.play_test_ui,
 }
 
 static func for_master() -> Z_AudioSlider_Node:

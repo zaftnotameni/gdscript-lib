@@ -1,7 +1,7 @@
 class_name Z_BestOnlineTimeLabel extends Label
 
 var api : Z_LeaderboardApi
-@onready var stopwatch : Z_Stopwatch = Z_Autoload_Path.group_stopwatch_only_node()
+@onready var stopwatch : Z_Stopwatch = Z_Path.group_stopwatch_only_node()
 
 const DUMMY_TIME = (59.999) + (59 * 60) + (59 * 60 * 60)
 
@@ -9,7 +9,7 @@ func on_leaderboards(items:=[]):
   if items and not items.is_empty():
     var n := Z_LeaderboardApi.player_name_from_item(items[0])
     var t := Z_LeaderboardApi.time_from_item_in_seconds(items[0])
-    text = '%s by %s' % [Z_Autoload_Util.string_format_time(t), n]
+    text = '%s by %s' % [Z_Util.string_format_time(t), n]
   else:
     text = 'No Online Scores'
 
@@ -21,7 +21,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
   text = 'Loading'
-  api = Z_Autoload_Path.group_leaderboard_only_node()
+  api = Z_Path.group_leaderboard_only_node()
   api.sig_leaderboard_request_completed.connect(on_leaderboards)
   api.sig_upload_completed.connect(on_upload)
   if G_State.allow_time_in_leaderboard:

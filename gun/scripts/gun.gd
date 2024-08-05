@@ -5,7 +5,7 @@ class_name Z_Gun extends Node2D
 ## how many bullets to pre-allocate
 @export var pool_size : int = 10
 ## which layer the bullets will be spawned at, ignored if given a pool already inside the tree
-@export var pool_layer : Z_Autoload_Layers.LAYERS
+@export var pool_layer : Z_Layers.LAYERS
 ## the scene that will be spawned as a bullet
 @export var bullet_scene : PackedScene
 ## method called on the bullet scene when a bullet is first created, the gun is passed as a parameter
@@ -32,8 +32,8 @@ func _ready() -> void:
   for _i in pool_size:
     pool.add_child(return_to_pool(create_bullet('Bullet_%03d' % _i)))
   if not pool.is_inside_tree():
-    assert(pool_layer != Z_Autoload_Layers.LAYERS.invalid, 'must provide a valid layer %s' % get_path())
-    __zaft.layer.layer_named(pool_layer).add_child(pool)
+    assert(pool_layer != Z_Layers.LAYERS.invalid, 'must provide a valid layer %s' % get_path())
+    __z.layer.layer_named(pool_layer).add_child(pool)
 
 func _exit_tree() -> void:
   if pool:
@@ -54,7 +54,7 @@ func next_from_pool(global_pos:=muzzle.global_position,_warn_on_empty:=warn_on_e
   var b :Node2D = pooled_bullets.pop_back()
   if not b and _warn_on_empty: push_warning('%s ran out of bullets' % get_path())
   if not b: return
-  Z_Autoload_Util.node_turn_on(b)
+  Z_Util.node_turn_on(b)
   b.global_position = global_pos
   if before_bullet_take_from_pool_fn:
     before_bullet_take_from_pool_fn.call(b)
@@ -64,7 +64,7 @@ func next_from_pool(global_pos:=muzzle.global_position,_warn_on_empty:=warn_on_e
 
 func return_to_pool(b:Node2D) -> Node2D:
   if not b: return
-  Z_Autoload_Util.node_turn_off(b)
+  Z_Util.node_turn_off(b)
   pooled_bullets.push_back(b)
   if b.has_method(on_return_to_pool):
     b.call(on_return_to_pool, self)

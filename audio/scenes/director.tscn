@@ -1,14 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ceedsxl72brk8"]
+[gd_scene load_steps=7 format=3 uid="uid://ceedsxl72brk8"]
 
 [ext_resource type="Script" path="res://zaft/lib/audio/scripts/scene-audio-director.gd" id="1_pnv2a"]
 [ext_resource type="AudioStream" uid="uid://b05ntruyqb77" path="res://zaft/lib/asset/audio/ui/tick_002.ogg" id="2_1tauf"]
 [ext_resource type="AudioStream" uid="uid://dl21br2ubi7od" path="res://zaft/lib/asset/audio/ui/tick_001.ogg" id="2_mrk8h"]
 [ext_resource type="AudioStream" uid="uid://2lsoua2r8hew" path="res://zaft/lib/player/audio/die.mp3" id="3_ax2dm"]
-[ext_resource type="AudioStream" uid="uid://cfvys81ivfkal" path="res://zaft/lib/asset/audio/bgm/mcleod/Dark Fog.mp3" id="3_gkfd8"]
 [ext_resource type="AudioStream" uid="uid://cqw7yum3gu142" path="res://zaft/lib/asset/audio/ui/toggle_001.ogg" id="3_qx1n5"]
 [ext_resource type="AudioStream" uid="uid://dsrxu8rymbv0y" path="res://zaft/lib/spawner/audio/respawn.wav" id="4_4stvi"]
-[ext_resource type="AudioStream" uid="uid://dxao1am72aeqj" path="res://zaft/lib/asset/audio/bgm/mcleod/Voxel Revolution.mp3" id="4_5lcg1"]
-[ext_resource type="AudioStream" uid="uid://dji0kiar6nji2" path="res://zaft/lib/asset/audio/bgm/mcleod/Mana Two - Part 3.mp3" id="5_s0k33"]
 
 [node name="AudioDirector" type="Node"]
 script = ExtResource("1_pnv2a")
@@ -26,18 +23,12 @@ stream = ExtResource("2_mrk8h")
 stream = ExtResource("2_mrk8h")
 
 [node name="TitleScreen" type="AudioStreamPlayer" parent="Streams/BGM"]
-stream = ExtResource("3_gkfd8")
 volume_db = -2.0
-bus = &"BGM"
 
 [node name="Level" type="AudioStreamPlayer" parent="Streams/BGM"]
-stream = ExtResource("4_5lcg1")
 volume_db = -10.0
-bus = &"BGM"
 
 [node name="Ending" type="AudioStreamPlayer" parent="Streams/BGM"]
-stream = ExtResource("5_s0k33")
-bus = &"BGM"
 
 [node name="SFX" type="Node" parent="Streams"]
 
@@ -46,11 +37,9 @@ stream = ExtResource("2_mrk8h")
 
 [node name="Die" type="AudioStreamPlayer" parent="Streams/SFX"]
 stream = ExtResource("3_ax2dm")
-bus = &"SFX"
 
 [node name="RespawnActive" type="AudioStreamPlayer" parent="Streams/SFX"]
 stream = ExtResource("4_4stvi")
-bus = &"SFX"
 
 [node name="UI" type="Node" parent="Streams"]
 

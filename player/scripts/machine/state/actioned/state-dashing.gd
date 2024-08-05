@@ -16,12 +16,12 @@ func on_state_exit(_prev:Z_StateMachineState):
 func on_state_enter(_prev:Z_StateMachineState):
   party_dash_trail.emitting = true
   party_dash_splash.emitting = true
-  __zaft.audio.director.play_pitched_2d(sfx_dash, 1, true, false)
+  __z.audio.director.play_pitched_2d(sfx_dash, 1, true, false)
   match character.stats.facing:
     Z_PlayerStats.FACING.Right: character.viz.skew = deg_to_rad(-10)
     Z_PlayerStats.FACING.Left: character.viz.skew = deg_to_rad(10)
   elapsed = 0.0
-  __zaft.bus.sig_camera_trauma_request.emit(0.2)
+  __z.bus.sig_camera_trauma_request.emit(0.2)
 
 func dash_direction() -> Vector2:
   return windrose.right() if character.stats.facing == Z_PlayerStats.FACING.Right else windrose.left()

@@ -30,11 +30,11 @@ func create_default_shape() -> CollisionShape2D:
 const GRAVITY_WELL_GROUP_NAME := &'gravity-well'
 
 static func resolve_one() -> Z_GravityWell:
-  return Z_Autoload_Util.scene_tree().get_first_node_in_group(GRAVITY_WELL_GROUP_NAME)
+  return Z_Util.scene_tree().get_first_node_in_group(GRAVITY_WELL_GROUP_NAME)
 
 static func resolve_all() -> Array[Z_GravityWell]:
   var res : Array[Z_GravityWell] = []
-  for w:Z_GravityWell in Z_Autoload_Util.scene_tree().get_nodes_in_group(GRAVITY_WELL_GROUP_NAME):
+  for w:Z_GravityWell in Z_Util.scene_tree().get_nodes_in_group(GRAVITY_WELL_GROUP_NAME):
     if w and not w.is_queued_for_deletion(): res.push_back(w)
   return res
 

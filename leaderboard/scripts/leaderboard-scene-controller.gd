@@ -17,7 +17,7 @@ func setup_local_times():
     if lt <= 1: continue
     var lbl_name := Z_LeaderboardPlayerLabel.new()
     var lbl_time := Z_LeaderboardTimeLabel.new()
-    lbl_time.text = Z_Autoload_Util.string_format_time(lt)
+    lbl_time.text = Z_Util.string_format_time(lt)
     lbl_name.text = 'Local Player'
     local_grid.add_child(lbl_name)
     local_grid.add_child(lbl_time)
@@ -49,8 +49,8 @@ func on_set_name(p_name:='???'):
   api._get_leaderboards()
 
 func _ready() -> void:
-  api = Z_Autoload_Path.group_leaderboard_only_node()
-  local = Z_Autoload_Path.group_local_times_only_node()
+  api = Z_Path.group_leaderboard_only_node()
+  local = Z_Path.group_local_times_only_node()
   api.sig_leaderboard_request_completed.connect(on_leaderboards)
   api.sig_get_name_completed.connect(on_player_name)
   api.sig_set_name_completed.connect(on_set_name)

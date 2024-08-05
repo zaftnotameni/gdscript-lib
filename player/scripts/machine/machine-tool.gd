@@ -16,7 +16,7 @@ func setup_tooled():
     print(t, t.resource_path, t.resource_name)
     var c : Z_PlayerStateMachineState = t.new()
     c.name = Z_PlayerStateMachineState.STATE.find_key(s).to_pascal_case()
-    Z_Autoload_Util.tool_add_child(target_state_machine(), c)
+    Z_Util.tool_add_child(target_state_machine(), c)
 
 func target_state_machine() -> Z_PlayerStateMachine:
   return Z_ComponentBase.resolve_at(get_parent(), Z_PlayerStateMachine)

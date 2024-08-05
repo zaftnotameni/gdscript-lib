@@ -16,16 +16,16 @@ var lbl_machine : Label
 
 func lazy_lbl_machine() -> Label:
   if not lbl_machine:
-    var existing := __zaft.layer.debug.get_node_or_null('LabelPlayerStateMachineDebug') as Label
+    var existing := __z.layer.debug.get_node_or_null('LabelPlayerStateMachineDebug') as Label
     lbl_machine = existing if existing else Label.new()
     lbl_machine.name = 'LabelPlayerStateMachineDebug'
     lbl_machine.text = 'Player State Machine Debug'
-    if not existing: __zaft.layer.debug.add_child(lbl_machine)
+    if not existing: __z.layer.debug.add_child(lbl_machine)
   return lbl_machine
 
 func on_machine_state_change(curr:Z_PlayerStateMachineState,prev:Z_PlayerStateMachineState):
   lazy_lbl_machine().text = '[%s]=%s>[%s]=%s>[%s]' % [prev.via_state, prev.via_transition, prev.name, curr.via_transition, curr.name]
-  Z_Autoload_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
+  Z_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
 
 func _exit_tree() -> void:
   if lbl_machine and lbl_machine.is_inside_tree() and not lbl_machine.is_queued_for_deletion():
@@ -36,7 +36,7 @@ func should_debug() -> bool: return debug_on_web or not OS.has_feature('web')
 
 func _ready() -> void:
   if debug_machine and should_debug():
-    Z_Autoload_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
+    Z_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
     resolve_machine().sig_state_did_transition.connect(on_machine_state_change)
 
 func _draw() -> void:

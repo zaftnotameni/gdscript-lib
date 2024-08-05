@@ -43,12 +43,12 @@ func on_button_pressed(btn_name:String,b:Button):
     var s := ps.instantiate()
     s.tree_exited.connect(b.grab_focus, CONNECT_ONE_SHOT)
     s.process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
-    __zaft.layer.menu.add_child(s)
-    var t := Z_Autoload_Util.tween_fresh_eased_in_out_cubic()
+    __z.layer.menu.add_child(s)
+    var t := Z_Util.tween_fresh_eased_in_out_cubic()
     t.tween_property(s, ^'position:y', 0, 0.2).from(-1800)
 
 func _ready() -> void:
-  Z_Autoload_State.title()
+  Z_State.title()
   btn_test.name = "Test"
   btn_continue.name = "Continue"
   btn_load.name = "Load"
@@ -60,9 +60,9 @@ func _ready() -> void:
 
   for b:Button in btns:
     b.text = b.name
-    Z_Autoload_Util.control_set_color(b,Color.WHITE)
-    Z_Autoload_Util.control_set_font_size(b, 32)
-    Z_Autoload_Util.control_set_minimum_x(b, 300.0)
+    Z_Util.control_set_color(b,Color.WHITE)
+    Z_Util.control_set_font_size(b, 32)
+    Z_Util.control_set_minimum_x(b, 300.0)
     b.pressed.connect(on_button_pressed.bind(b.name, b))
     if get('hide_%s' % b.name.to_snake_case()):
       b.queue_free()

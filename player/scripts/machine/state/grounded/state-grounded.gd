@@ -19,8 +19,8 @@ func on_dash():
   if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_gnd):
     machine.transition('dash-gnd', STATE.Dashing)
   else:
-    __zaft.audio.director.play_pitched_2d(sfx_deny, 1, true, false)
-    __zaft.bus.sig_camera_trauma_request.emit(0.2)
+    __z.audio.director.play_pitched_2d(sfx_deny, 1, true, false)
+    __z.bus.sig_camera_trauma_request.emit(0.2)
 
 func initial_speed_from_input(input_x:float) -> float: return input_x * character.stats.initial_speed_from_input
 func is_same_direction_as_input(input_x:float) -> bool: return sign(input_x) == sign(character.velocity.x)

@@ -1,7 +1,7 @@
 class_name Z_PlayerStateMachine extends Z_StateMachine
 
 func _enter_tree() -> void:
-  add_to_group(Z_Autoload_Path.PLAYER_CHARACTER_STATE_MACHINE_GROUP)
+  add_to_group(Z_Path.PLAYER_CHARACTER_STATE_MACHINE_GROUP)
 
 func _ready() -> void:
   super()

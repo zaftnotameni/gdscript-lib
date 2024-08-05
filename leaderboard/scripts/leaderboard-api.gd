@@ -44,298 +44,234 @@ var leaderboard_items = []
 var leaderboard_user = {}
 var leaderboard_auth = {}
 
-const FOX := 6443056
-const FOX_ITCH := 'https://www.twitch.tv/foxhollowgames'
-const PICKLE := 6438359
-const PICKLE_ITCH := 'https://itch.io/profile/picklejargames'
-const COLE := 6448563
-const COLE_LINK := 'https://www.youtube.com/watch?v=pAcdioyMXPo'
-const COLE_ITCH := 'https://colecantcode.itch.io/'
-const NOODLE := 6438414
-const NOODLE_LINK := 'https://www.youtube.com/watch?v=UIJjcvVf8uI'
-const NOODLE_ITCH := 'https://teamcloids.itch.io/'
-
 func _enter_tree() -> void:
-  process_mode = ProcessMode.PROCESS_MODE_ALWAYS
-  name = 'LeaderboardAPI'
-  add_to_group(Z_Autoload_Path.LEADERBOARD_GROUP)
+	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
+	name = 'LeaderboardAPI'
+	add_to_group(Z_Path.LEADERBOARD_GROUP)
 
 func auths_on_ready(yes_or_no:=false) -> Z_LeaderboardApi:
-  auth_on_ready = yes_or_no
-  return self
+	auth_on_ready = yes_or_no
+	return self
 
 func _ready() -> void:
-  if not Z_Autoload_Config.disable_remote_leaderboard:
-    auth_http = HTTPRequest.new()
-    leaderboard_http = HTTPRequest.new()
-    submit_score_http = HTTPRequest.new()
-    set_name_http = HTTPRequest.new()
-    get_name_http = HTTPRequest.new()
+	if not Z_Config.disable_remote_leaderboard:
+		auth_http = HTTPRequest.new()
+		leaderboard_http = HTTPRequest.new()
+		submit_score_http = HTTPRequest.new()
+		set_name_http = HTTPRequest.new()
+		get_name_http = HTTPRequest.new()
 
-  fl_name_set = name_file_exists()
-  if name_file_exists():
-    var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)
-    if name_file:
-      player_name = name_file.get_as_text()
-      print_verbose("player name="+player_name)
-      name_file.close()
-  if auth_on_ready:
-    _authentication_request()
+	fl_name_set = name_file_exists()
+	if name_file_exists():
+		var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)
+		if name_file:
+			player_name = name_file.get_as_text()
+			print_verbose("player name="+player_name)
+			name_file.close()
+	if auth_on_ready:
+		_authentication_request()
 
 func name_file_exists():
-  return FileAccess.file_exists(user_file_for_leaderboard)
+	return FileAccess.file_exists(user_file_for_leaderboard)
 
 func _authentication_request():
-  if fl_authenticating: return
-  sig_auth_request_started.emit()
-  if Z_Autoload_Config.disable_remote_leaderboard:
-    sig_auth_request_completed.emit()
-    return
-  fl_authenticating = true
-  var player_session_exists = false
-  var file = FileAccess.open(data_file_for_leaderboard, FileAccess.READ)
-  if file:
-    player_identifier = file.get_as_text()
-    print_verbose("player ID="+player_identifier)
-    file.close()
-  var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)
-  if name_file:
-    player_name = name_file.get_as_text()
-    print_verbose("player name="+player_name)
-    name_file.close()
+	if fl_authenticating: return
+	sig_auth_request_started.emit()
+	if Z_Config.disable_remote_leaderboard:
+		sig_auth_request_completed.emit()
+		return
+	fl_authenticating = true
+	var player_session_exists = false
+	var file = FileAccess.open(data_file_for_leaderboard, FileAccess.READ)
+	if file:
+		player_identifier = file.get_as_text()
+		print_verbose("player ID="+player_identifier)
+		file.close()
+	var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)
+	if name_file:
+		player_name = name_file.get_as_text()
+		print_verbose("player name="+player_name)
+		name_file.close()
 
-  if player_identifier and player_identifier.length() > 1:
-    print_verbose("player session exists, id="+player_identifier)
-    player_session_exists = true
-  if(player_identifier.length() > 1):
-    player_session_exists = true
+	if player_identifier and player_identifier.length() > 1:
+		print_verbose("player session exists, id="+player_identifier)
+		player_session_exists = true
+	if(player_identifier.length() > 1):
+		player_session_exists = true
 
-  var data = { "game_key": game_API_key, "game_version": "0.0.0.1", "development_mode": true }
+	var data = { "game_key": game_API_key, "game_version": "0.0.0.1", "development_mode": true }
 
-  if(player_session_exists == true):
-    data = { "game_key": game_API_key, "player_identifier":player_identifier, "game_version": "0.0.0.1", "development_mode": true }
+	if(player_session_exists == true):
+		data = { "game_key": game_API_key, "player_identifier":player_identifier, "game_version": "0.0.0.1", "development_mode": true }
 
-  var headers = ["Content-Type: application/json"]
+	var headers = ["Content-Type: application/json"]
 
-  auth_http = HTTPRequest.new()
-  add_child(auth_http)
-  auth_http.request_completed.connect(_on_authentication_request_completed)
-  auth_http.request("https://api.lootlocker.io/game/v2/session/guest", headers, HTTPClient.METHOD_POST, JSON.stringify(data))
-  print_verbose(data)
-  fl_authenticated = true
+	auth_http = HTTPRequest.new()
+	add_child(auth_http)
+	auth_http.request_completed.connect(_on_authentication_request_completed)
+	auth_http.request("https://api.lootlocker.io/game/v2/session/guest", headers, HTTPClient.METHOD_POST, JSON.stringify(data))
+	print_verbose(data)
+	fl_authenticated = true
 
 func _on_authentication_request_completed(_result, _response_code, _headers, body):
-  var json = JSON.new()
-  json.parse(body.get_string_from_utf8())
-  print_verbose(json.get_data())
-  var file = FileAccess.open(data_file_for_leaderboard, FileAccess.WRITE)
-  file.store_string(json.get_data()['player_identifier'])
-  file.close()
-  leaderboard_auth = json.get_data()
-  session_token = json.get_data()['session_token']
-  print_verbose(json.get_data())
-  sig_auth_request_completed.emit()
-  auth_http.queue_free()
-  fl_authenticating = false
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	print_verbose(json.get_data())
+	var file = FileAccess.open(data_file_for_leaderboard, FileAccess.WRITE)
+	file.store_string(json.get_data()['player_identifier'])
+	file.close()
+	leaderboard_auth = json.get_data()
+	session_token = json.get_data()['session_token']
+	print_verbose(json.get_data())
+	sig_auth_request_completed.emit()
+	auth_http.queue_free()
+	fl_authenticating = false
 
 func _get_leaderboards():
-  await wait_for_auth()
-  sig_leaderboard_request_started.emit()
-  if Z_Autoload_Config.disable_remote_leaderboard:
-    sig_leaderboard_request_completed.emit([])
-    return
-  print_verbose("Getting leaderboards")
-  var url = "https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/list?count=50"
-  var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
-  leaderboard_http = HTTPRequest.new()
-  add_child(leaderboard_http)
-  leaderboard_http.request_completed.connect(_on_leaderboard_request_completed)
-  leaderboard_http.request(url, headers, HTTPClient.METHOD_GET, "")
+	await wait_for_auth()
+	sig_leaderboard_request_started.emit()
+	if Z_Config.disable_remote_leaderboard:
+		sig_leaderboard_request_completed.emit([])
+		return
+	print_verbose("Getting leaderboards")
+	var url = "https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/list?count=50"
+	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
+	leaderboard_http = HTTPRequest.new()
+	add_child(leaderboard_http)
+	leaderboard_http.request_completed.connect(_on_leaderboard_request_completed)
+	leaderboard_http.request(url, headers, HTTPClient.METHOD_GET, "")
 
 func _on_leaderboard_request_completed(_result, _response_code, _headers, body):
-  var json = JSON.new()
-  json.parse(body.get_string_from_utf8())
-  print_verbose(json.get_data())
-  var leaderboardFormatted = ""
-  var items = json.get_data().items
-  sig_leaderboard_request_completed.emit(items if items else [])
-  leaderboard_items = (items if items else [])
-  if items is Array: for n in items.size():
-    leaderboardFormatted += str(json.get_data().items[n].rank)+str(". ")
-    leaderboardFormatted += str(json.get_data().items[n].player.id)+str(" - ")
-    leaderboardFormatted += str(json.get_data().items[n].score)+str("\n")
-  print_verbose(leaderboardFormatted)
-  leaderboard_http.queue_free()
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	print_verbose(json.get_data())
+	var leaderboardFormatted = ""
+	var items = json.get_data().items
+	sig_leaderboard_request_completed.emit(items if items else [])
+	leaderboard_items = (items if items else [])
+	if items is Array: for n in items.size():
+		leaderboardFormatted += str(json.get_data().items[n].rank)+str(". ")
+		leaderboardFormatted += str(json.get_data().items[n].player.id)+str(" - ")
+		leaderboardFormatted += str(json.get_data().items[n].score)+str("\n")
+	print_verbose(leaderboardFormatted)
+	leaderboard_http.queue_free()
 
 func _upload_score(_score: int):
-  await wait_for_auth()
-  sig_upload_started.emit()
-  if Z_Autoload_Config.disable_remote_leaderboard:
-    sig_upload_completed.emit()
-    return
-  var data = { "score": str(_score) }
-  var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
-  submit_score_http = HTTPRequest.new()
-  add_child(submit_score_http)
-  submit_score_http.request_completed.connect(_on_upload_score_request_completed)
-  submit_score_http.request("https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/submit", headers, HTTPClient.METHOD_POST, JSON.stringify(data))
-  print_verbose(data)
+	await wait_for_auth()
+	sig_upload_started.emit()
+	if Z_Config.disable_remote_leaderboard:
+		sig_upload_completed.emit()
+		return
+	var data = { "score": str(_score) }
+	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
+	submit_score_http = HTTPRequest.new()
+	add_child(submit_score_http)
+	submit_score_http.request_completed.connect(_on_upload_score_request_completed)
+	submit_score_http.request("https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/submit", headers, HTTPClient.METHOD_POST, JSON.stringify(data))
+	print_verbose(data)
 
 func _change_player_name(new_name:String="new name"):
-  await wait_for_auth()
-  sig_set_name_started.emit()
-  if Z_Autoload_Config.disable_remote_leaderboard:
-    sig_set_name_completed.emit(new_name)
-    return
-  print_verbose("Changing player name")
-  player_name = new_name
-  var data = { "name": str(player_name) }
-  var url =  "https://api.lootlocker.io/game/player/name"
-  var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
-  set_name_http = HTTPRequest.new()
-  add_child(set_name_http)
-  set_name_http.request_completed.connect(_on_player_set_name_request_completed)
-  set_name_http.request(url, headers, HTTPClient.METHOD_PATCH, JSON.stringify(data))
+	await wait_for_auth()
+	sig_set_name_started.emit()
+	if Z_Config.disable_remote_leaderboard:
+		sig_set_name_completed.emit(new_name)
+		return
+	print_verbose("Changing player name")
+	player_name = new_name
+	var data = { "name": str(player_name) }
+	var url =	"https://api.lootlocker.io/game/player/name"
+	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
+	set_name_http = HTTPRequest.new()
+	add_child(set_name_http)
+	set_name_http.request_completed.connect(_on_player_set_name_request_completed)
+	set_name_http.request(url, headers, HTTPClient.METHOD_PATCH, JSON.stringify(data))
 
 func _on_player_set_name_request_completed(_result, _response_code, _headers, body):
-  var json = JSON.new()
-  json.parse(body.get_string_from_utf8())
-  print_verbose(json.get_data())
-  set_name_http.queue_free()
-  sig_set_name_completed.emit(player_name)
-  var file = FileAccess.open(user_file_for_leaderboard, FileAccess.WRITE)
-  file.store_string(player_name)
-  file.close()
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	print_verbose(json.get_data())
+	set_name_http.queue_free()
+	sig_set_name_completed.emit(player_name)
+	var file = FileAccess.open(user_file_for_leaderboard, FileAccess.WRITE)
+	file.store_string(player_name)
+	file.close()
 
 func _get_player_name():
-  await wait_for_auth()
-  sig_get_name_started.emit()
-  if Z_Autoload_Config.disable_remote_leaderboard:
-    sig_get_name_completed.emit('offline')
-    return
-  print_verbose("Getting player name")
-  var url = "https://api.lootlocker.io/game/player/name"
-  var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
-  get_name_http = HTTPRequest.new()
-  add_child(get_name_http)
-  get_name_http.request_completed.connect(_on_player_get_name_request_completed)
-  get_name_http.request(url, headers, HTTPClient.METHOD_GET, "")
+	await wait_for_auth()
+	sig_get_name_started.emit()
+	if Z_Config.disable_remote_leaderboard:
+		sig_get_name_completed.emit('offline')
+		return
+	print_verbose("Getting player name")
+	var url = "https://api.lootlocker.io/game/player/name"
+	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
+	get_name_http = HTTPRequest.new()
+	add_child(get_name_http)
+	get_name_http.request_completed.connect(_on_player_get_name_request_completed)
+	get_name_http.request(url, headers, HTTPClient.METHOD_GET, "")
 
 func _on_player_get_name_request_completed(_result, _response_code, _headers, body):
-  var json = JSON.new()
-  json.parse(body.get_string_from_utf8())
-  leaderboard_user = json.get_data()
-  print_verbose(leaderboard_user)
-  player_name = json.get_data().name
-  sig_get_name_completed.emit(player_name)
-  var file = FileAccess.open(user_file_for_leaderboard, FileAccess.WRITE)
-  file.store_string(player_name)
-  file.close()
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	leaderboard_user = json.get_data()
+	print_verbose(leaderboard_user)
+	player_name = json.get_data().name
+	sig_get_name_completed.emit(player_name)
+	var file = FileAccess.open(user_file_for_leaderboard, FileAccess.WRITE)
+	file.store_string(player_name)
+	file.close()
 
 func _on_upload_score_request_completed(_result, _response_code, _headers, body) :
-  var json = JSON.new()
-  json.parse(body.get_string_from_utf8())
-  print_verbose(json.get_data())
-  sig_upload_completed.emit() 
-  submit_score_http.queue_free()
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	print_verbose(json.get_data())
+	sig_upload_completed.emit() 
+	submit_score_http.queue_free()
 
 func wait_for_auth():
-  if Z_Autoload_Config.disable_remote_leaderboard: return
-  if not leaderboard_auth:
-    _authentication_request()
-    await sig_auth_request_completed
+	if Z_Config.disable_remote_leaderboard: return
+	if not leaderboard_auth:
+		_authentication_request()
+		await sig_auth_request_completed
 
 static func player_name_from_item(item:={}) -> String:
-  if item:
-    if item.has('player'):
-      if item.player:
-        if item.player.has('name'):
-          if item.player.name:
-            if not item.player.name.is_empty():
-              return item.player.name
-        if item.player.has('public_uid'):
-          if item.player.public_uid:
-            if not item.player.public_uid.is_empty():
-              return item.player.public_uid
-  return '??????'
+	if item:
+		if item.has('player'):
+			if item.player:
+				if item.player.has('name'):
+					if item.player.name:
+						if not item.player.name.is_empty():
+							return item.player.name
+				if item.player.has('public_uid'):
+					if item.player.public_uid:
+						if not item.player.public_uid.is_empty():
+							return item.player.public_uid
+	return '??????'
 
 static func time_from_item_in_seconds(item:={}) -> float:
-  if item:
-    if item.has('score'):
-      if item.score > 0:
-        return item.score / 1000.0
-  return -1
-
-static func open_cole_video():
-  OS.shell_open(COLE_LINK)
-
-static func open_noodle_video():
-  OS.shell_open(NOODLE_LINK)
+	if item:
+		if item.has('score'):
+			if item.score > 0:
+				return item.score / 1000.0
+	return -1
 
 ## parent: ideally a grid container with 2 columns
 static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, TimeLabelType:Script=null):
-  if items and not items.is_empty():
-    for item in items:
-      var p_name := player_name_from_item(item)
-      var time_in_sec := time_from_item_in_seconds(item)
-      var lbl_name :Control
-      var lbl_time :Control = TimeLabelType.new() if TimeLabelType else Label.new()
-      var btn_yt : Control
-      lbl_time.text = Z_Autoload_Util.string_format_time(time_in_sec)
-      if item and item.has('player') and item.player and item.player.has('id') and item.player.id:
-        if false: pass
-        elif item.player.id == COLE:
-          btn_yt = TextureButton.new()
-          btn_yt.texture_normal = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.texture_pressed = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.texture_hover = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.tooltip_text = 'See Full Run on YouTube'
-          btn_yt.pressed.connect(open_cole_video)
-          lbl_name = LinkButton.new()
-          lbl_name.uri = COLE_ITCH
-        elif item.player.id == FOX:
-          btn_yt = Label.new()
-          lbl_name = LinkButton.new()
-          lbl_name.uri = FOX_ITCH
-        elif item.player.id == PICKLE:
-          btn_yt = Label.new()
-          lbl_name = LinkButton.new()
-          lbl_name.uri = PICKLE_ITCH
-        elif item.player.id == NOODLE:
-          btn_yt = TextureButton.new()
-          btn_yt.texture_normal = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.texture_pressed = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.texture_hover = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.texture_focused = Gen_AllImages.IMAGE_PLAYER_SPRITE_32X_32
-          btn_yt.tooltip_text = 'See Full Run on YouTube'
-          btn_yt.pressed.connect(open_noodle_video)
-          lbl_name = LinkButton.new()
-          lbl_name.uri = NOODLE_ITCH
-        elif player_name_from_item(item) == 'cole':
-          btn_yt = Label.new()
-          lbl_name = LinkButton.new()
-          lbl_name.uri = COLE_ITCH
-        elif player_name_from_item(item) == 'Fox Hollow Games':
-          btn_yt = Label.new()
-          lbl_name = LinkButton.new()
-          lbl_name.uri = FOX_ITCH
-        elif player_name_from_item(item) == 'The Pickle':
-          btn_yt = Label.new()
-          lbl_name = LinkButton.new()
-          lbl_name.uri = PICKLE_ITCH
-        elif player_name_from_item(item) == 'Noodlesoup29':
-          btn_yt = Label.new()
-          lbl_name = LinkButton.new()
-          lbl_name.uri = NOODLE_ITCH
-        else:
-          lbl_name = NameLabelType.new() if NameLabelType else Label.new()
-          btn_yt = Label.new()
-      lbl_name.text = p_name
-      Z_Autoload_Util.control_set_font_size(lbl_name, 24)
-      var margin_container := MarginContainer.new()
-      margin_container.add_theme_constant_override(&'margin_right', 12)
-      margin_container.add_child(btn_yt)
-      parent.add_child(margin_container)
-      parent.add_child(lbl_name)
-      parent.add_child(lbl_time)
+	if items and not items.is_empty():
+		for item in items:
+			var p_name := player_name_from_item(item)
+			var time_in_sec := time_from_item_in_seconds(item)
+			var lbl_name :Control
+			var lbl_time :Control = TimeLabelType.new() if TimeLabelType else Label.new()
+			var btn_yt : Control
+			lbl_time.text = Z_Util.string_format_time(time_in_sec)
+			lbl_name = NameLabelType.new() if NameLabelType else Label.new()
+			btn_yt = Label.new()
+			lbl_name.text = p_name
+			Z_Util.control_set_font_size(lbl_name, 24)
+			var margin_container := MarginContainer.new()
+			margin_container.add_theme_constant_override(&'margin_right', 12)
+			margin_container.add_child(btn_yt)
+			parent.add_child(margin_container)
+			parent.add_child(lbl_name)
+			parent.add_child(lbl_time)

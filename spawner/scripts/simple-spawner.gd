@@ -16,7 +16,7 @@ signal sig_despawned(despawned:CanvasItem)
 ## script must be a CanvasItem, is ignored if scene is set
 @export var script_to_spawn : Script
 @export_category('where')
-@export var layer : Z_Autoload_Layers.LAYERS
+@export var layer : Z_Layers.LAYERS
 @export var container : Node2D
 
 var spawned_list : Array[CanvasItem] = []
@@ -46,7 +46,7 @@ func spawn():
   if spawn_mode == SPAWN_MODE.SingleClear: await clear_existing_spawned(true)
   if spawn_mode == SPAWN_MODE.SingleWarns: warn_if_existing_spawned()
   var new_spawned : CanvasItem = scene_to_spawn.instantiate() if scene_to_spawn else script_to_spawn.new()
-  var target_container := container if container else __zaft.layer.layer_named(layer)
+  var target_container := container if container else __z.layer.layer_named(layer)
   target_container.add_child(new_spawned)
   new_spawned.global_position = global_position
   spawned_list.push_back(new_spawned)

@@ -1,4 +1,4 @@
-class_name Z_Autoload_Layers extends Node
+class_name Z_Layers extends Node
 
 @onready var background:CanvasLayer=CanvasLayer.new()
 @onready var level:CanvasLayer=CanvasLayer.new()
@@ -21,7 +21,7 @@ class_name Z_Autoload_Layers extends Node
 func wipe_all_managed(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:
     var child := n.get_node(child_name.to_pascal_case()) as Node
-    Z_Autoload_Util.children_wipe(child)
+    Z_Util.children_wipe(child)
 
 func _ready() -> void:
   add_managed_containers(managed)
@@ -31,7 +31,7 @@ func _ready() -> void:
   notify_managed_layers_ready.call_deferred()
 
 func notify_managed_layers_ready():
-  __zaft.bus.sig_layer_managed_layers_ready.emit(managed)
+  __z.bus.sig_layer_managed_layers_ready.emit(managed)
 
 func add_managed_containers(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:

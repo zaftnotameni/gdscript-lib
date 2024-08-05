@@ -1,6 +1,11 @@
-class_name Z_Autoload_Bus extends Node
+class_name Z_Bus extends Node
 
-signal sig_game_state_changed(next:Z_Autoload_State.GAME_STATE,prev:Z_Autoload_State.GAME_STATE)
+signal sig_global_player_set(new_player:Node2D,prev_player:Node2D)
+signal sig_global_camera_set(new_cam:Camera2D,prev_cam:Camera2D)
+signal sig_global_level_set(new_level:Node2D,prev_level:Node2D)
+signal sig_global_menu_set(new_menu:Control,prev_menu:Control)
+
+signal sig_game_state_changed(next:Z_State.GAME_STATE,prev:Z_State.GAME_STATE)
 
 signal sig_camera_constant_trauma_request(amount:float)
 signal sig_camera_constant_trauma_relief(amount:float)

@@ -16,18 +16,18 @@ func on_dash():
   if player.stats.try_update_heat_relative(player.stats.heat_dash_cost_air):
     machine.transition('dash-air', STATE.Dashing)
   else:
-    __zaft.audio.director.play_pitched_2d(sfx_deny, 1, true, false)
-    __zaft.bus.sig_camera_trauma_request.emit(0.2)
+    __z.audio.director.play_pitched_2d(sfx_deny, 1, true, false)
+    __z.bus.sig_camera_trauma_request.emit(0.2)
 
 var t : Tween
 
 func on_state_enter(_x=null):
   party_splash.emitting = true
-  __zaft.audio.director.play_pitched_2d(sfx_jump, 1, true, false)
+  __z.audio.director.play_pitched_2d(sfx_jump, 1, true, false)
   character.velocity.y = -character.stats.jump_velocity
   character.move_and_slide()
   jump_cancelled = false
-  t = Z_Autoload_Util.tween_fresh_eased_in_out_cubic(t)
+  t = Z_Util.tween_fresh_eased_in_out_cubic(t)
   var sprite : Sprite2D = player.viz.get_node('Sprite2D')
   t.tween_property(sprite, 'scale:x', 0.8, 0.2)
   t.parallel().tween_property(sprite, 'scale:y', 1.2, 0.2)
@@ -36,7 +36,7 @@ func on_state_enter(_x=null):
 
 func on_state_exit(_x=null):
   jump_cancelled = false
-  t = Z_Autoload_Util.tween_fresh_eased_in_out_cubic(t)
+  t = Z_Util.tween_fresh_eased_in_out_cubic(t)
   var sprite : Sprite2D = player.viz.get_node('Sprite2D')
   t.tween_property(sprite, 'scale:x', 1.0, 0.1)
   t.parallel().tween_property(sprite, 'scale:y', 1.0, 0.1)
@@ -84,5 +84,5 @@ func _physics_process(delta: float) -> void:
   phys_proc_no_trans(delta)
 
   if character.is_on_floor():
-    __zaft.audio.director.play_pitched_2d(sfx_land, 1, true, false)
+    __z.audio.director.play_pitched_2d(sfx_land, 1, true, false)
     machine.transition('landed', STATE.Grounded)

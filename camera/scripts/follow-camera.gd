@@ -17,7 +17,7 @@ func follow_target(c:Camera2D,p:Vector2,s:float,delta:float):
   update_parallax(c)
 
 func update_parallax(c:Camera2D):
-  var nodes := get_tree().get_nodes_in_group(__zaft.path.MAIN_CAMERA_PARALLAX_GROUP)
+  var nodes := get_tree().get_nodes_in_group(__z.path.MAIN_CAMERA_PARALLAX_GROUP)
   for n in nodes:
     if 'material' in n:
       if n.material is ShaderMaterial:
@@ -27,7 +27,7 @@ func update_parallax(c:Camera2D):
 
 func do_process(delta:float):
   shake.do_process(delta)
-  if Z_Autoload_Util.node_is_there(target_node):
+  if Z_Util.node_is_there(target_node):
     follow_target(self, target_node.global_position, follow_slerpiness, delta)
   else:
     target_node = null
@@ -39,8 +39,8 @@ func _ready() -> void:
   set_physics_process(uses_physics_process or (process_callback == CAMERA2D_PROCESS_PHYSICS))
   add_child(shake)
   if follows_player:
-    if not target_node: target_node = __zaft.global.player
-    __zaft.global.sig_player_set.connect(on_player_global_changed)
+    if not target_node: target_node = __z.global.player
+    __z.global.sig_player_set.connect(on_player_global_changed)
 
 func _physics_process(delta: float) -> void: do_process(delta)
 func _process(delta: float) -> void: do_process(delta)
@@ -51,10 +51,10 @@ func on_player_global_changed(p:Node2D,_prev=null):
 
 func _enter_tree() -> void:
   print_verbose('follow camera enter tree')
-  add_to_group(__zaft.path.MAIN_CAMERA_GROUP)
-  __zaft.global.register_camera(self)
+  add_to_group(__z.path.MAIN_CAMERA_GROUP)
+  __z.global.register_camera(self)
 
 func _exit_tree() -> void:
   print_verbose('follow camera exit tree')
-  if __zaft.global.camera == self:
-    __zaft.global.register_camera(null)
+  if __z.global.camera == self:
+    __z.global.register_camera(null)
