@@ -7,11 +7,6 @@ var layer := Z_Layers.new()
 var state := Z_State.new()
 var audio : Z_AudioDirector_Scene
 
-static func _static_init() -> void:
-	Z_ProjectSettings.setup_default_project_metadata()
-	Z_ProjectSettings.setup_default_project_settings()
-	Z_ProjectSettings.setup_default_input_actions()
-
 func _enter_tree() -> void:
 	init_things()
 	name_things()
