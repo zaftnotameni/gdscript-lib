@@ -2,6 +2,12 @@ class_name Z_Config extends Resource
 
 enum INPUT_ACTIONS { Pause, Unpause, Back }
 
+static var player_height : int = 32
+static var player_width : int = 32
+
+static var screen_height : int = ProjectSettings.get_setting('display/window/size/viewport_height')
+static var screen_width : int = ProjectSettings.get_setting('display/window/size/viewport_width')
+
 static var scene_menu_title: PackedScene
 static var scene_menu_title_background: PackedScene
 

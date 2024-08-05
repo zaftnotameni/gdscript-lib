@@ -41,7 +41,7 @@ func update_heat_relative(heat_delta:float=0.0) -> float:
 @export var facing : FACING
 
 # in pxs
-@export var jump_height : float = G_Settings.player_height * 2.125
+@export var jump_height : float = Z_Config.player_height * 2.125
 
 ## in secs
 @export var dash_duration : float = 0.5
@@ -53,11 +53,11 @@ func update_heat_relative(heat_delta:float=0.0) -> float:
 @export var jump_time_to_land : float = 0.3
 
 ## in pixels/sec
-@export var max_speed_from_input : int = G_Settings.player_width * 10
+@export var max_speed_from_input : int = Z_Config.player_width * 10
 ## in pixels/sec
-@export var max_speed_from_gravity : int = G_Settings.screen_height * 2
+@export var max_speed_from_gravity : int = Z_Config.screen_height * 2
 ## in pixels/sec
-@export var initial_speed_from_input : int = G_Settings.player_width * 5
+@export var initial_speed_from_input : int = Z_Config.player_width * 5
 ## in pixels/sec
 @export var dash_initial_speed : int = max_speed_from_input * 2
 
