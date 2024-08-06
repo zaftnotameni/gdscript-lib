@@ -17,78 +17,57 @@ class_name Z_CameraShake extends Node
 
 @export var auto_physics_process : bool = false
 
-@export var noise_y : float = 0.0
-
 var camera : Camera2D
-@onready var noise : FastNoiseLite = FastNoiseLite.new()
 
-func on_trauma_requested(t:float, m:float=1.0):
-  if trauma + t >= m: trauma = m
-  trauma += t
+func on_sig_camera_trauma_request(t:float, m:float=0.3):
+	trauma = m if (trauma + t >= m) else trauma + t
 
-func on_trauma_relieved(t:float):
-  trauma = clamp(trauma - t, 0, 1000.0)
+func on_sig_camera_trauma_relief(t:float):
+	trauma = clamp(trauma - t, 0, 1.0)
 
-func on_trauma_cleared():
-  trauma = 0
+func on_sig_camera_trauma_clear():
+	trauma = 0
 
-func on_constant_trauma_requested(t:float):
-  constant_trauma += t
+func on_sig_camera_constant_trauma_request(t:float, m:float=0.3):
+	constant_trauma = m if (constant_trauma + t >= m) else constant_trauma + t
 
-func on_constant_trauma_relieved(t:float):
-  constant_trauma = clamp(constant_trauma - t, 0, 1000.0)
+func on_sig_camera_constant_trauma_relief(t:float):
+	constant_trauma = clamp(constant_trauma - t, 0, 1.0)
 
-func on_constant_trauma_cleared():
-  constant_trauma = 0.0
+func on_sig_camera_constant_trauma_clear():
+	constant_trauma = 0.0
+
+func on_sig_global_camera_set(new_cam:Camera2D, _old_cam:Camera2D=null):
+	if camera == new_cam: return
+	camera = new_cam
 
 func connect_signals():
-  __z.bus.sig_camera_constant_trauma_request.connect(on_constant_trauma_requested)
-  __z.bus.sig_camera_constant_trauma_relief.connect(on_constant_trauma_relieved)
-  __z.bus.sig_camera_constant_trauma_clear.connect(on_constant_trauma_cleared)
-  __z.bus.sig_camera_trauma_request.connect(on_trauma_requested)
-  __z.bus.sig_camera_trauma_relief.connect(on_trauma_relieved)
-  __z.bus.sig_camera_trauma_clear.connect(on_trauma_cleared)
+	__z.bus.sig_global_camera_set.connect(on_sig_global_camera_set)
+	Z_SignalsUtil.signal_connect_prefix(self, Z_CameraShakeSignals.single())
+	if camera: on_sig_global_camera_set(camera)
 
 func with_auto_physics_process(val:=false) -> Z_CameraShake:
-  auto_physics_process = val
-  return self
+	auto_physics_process = val
+	return self
 
 func _ready() -> void:
-  set_physics_process(auto_physics_process)
-  if not camera:
-    var parent := get_parent() as Camera2D
-    camera = parent if parent else __z.global.camera
-  init_noise()
-  connect_signals()
-
-func init_noise():
-  noise.seed = randi()
-  noise.frequency = 0.25
-  noise.fractal_octaves = 2
-  noise_y = 0.0
+	set_physics_process(auto_physics_process)
+	if not camera:
+		var parent := get_parent() as Camera2D
+		camera = parent if parent else Z_Global.camera
+	connect_signals()
 
 func _physics_process(delta: float) -> void: do_process(delta)
 
 func do_process(delta:float):
-  if constant_trauma and not is_zero_approx(constant_trauma) and constant_trauma > 0:
-    shake_pure_random(constant_trauma)
-  elif trauma:
-    trauma = max(trauma - decay * delta, 0)
-    # shake_noisy_random()
-    shake_pure_random(trauma)
-
-func shake_noisy_random(t:=trauma):
-  var amount = pow(t, trauma_power)
-  noise_y += 1
-  camera.rotation = max_roll * amount * noise.get_noise_2d(noise.seed, noise_y)
-  camera.offset.x = max_offset.x * amount * noise.get_noise_2d(noise.seed*2, noise_y)
-  camera.offset.y = max_offset.y * amount * noise.get_noise_2d(noise.seed*3, noise_y)
+	if constant_trauma and not is_zero_approx(constant_trauma) and constant_trauma > 0:
+		shake_pure_random(constant_trauma)
+	elif trauma:
+		trauma = max(trauma - decay * delta, 0)
+		shake_pure_random(trauma)
 
 func shake_pure_random(t:=trauma):
-  var amount = pow(t, trauma_power)
-  camera.rotation = max_roll * amount * randf_range(-1, 1)
-  camera.offset.x = max_offset.x * amount * randf_range(-1, 1)
-  camera.offset.y = max_offset.y * amount * randf_range(-1, 1)
-
-func add_trauma(amount):
-  trauma = min(trauma + amount, 1.0)
+	var amount = pow(t, trauma_power)
+	camera.rotation = max_roll * amount * randf_range(-1, 1)
+	camera.offset.x = max_offset.x * amount * randf_range(-1, 1)
+	camera.offset.y = max_offset.y * amount * randf_range(-1, 1)

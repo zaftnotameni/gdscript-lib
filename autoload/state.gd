@@ -37,7 +37,7 @@ static func set_game_state(v):
 func close_pause_menu():
   var n := get_tree().get_first_node_in_group(Z_Path.MENU_PAUSE)
   if not n: return
-  var t := Z_Util.tween_fresh_eased_in_out_cubic()
+  var t := Z_TweenUtil.tween_fresh_eased_in_out_cubic()
   t.set_pause_mode(Tween.TweenPauseMode.TWEEN_PAUSE_PROCESS)
   t.tween_property(n, ^'position:y', 1600, 0.2).from(0)
   await t.finished
@@ -49,7 +49,7 @@ func show_pause_menu():
   n.process_mode = Node.PROCESS_MODE_ALWAYS
   __z.layer.menu.add_child(n)
   n.add_to_group(Z_Path.MENU_PAUSE)
-  var t := Z_Util.tween_fresh_eased_in_out_cubic()
+  var t := Z_TweenUtil.tween_fresh_eased_in_out_cubic()
   t.set_pause_mode(Tween.TweenPauseMode.TWEEN_PAUSE_PROCESS)
   t.tween_property(n, ^'position:y', 0, 0.2).from(1600)
   await t.finished

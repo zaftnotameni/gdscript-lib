@@ -22,9 +22,9 @@ func on_player_global_changed(p:Node2D,_prev=null):
 
 func _enter_tree() -> void:
   anchor_mode = ANCHOR_MODE_FIXED_TOP_LEFT
-  add_to_group(__z.path.MAIN_CAMERA_GROUP)
-  __z.global.register_camera(self)
+  add_to_group(Z_Path.MAIN_CAMERA_GROUP)
+  Z_Global.register_camera(self)
 
 func _exit_tree() -> void:
-  if __z.global.camera == self:
-    __z.global.register_camera(null)
+  if Z_Global.camera == self:
+    Z_Global.register_camera(null)

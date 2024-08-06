@@ -1,4 +1,4 @@
-class_name Z_TitleScreen_Button extends Button
+class_name Z_TitleScreenButton extends Button
 
 @onready var bus_pressed_signal_name := "sig_title_%s_pressed" % name.to_snake_case().to_lower()
 
@@ -13,7 +13,7 @@ func _enter_tree() -> void:
   psoe.should_play_on_focus_exit = false
   psoe.should_play_on_pressed = true
   sound = AudioStreamPlayer.new()
-  sound.bus = Z_AudioDirector_Scene.BUS_NAME_UI
+  sound.bus = Z_AudioDirectorScene.BUS_NAME_UI
   sound.stream = Gen_AllAudio.AUDIO_TOGGLE001
   psoe.add_child(sound)
   add_child.call_deferred(psoe)

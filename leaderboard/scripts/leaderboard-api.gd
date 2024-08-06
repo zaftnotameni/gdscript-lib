@@ -268,7 +268,7 @@ static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, 
 			lbl_name = NameLabelType.new() if NameLabelType else Label.new()
 			btn_yt = Label.new()
 			lbl_name.text = p_name
-			Z_Util.control_set_font_size(lbl_name, 24)
+			Z_ControlUtil.control_set_font_size(lbl_name, 24)
 			var margin_container := MarginContainer.new()
 			margin_container.add_theme_constant_override(&'margin_right', 12)
 			margin_container.add_child(btn_yt)

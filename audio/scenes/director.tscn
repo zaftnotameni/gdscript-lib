@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ceedsxl72brk8"]
+[gd_scene load_steps=9 format=3 uid="uid://ceedsxl72brk8"]
 
 [ext_resource type="Script" path="res://zaft/lib/audio/scripts/scene-audio-director.gd" id="1_pnv2a"]
 [ext_resource type="AudioStream" uid="uid://b05ntruyqb77" path="res://zaft/lib/asset/audio/ui/tick_002.ogg" id="2_1tauf"]
@@ -6,6 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://2lsoua2r8hew" path="res://zaft/lib/player/audio/die.mp3" id="3_ax2dm"]
 [ext_resource type="AudioStream" uid="uid://cqw7yum3gu142" path="res://zaft/lib/asset/audio/ui/toggle_001.ogg" id="3_qx1n5"]
 [ext_resource type="AudioStream" uid="uid://dsrxu8rymbv0y" path="res://zaft/lib/spawner/audio/respawn.wav" id="4_4stvi"]
+[ext_resource type="AudioStream" uid="uid://bguh5lm2ry7rv" path="res://zaft/lib/asset/audio/ui/button-focus-in.ogg" id="5_qtm2i"]
+[ext_resource type="AudioStream" uid="uid://bk443e83c2kx3" path="res://zaft/lib/asset/audio/ui/button-press.ogg" id="6_iw7rs"]
 
 [node name="AudioDirector" type="Node"]
 script = ExtResource("1_pnv2a")
@@ -21,33 +23,61 @@ stream = ExtResource("2_mrk8h")
 
 [node name="Test" type="AudioStreamPlayer" parent="Streams/BGM"]
 stream = ExtResource("2_mrk8h")
+bus = &"BGM"
 
 [node name="TitleScreen" type="AudioStreamPlayer" parent="Streams/BGM"]
 volume_db = -2.0
+bus = &"BGM"
 
 [node name="Level" type="AudioStreamPlayer" parent="Streams/BGM"]
 volume_db = -10.0
+bus = &"BGM"
 
 [node name="Ending" type="AudioStreamPlayer" parent="Streams/BGM"]
+bus = &"BGM"
 
 [node name="SFX" type="Node" parent="Streams"]
 
 [node name="Test" type="AudioStreamPlayer" parent="Streams/SFX"]
 stream = ExtResource("2_mrk8h")
+bus = &"SFX"
 
 [node name="Die" type="AudioStreamPlayer" parent="Streams/SFX"]
 stream = ExtResource("3_ax2dm")
+bus = &"SFX"
 
 [node name="RespawnActive" type="AudioStreamPlayer" parent="Streams/SFX"]
 stream = ExtResource("4_4stvi")
+bus = &"SFX"
 
 [node name="UI" type="Node" parent="Streams"]
 
+[node name="Test" type="AudioStreamPlayer" parent="Streams/UI"]
+stream = ExtResource("2_mrk8h")
+bus = &"UI"
+
 [node name="MenuHover" type="AudioStreamPlayer" parent="Streams/UI"]
 stream = ExtResource("2_1tauf")
+bus = &"UI"
 
 [node name="MenuClick" type="AudioStreamPlayer" parent="Streams/UI"]
 stream = ExtResource("3_qx1n5")
+bus = &"UI"
 
-[node name="Test" type="AudioStreamPlayer" parent="Streams/UI"]
-stream = ExtResource("2_mrk8h")
+[node name="ButtonFocusIn" type="AudioStreamPlayer" parent="Streams/UI"]
+stream = ExtResource("5_qtm2i")
+bus = &"UI"
+
+[node name="ButtonFocusOut" type="AudioStreamPlayer" parent="Streams/UI"]
+bus = &"UI"
+
+[node name="ButtonMouseOut" type="AudioStreamPlayer" parent="Streams/UI"]
+bus = &"UI"
+
+[node name="ButtonMouseIn" type="AudioStreamPlayer" parent="Streams/UI"]
+stream = ExtResource("5_qtm2i")
+bus = &"UI"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="Streams/UI"]
+stream = ExtResource("6_iw7rs")
+bus = &"UI"

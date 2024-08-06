@@ -12,11 +12,11 @@ static func becomes_ready() -> Z_PlayerCharacter:
 
 func _enter_tree() -> void:
   add_to_group(Z_Path.PLAYER_CHARACTER_GROUP)
-  __z.global.register_player(self)
+  Z_Global.register_player(self)
 
 func _exit_tree() -> void:
-  if __z.global.player == self:
-    __z.global.register_player(null)
+  if Z_Global.player == self:
+    Z_Global.register_player(null)
 
 func _physics_process(_delta: float) -> void:
   viz.scale.x = 1 if stats.facing == Z_PlayerStats.FACING.Right else -1

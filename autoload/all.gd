@@ -5,7 +5,7 @@ static var DIRECTOR : PackedScene = load('res://zaft/lib/audio/scenes/director.t
 var bus := Z_Bus.new()
 var layer := Z_Layers.new()
 var state := Z_State.new()
-var audio : Z_AudioDirector_Scene
+var audio : Z_AudioDirectorScene
 
 func _enter_tree() -> void:
 	init_things()

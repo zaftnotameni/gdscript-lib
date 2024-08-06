@@ -24,7 +24,7 @@ func add_to_tree() -> Z_Primitive_BackgroundColorWithRect:
   return self
 
 func _enter_tree() -> void:
-  add_to_group(__z.path.MAIN_CAMERA_PARALLAX_GROUP)
+  add_to_group(Z_Path.MAIN_CAMERA_PARALLAX_GROUP)
   texture_repeat = TextureRepeat.TEXTURE_REPEAT_ENABLED
   mouse_filter = MOUSE_FILTER_IGNORE
 
