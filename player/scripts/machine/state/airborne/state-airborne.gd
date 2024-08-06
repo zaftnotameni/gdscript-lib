@@ -1,6 +1,6 @@
 class_name Z_PlayerStateAirborne extends Z_PlayerStateMachineState
 
-@onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
+@onready var windrose : Z_PlayerWindrose = Z_ResolveUtil.resolve_from(owner, Z_PlayerWindrose)
 @onready var player : Z_PlayerCharacter = owner
 
 func _unhandled_input(event: InputEvent) -> void:

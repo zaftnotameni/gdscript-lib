@@ -9,4 +9,5 @@ script = ExtResource("1_l868a")
 enable_audio = true
 enable_materials = true
 enable_shaders = true
+enable_tilesets = true
 enable_images = true

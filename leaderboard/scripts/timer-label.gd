@@ -9,4 +9,4 @@ func _enter_tree() -> void:
   process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 
 func _ready() -> void:
-  Z_Util.control_set_font_size(self, 32)
+  Z_ControlUtil.control_set_font_size(self, 32)

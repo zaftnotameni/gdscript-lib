@@ -1,6 +1,6 @@
 class_name Z_PlayerStateJumping extends Z_PlayerStateActioned
 
-@onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
+@onready var windrose : Z_PlayerWindrose = Z_ResolveUtil.resolve_from(owner, Z_PlayerWindrose)
 @onready var player : Z_PlayerCharacter = owner
 @onready var party_splash : CPUParticles2D = %PartyJumpSplash
 

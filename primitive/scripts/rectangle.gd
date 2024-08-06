@@ -30,7 +30,7 @@ func setup_polygon():
   poly.polygon = points_for_polygon()
   poly.uv = Z_PolygonUtil.uv_for_vertexes(poly.polygon)
   poly.color = color
-  Z_Util.tool_add_child.call_deferred(self, poly)
+  Z_ToolScriptHelper.tool_add_child.call_deferred(self, poly)
 
 func set_as_centered_rect():
   var half_width := width / 2;
