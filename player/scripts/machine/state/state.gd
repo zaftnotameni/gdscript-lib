@@ -40,9 +40,9 @@ func _ready() -> void:
     if not character:
       character = owner
     if not stats:
-      stats = Z_ComponentBase.resolve_from(character, Z_PlayerStats)
+      stats = Z_ResolveUtil.resolve_from(character, Z_PlayerStats)
     if not machine:
-      machine = Z_ComponentBase.resolve_from(character, Z_PlayerStateMachine)
+      machine = Z_ResolveUtil.resolve_from(character, Z_PlayerStateMachine)
 
 static func type_of_state(s:Z_PlayerStateMachineState.STATE) -> Script:
   match s:

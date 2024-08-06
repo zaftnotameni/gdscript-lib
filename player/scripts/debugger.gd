@@ -8,9 +8,9 @@ class_name Z_PlayerDebugger extends Node2D
 
 @onready var player : Z_PlayerCharacter = owner
 
-func resolve_windrose() -> Z_PlayerWindrose: return Z_ComponentBase.resolve_from(player, Z_PlayerWindrose)
-func resolve_stats() -> Z_PlayerStats: return Z_ComponentBase.resolve_from(player, Z_PlayerStats)
-func resolve_machine() -> Z_PlayerStateMachine: return Z_ComponentBase.resolve_from(player, Z_PlayerStateMachine)
+func resolve_windrose() -> Z_PlayerWindrose: return Z_ResolveUtil.resolve_from(player, Z_PlayerWindrose)
+func resolve_stats() -> Z_PlayerStats: return Z_ResolveUtil.resolve_from(player, Z_PlayerStats)
+func resolve_machine() -> Z_PlayerStateMachine: return Z_ResolveUtil.resolve_from(player, Z_PlayerStateMachine)
 
 var lbl_machine : Label
 

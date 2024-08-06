@@ -1,13 +1,29 @@
 class_name Z_State extends Node
 
-enum GAME_STATE { Initial, Loading, Title, Transition, Game, SceneTransitionInGame, PlayerDying, Paused }
+enum GAME_STATE { Initial, Loading, Title, Menu, MenuTransition, Transition, Game, SceneTransitionInGame, PlayerDying, Paused }
 
 static var game_state := GAME_STATE.Initial : set = set_game_state
+
+static func in_transition(): return [
+	GAME_STATE.Transition,
+	GAME_STATE.MenuTransition,
+	GAME_STATE.SceneTransitionInGame,
+	GAME_STATE.PlayerDying,
+	GAME_STATE.Loading,
+].has(game_state)
+
+static func in_ready(): return [
+	GAME_STATE.Game,
+	GAME_STATE.Title,
+	GAME_STATE.Menu,
+].has(game_state)
 
 static func initial(): game_state = GAME_STATE.Initial
 static func loading(): game_state = GAME_STATE.Loading
 static func title(): game_state = GAME_STATE.Title
+static func menu(): game_state = GAME_STATE.Menu
 static func transition(): game_state = GAME_STATE.Transition
+static func menu_transition(): game_state = GAME_STATE.MenuTransition
 static func game(): game_state = GAME_STATE.Game
 static func paused(): game_state = GAME_STATE.Paused
 

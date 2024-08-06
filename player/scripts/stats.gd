@@ -21,18 +21,18 @@ signal sig_overheat()
 
 func try_update_heat_relative(heat_delta:float=0.0) -> bool:
   if heat + heat_delta > 100.0: sig_heat_rejected.emit(heat, heat_delta); return false
-  Z_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
+  Z_SetterUtil.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
   if heat <= 0: heat = 0
   return true
 
 func update_heat(new_heat:float=0.0) -> float:
-  Z_Util.setter_float(self, &'heat', new_heat, sig_heat_changed)
+  Z_SetterUtil.setter_float(self, &'heat', new_heat, sig_heat_changed)
   if heat >= 100: sig_overheat.emit()
   if heat <= 0: heat = 0
   return heat
 
 func update_heat_relative(heat_delta:float=0.0) -> float:
-  Z_Util.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
+  Z_SetterUtil.setter_float_relative(self, &'heat', heat_delta, sig_heat_changed)
   if heat >= 100: sig_overheat.emit()
   if heat <= 0: heat = 0
   return heat
@@ -95,7 +95,7 @@ func compute_facing() -> void:
 
 func is_player_pressing_left_or_right() -> bool: return not is_zero_approx(input_x)
 func player_velocity_x() -> float: return player.velocity.x
-func update_facing(f:FACING) -> bool: return Z_Util.setter(self, &'facing', f, sig_facing_changed)
+func update_facing(f:FACING) -> bool: return Z_SetterUtil.setter(self, &'facing', f, sig_facing_changed)
 
 # input
 var input_x : float

@@ -19,7 +19,7 @@ func setup_tooled():
     Z_Util.tool_add_child(target_state_machine(), c)
 
 func target_state_machine() -> Z_PlayerStateMachine:
-  return Z_ComponentBase.resolve_at(get_parent(), Z_PlayerStateMachine)
+  return Z_ResolveUtil.resolve_at(get_parent(), Z_PlayerStateMachine)
 
 func clear_tooled():
   for c in target_state_machine().get_children(): c.queue_free()

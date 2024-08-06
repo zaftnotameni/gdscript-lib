@@ -17,8 +17,8 @@ func get_closest_gravity_source() -> Z_GravityWell:
   return s
 
 func _ready() -> void:
-  if not windrose: windrose = Z_ComponentBase.resolve_from(player, Z_PlayerWindrose)
-  if not body: body = Z_ComponentBase.resolve_at(player, Z_PlayerBody)
+  if not windrose: windrose = Z_ResolveUtil.resolve_from(player, Z_PlayerWindrose)
+  if not body: body = Z_ResolveUtil.resolve_at(player, Z_PlayerBody)
   add_child(body.duplicate())
 
 func _physics_process(_delta: float) -> void:

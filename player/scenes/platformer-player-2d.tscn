@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://dmg887tpn51ot"]
+[gd_scene load_steps=50 format=3 uid="uid://dmg887tpn51ot"]
 
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/character.gd" id="1_j258b"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/body.gd" id="2_16n43"]
@@ -22,14 +22,11 @@
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/machine/state/actioned/state-actioned.gd" id="19_w34qy"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/stats.gd" id="20_3wh7d"]
 [ext_resource type="Script" path="res://zaft/lib/player/scripts/windrose.gd" id="21_08xxj"]
-[ext_resource type="Script" path="res://zaft/game/player/scripts/sunlight.gd" id="24_2xkcr"]
-[ext_resource type="Material" uid="uid://g4j77xe3iw8q" path="res://zaft/generated/materials/melting-pixelatey_material.tres" id="24_kqhn7"]
-[ext_resource type="Material" uid="uid://ees451sxquq" path="res://zaft/generated/materials/outline_material.tres" id="24_oky8o"]
+[ext_resource type="Material" path="res://zaft/generated/materials/melting-pixelatey_material.tres" id="24_kqhn7"]
+[ext_resource type="Material" path="res://zaft/generated/materials/outline_material.tres" id="24_oky8o"]
 [ext_resource type="Texture2D" uid="uid://dau2h3o33uwvl" path="res://zaft/lib/player/images/player-sprite-32x32.png" id="24_tevcc"]
-[ext_resource type="Script" path="res://zaft/game/player/scripts/overheat.gd" id="24_whmii"]
 [ext_resource type="AudioStream" uid="uid://iqdoic6ccyj5" path="res://zaft/lib/player/audio/land.mp3" id="26_e8w6a"]
 [ext_resource type="AudioStream" uid="uid://0s60rxdnldjw" path="res://zaft/lib/player/audio/jump.mp3" id="27_hyy0b"]
-[ext_resource type="Script" path="res://zaft/game/player/scripts/floor-melt-particles.gd" id="28_ilyv4"]
 [ext_resource type="AudioStream" uid="uid://bsd7qfapubscp" path="res://zaft/lib/player/audio/dash.wav" id="28_om2n4"]
 [ext_resource type="AudioStream" uid="uid://btm6macsuak60" path="res://zaft/lib/player/audio/deny.mp3" id="32_myst3"]
 
@@ -359,13 +356,10 @@ position = Vector2(-1, 0)
 position = Vector2(0, 1)
 
 [node name="G_PlayerOverheat" type="Node" parent="C"]
-script = ExtResource("24_whmii")
 
 [node name="G_PlayerSunlight" type="Node" parent="C"]
-script = ExtResource("24_2xkcr")
 
 [node name="G_PlayerFloorMeltParticles" type="Node" parent="C"]
-script = ExtResource("28_ilyv4")
 
 [node name="S" type="Node2D" parent="."]
 

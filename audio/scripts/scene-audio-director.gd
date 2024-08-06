@@ -43,6 +43,7 @@ const BUS_NAME_UI := "UI"
 const LAYOUT : AudioBusLayout = preload('res://zaft/lib/audio/resources/default_bus_layout.tres')
 
 func _enter_tree() -> void:
+	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 	AudioServer.set_bus_layout(LAYOUT)
 
 func set_loop(player:AudioStreamPlayer):

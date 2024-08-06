@@ -27,7 +27,7 @@ func on_state_enter(_x=null):
   character.velocity.y = -character.stats.jump_velocity
   character.move_and_slide()
   jump_cancelled = false
-  t = Z_Util.tween_fresh_eased_in_out_cubic(t)
+  t = Z_TweenUtil.tween_fresh_eased_in_out_cubic(t)
   var sprite : Sprite2D = player.viz.get_node('Sprite2D')
   t.tween_property(sprite, 'scale:x', 0.8, 0.2)
   t.parallel().tween_property(sprite, 'scale:y', 1.2, 0.2)
@@ -36,7 +36,7 @@ func on_state_enter(_x=null):
 
 func on_state_exit(_x=null):
   jump_cancelled = false
-  t = Z_Util.tween_fresh_eased_in_out_cubic(t)
+  t = Z_TweenUtil.tween_fresh_eased_in_out_cubic(t)
   var sprite : Sprite2D = player.viz.get_node('Sprite2D')
   t.tween_property(sprite, 'scale:x', 1.0, 0.1)
   t.parallel().tween_property(sprite, 'scale:y', 1.0, 0.1)

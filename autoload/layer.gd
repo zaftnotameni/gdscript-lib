@@ -1,33 +1,35 @@
 class_name Z_Layers extends Node
 
-@onready var background:CanvasLayer=CanvasLayer.new()
-@onready var level:CanvasLayer=CanvasLayer.new()
-@onready var terrain:CanvasLayer=CanvasLayer.new()
-@onready var platform:CanvasLayer=CanvasLayer.new()
-@onready var interact:CanvasLayer=CanvasLayer.new()
-@onready var player:CanvasLayer=CanvasLayer.new()
-@onready var enemy:CanvasLayer=CanvasLayer.new()
-@onready var player_bullet:CanvasLayer=CanvasLayer.new()
-@onready var enemy_bullet:CanvasLayer=CanvasLayer.new()
-@onready var pickup:CanvasLayer=CanvasLayer.new()
-@onready var hud:CanvasLayer=CanvasLayer.new()
-@onready var dialog:CanvasLayer=CanvasLayer.new()
-@onready var popup:CanvasLayer=CanvasLayer.new()
-@onready var menu:CanvasLayer=CanvasLayer.new()
-@onready var overlay:CanvasLayer=CanvasLayer.new()
-@onready var debug:CanvasLayer=CanvasLayer.new()
-@onready var managed:Node2D=Node2D.new()
+var background:CanvasLayer=CanvasLayer.new()
+var level:CanvasLayer=CanvasLayer.new()
+var terrain:CanvasLayer=CanvasLayer.new()
+var platform:CanvasLayer=CanvasLayer.new()
+var interact:CanvasLayer=CanvasLayer.new()
+var player:CanvasLayer=CanvasLayer.new()
+var enemy:CanvasLayer=CanvasLayer.new()
+var player_bullet:CanvasLayer=CanvasLayer.new()
+var enemy_bullet:CanvasLayer=CanvasLayer.new()
+var pickup:CanvasLayer=CanvasLayer.new()
+var hud:CanvasLayer=CanvasLayer.new()
+var dialog:CanvasLayer=CanvasLayer.new()
+var popup:CanvasLayer=CanvasLayer.new()
+var menu:CanvasLayer=CanvasLayer.new()
+var overlay:CanvasLayer=CanvasLayer.new()
+var debug:CanvasLayer=CanvasLayer.new()
+var managed:Node2D=Node2D.new()
 
 func wipe_all_managed(n:Node=managed,containers:=CHILDREN):
   for child_name:String in containers:
     var child := n.get_node(child_name.to_pascal_case()) as Node
     Z_Util.children_wipe(child)
 
-func _ready() -> void:
+func _enter_tree() -> void:
   add_managed_containers(managed)
   setup_layers_that_follow_the_viewport()
   setup_explicit_layer_order(managed)
   add_managed_node_to_current_scene(managed)
+
+func _ready() -> void:
   notify_managed_layers_ready.call_deferred()
 
 func notify_managed_layers_ready():

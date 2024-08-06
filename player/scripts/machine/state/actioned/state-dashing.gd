@@ -1,6 +1,6 @@
 class_name Z_PlayerStateDashing extends Z_PlayerStateActioned
 
-@onready var windrose : Z_PlayerWindrose = Z_ComponentBase.resolve_from(owner, Z_PlayerWindrose)
+@onready var windrose : Z_PlayerWindrose = Z_ResolveUtil.resolve_from(owner, Z_PlayerWindrose)
 @onready var player : Z_PlayerCharacter = owner
 @onready var party_dash_trail : CPUParticles2D = %PartyDashTrail
 @onready var party_dash_splash : CPUParticles2D = %PartyDashSplash

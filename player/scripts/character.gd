@@ -23,10 +23,10 @@ func _physics_process(_delta: float) -> void:
 
 func _ready() -> void:
   if not stats:
-    stats = Z_ComponentBase.resolve_from(self, Z_PlayerStats)
+    stats = Z_ResolveUtil.resolve_from(self, Z_PlayerStats)
     stats.owner = self
   if not machine:
-    machine = Z_ComponentBase.resolve_from(self, Z_PlayerStateMachine)
+    machine = Z_ResolveUtil.resolve_from(self, Z_PlayerStateMachine)
     machine.owner = self
   if Z_Config.player_auto_spawns_follow_camera_when_spawns:
     camera = Z_Path.group_main_camera_maybe_first_node()
