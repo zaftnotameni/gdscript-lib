@@ -3,6 +3,14 @@ class_name Z_ToolScriptHelper extends Node
 
 static func on_pre_save(what: int, fn:Callable) -> void: if what == NOTIFICATION_EDITOR_PRE_SAVE: await fn.call()
 
+static func is_owned_by_edited_scene(node:Node) -> bool:
+	if not node: return false
+	if not node.get_tree(): return false
+	if not node.get_tree().edited_scene_root: return false
+	if not node.owner: return false
+	if node.get_tree().edited_scene_root == node.owner: return true
+	return false
+
 static func tool_add_child(parent:Node, child:Node):
 	if not is_valid_tool_target(parent): return
 	parent.add_child.call_deferred(child)

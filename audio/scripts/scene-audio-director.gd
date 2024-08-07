@@ -213,6 +213,7 @@ func get_volume_linear(idx:int) -> int:
 func set_volume_linear(idx:int,vol_lin:int):
 	assert(idx >= 0, 'audio bus index must be >= 0')
 	assert(AudioServer.get_bus_name(idx), 'audio bus must exist')
+	print_verbose('setting volume %s to %s' % [AudioServer.get_bus_name(idx), vol_lin])
 	AudioServer.set_bus_volume_db(idx, linear_to_db(vol_lin / 100.0))
 
 func set_initial_volume():

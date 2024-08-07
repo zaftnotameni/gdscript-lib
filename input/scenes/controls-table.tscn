@@ -55,7 +55,7 @@ script = ExtResource("2_tbb3e")
 [node name="Z_ControlsSceneController" type="Node" parent="."]
 script = ExtResource("3_w8r00")
 
-[node name="@Label@81970" type="Label" parent="."]
+[node name="@Label@105046" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Movement"
@@ -63,124 +63,124 @@ horizontal_alignment = 2
 script = ExtResource("4_6u0sr")
 metadata/created_via_tool_script = true
 
-[node name="@HBoxContainer@81971" type="HBoxContainer" parent="."]
+[node name="@HBoxContainer@105047" type="HBoxContainer" parent="."]
 layout_mode = 2
 metadata/created_via_tool_script = true
 
-[node name="Arrows" type="GridContainer" parent="@HBoxContainer@81971"]
+[node name="Arrows" type="GridContainer" parent="@HBoxContainer@105047"]
 layout_mode = 2
 columns = 3
 metadata/created_via_tool_script = true
 
-[node name="@Label@81974" type="Label" parent="@HBoxContainer@81971/Arrows"]
+[node name="@Label@105050" type="Label" parent="@HBoxContainer@105047/Arrows"]
 layout_mode = 2
 metadata/created_via_tool_script = true
 
-[node name="KeyboardArrowUpOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
+[node name="KeyboardArrowUpOutline" type="TextureRect" parent="@HBoxContainer@105047/Arrows"]
 layout_mode = 2
 texture = ExtResource("12_fkfvg")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="@Label@81975" type="Label" parent="@HBoxContainer@81971/Arrows"]
+[node name="@Label@105051" type="Label" parent="@HBoxContainer@105047/Arrows"]
 layout_mode = 2
 metadata/created_via_tool_script = true
 
-[node name="KeyboardArrowLeftOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
+[node name="KeyboardArrowLeftOutline" type="TextureRect" parent="@HBoxContainer@105047/Arrows"]
 layout_mode = 2
 texture = ExtResource("4_g4lke")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="KeyboardArrowDownOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
+[node name="KeyboardArrowDownOutline" type="TextureRect" parent="@HBoxContainer@105047/Arrows"]
 layout_mode = 2
 texture = ExtResource("17_6g3m2")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="KeyboardArrowRightOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
+[node name="KeyboardArrowRightOutline" type="TextureRect" parent="@HBoxContainer@105047/Arrows"]
 layout_mode = 2
 texture = ExtResource("5_3h7l8")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="WASD" type="GridContainer" parent="@HBoxContainer@81971"]
+[node name="WASD" type="GridContainer" parent="@HBoxContainer@105047"]
 layout_mode = 2
 columns = 3
 metadata/created_via_tool_script = true
 
-[node name="@Label@81976" type="Label" parent="@HBoxContainer@81971/WASD"]
+[node name="@Label@105052" type="Label" parent="@HBoxContainer@105047/WASD"]
 layout_mode = 2
 metadata/created_via_tool_script = true
 
-[node name="KeyboardWOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
+[node name="KeyboardWOutline" type="TextureRect" parent="@HBoxContainer@105047/WASD"]
 layout_mode = 2
 texture = ExtResource("11_1r213")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="@Label@81977" type="Label" parent="@HBoxContainer@81971/WASD"]
+[node name="@Label@105053" type="Label" parent="@HBoxContainer@105047/WASD"]
 layout_mode = 2
 metadata/created_via_tool_script = true
 
-[node name="KeyboardAOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
+[node name="KeyboardAOutline" type="TextureRect" parent="@HBoxContainer@105047/WASD"]
 layout_mode = 2
 texture = ExtResource("1_kqi44")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="KeyboardSOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
+[node name="KeyboardSOutline" type="TextureRect" parent="@HBoxContainer@105047/WASD"]
 layout_mode = 2
 texture = ExtResource("16_hnm0h")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="KeyboardDOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
+[node name="KeyboardDOutline" type="TextureRect" parent="@HBoxContainer@105047/WASD"]
 layout_mode = 2
 texture = ExtResource("3_iebm0")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="@HBoxContainer@81972" type="HBoxContainer" parent="."]
+[node name="@HBoxContainer@105048" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
 metadata/created_via_tool_script = true
 
-[node name="XboxStickL" type="TextureRect" parent="@HBoxContainer@81972"]
+[node name="XboxStickL" type="TextureRect" parent="@HBoxContainer@105048"]
 layout_mode = 2
 texture = ExtResource("14_h0xj6")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="XboxDpadNone" type="TextureRect" parent="@HBoxContainer@81972"]
+[node name="XboxDpadNone" type="TextureRect" parent="@HBoxContainer@105048"]
 layout_mode = 2
 texture = ExtResource("20_brxaf")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="@HBoxContainer@81973" type="HBoxContainer" parent="."]
+[node name="@HBoxContainer@105049" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
 metadata/created_via_tool_script = true
 
-[node name="PlaystationStickL" type="TextureRect" parent="@HBoxContainer@81973"]
+[node name="PlaystationStickL" type="TextureRect" parent="@HBoxContainer@105049"]
 layout_mode = 2
 texture = ExtResource("17_qud6n")
 stretch_mode = 5
 script = ExtResource("6_f5wbk")
 metadata/created_via_tool_script = true
 
-[node name="PlaystationDpadNone" type="TextureRect" parent="@HBoxContainer@81973"]
+[node name="PlaystationDpadNone" type="TextureRect" parent="@HBoxContainer@105049"]
 layout_mode = 2
 texture = ExtResource("21_cue7y")
 stretch_mode = 5

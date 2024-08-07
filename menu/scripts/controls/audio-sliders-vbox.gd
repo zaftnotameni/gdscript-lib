@@ -5,22 +5,15 @@ class_name Z_AudioSliders_Node extends VBoxContainer
 @onready var slider_sfx := Z_AudioSlider_Node.for_sfx()
 @onready var slider_ui := Z_AudioSlider_Node.for_ui()
 
+func _enter_tree() -> void:
+	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
+
 func _ready() -> void:
-  add_child(slider_master)
-  add_spacer(false)
-  add_child(slider_bgm)
-  add_spacer(false)
-  add_child(slider_sfx)
-  add_spacer(false)
-  add_child(slider_ui)
-  call_deferred('set_focus_to_master')
+	add_child.call_deferred(slider_master)
+	add_spacer.call_deferred(false)
+	add_child.call_deferred(slider_bgm)
+	add_spacer.call_deferred(false)
+	add_child.call_deferred(slider_sfx)
+	add_spacer.call_deferred(false)
+	add_child.call_deferred(slider_ui)
 
-var previous_focus : Control
-
-func _exit_tree() -> void:
-  if previous_focus:
-    previous_focus.grab_focus()
-
-func set_focus_to_master():
-  previous_focus = get_viewport().gui_get_focus_owner()
-  slider_master.slider.call_deferred("grab_focus")

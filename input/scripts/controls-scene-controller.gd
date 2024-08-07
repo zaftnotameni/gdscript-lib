@@ -63,6 +63,8 @@ func setup_row(txt:String):
 	await Z_ToolScriptHelper.tool_add_child(owner, ps)
 
 func on_pre_save():
+	if not Z_ToolScriptHelper.is_owned_by_edited_scene(self): return
+
 	await Z_ToolScriptHelper.remove_all_children_created_via_tool_from(owner)
 
 	await setup_row('Movement')
