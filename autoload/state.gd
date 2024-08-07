@@ -42,7 +42,6 @@ static func is_game() -> bool:
 static func mark_as_game():
 	__z.state.game_state = __z.state.GAME_STATE.Game
 
-
 static func set_game_state(v):
 	if v == game_state: return
 	var prev = game_state
@@ -59,7 +58,9 @@ func close_pause_menu() -> Tween:
 	})
 
 func show_pause_menu():
-	if not Z_Config.scene_menu_pause: return
+	if not Z_Config.scene_menu_pause:
+		push_error('missing configuration Z_Config.scene_menu_pause')
+		return false
 	var n := Z_Config.scene_menu_pause.instantiate()
 	n.process_mode = Node.PROCESS_MODE_ALWAYS
 	__z.layer.menu.add_child(n)
@@ -68,6 +69,24 @@ func show_pause_menu():
 	t.set_pause_mode(Tween.TweenPauseMode.TWEEN_PAUSE_PROCESS)
 	t.tween_property(n, ^'position:y', 0, 0.2).from(1600)
 	await t.finished
+	return true
+
+func on_quit_to_title() -> bool:
+	if game_state != GAME_STATE.Paused: return false
+	get_viewport().set_input_as_handled()
+	if not Z_Config.scene_menu_title:
+		push_error('missing configuration Z_Config.scene_menu_title')
+		return false
+	var n := Z_Config.scene_menu_title.instantiate()
+	n.process_mode = Node.PROCESS_MODE_ALWAYS
+	__z.layer.wipe_all_managed()
+	await get_tree().process_frame
+	__z.layer.menu.add_child(n)
+	var t := Z_TweenUtil.tween_fresh_eased_in_out_cubic()
+	t.set_pause_mode(Tween.TweenPauseMode.TWEEN_PAUSE_PROCESS)
+	t.tween_property(n, ^'position:y', 0, 0.2).from(1600)
+	await t.finished
+	return true
 
 func on_pause() -> bool:
 	if game_state != GAME_STATE.Game: return false
@@ -101,3 +120,4 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	__z.bus.sig_unpause_requested.connect(on_unpause)
+	__z.bus.sig_quit_to_title_requested.connect(on_quit_to_title)
