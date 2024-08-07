@@ -24,6 +24,7 @@ static func initialize_from_web(data:Z_LeaderboardPlayerData) -> Z_LeaderboardPl
 	loaded.lootlocker_player_identifier = Z_LocalStorageBridge.local_storage_get_or_set_item('lootlocker_player_identifier', loaded.lootlocker_player_identifier)
 	loaded.lootlocker_player_name = Z_LocalStorageBridge.local_storage_get_or_set_item('lootlocker_player_name', loaded.lootlocker_player_name)
 	loaded.lootlocker_player_score = int(Z_LocalStorageBridge.local_storage_get_or_set_item('lootlocker_player_score', str(loaded.lootlocker_player_score)))
+	copy(loaded, data)
 	return data
 
 static func initialize_from_file(data:Z_LeaderboardPlayerData) -> Z_LeaderboardPlayerData:

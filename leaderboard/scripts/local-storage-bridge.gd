@@ -15,7 +15,7 @@ static func local_storage_get_item(key:String) -> String:
 static func local_storage_get_or_set_item(key:String, default_value:String) -> String:
 	if not is_on_web(): return ""
 	var existing := local_storage_get_item(key) as String
-	if existing: return existing
+	if existing and not existing.is_empty(): return existing
 	else:
 		local_storage_set_item(key, default_value)
 		return default_value
