@@ -1,4 +1,4 @@
-class_name Z_InputKey extends Node
+class_name Z_InputToImageMapping extends RefCounted
 
 static func outline_image_for(k:K) -> Texture2D:
   return Gen_AllImages['IMAGE_KEYBOARD_%s_OUTLINE' % K.find_key(k).to_snake_case().to_upper()]

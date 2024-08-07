@@ -1,13 +1,13 @@
 @tool
 class_name Z_InputIconControl extends TextureRect
 
-@export var k : Z_InputKey.K = Z_InputKey.K.None
+func _enter_tree() -> void:
+	stretch_mode = StretchMode.STRETCH_KEEP_ASPECT_CENTERED
 
-func on_editor_save_setup():
-  if k == Z_InputKey.K.None: return
-  texture = Z_InputKey.outline_image_for(k)
+func with_texture(tex:Texture2D) -> Z_InputIconControl:
+	texture = tex
+	return self
 
-static func with_texture(tex:Texture2D) -> Z_InputIconControl:
-  var res = Z_InputIconControl.new()
-  res.texture = tex
-  return res
+func with_name(n:String) -> Z_InputIconControl:
+	name = n
+	return self

@@ -1,0 +1,2 @@
+@tool
+class_name Z_ControlsGridContainer extends GridContainer

@@ -5,12 +5,14 @@ class_name Z_CloserButton extends Button
 
 const TARGET_GROUPS = [
 	"popup",
+	"menu",
 	"sub-menu",
 	"closeable",
 ]
 
 const TARGET_META = [
 	"popup",
+	"menu",
 	"sub-menu",
 	"closeable",
 ]
@@ -22,8 +24,9 @@ const TARGET_ACTIONS = [
 
 func _enter_tree() -> void:
 	Z_ControlUtil.control_set_font_size(self, 32)
+	if not target: target = find_closeable_parent()
 
-func close_target(): Z_MenuTransitionUtil.menu_slide_up_out(target)
+func close_target(): Z_MenuTransitionUtil.menu_slide_up_out(target if target else owner)
 
 func _ready() -> void:
 	text = "Close"

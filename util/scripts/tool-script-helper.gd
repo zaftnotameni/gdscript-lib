@@ -23,6 +23,7 @@ static func remove_all_children_created_via_tool_from(node:Node):
 	for child:Node in node.get_children():
 		if not child.has_meta('created_via_tool_script'): continue
 		if not child.get_meta('created_via_tool_script'): continue
+		printt('tool removind child', child, child.name)
 		child.queue_free()
 		await child.tree_exited
 

@@ -14,6 +14,7 @@ func _enter_tree() -> void:
 
 func init_things():
 	audio = DIRECTOR.instantiate()
+	Z_InputSetup.initialize_input()
 
 func name_things():
 	bus.name = "Bus"

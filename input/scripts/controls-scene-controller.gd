@@ -1,103 +1,79 @@
 @tool
 class_name Z_ControlsSceneController extends Node
 
-func clear_existing_node_named(n:String):
-  if get_tree().edited_scene_root.has_node(n):
-    var e := get_tree().edited_scene_root.get_node(n)
-    e.queue_free()
-    await e.tree_exited
+func _notification(what: int) -> void: Z_ToolScriptHelper.on_pre_save(what, on_pre_save)
 
-func add_label_tool(lbl_txt:String, font_size:int=32, halign:=HORIZONTAL_ALIGNMENT_RIGHT) -> Label:
-  var lbl_entry : CanvasItem = Label.new()
-  lbl_entry.text = lbl_txt
-  var n := 'Label' + lbl_txt
-  lbl_entry.name =  n
-  lbl_entry.horizontal_alignment = halign
-  await clear_existing_node_named(n)
-  Z_ControlUtil.control_set_font_size(lbl_entry, font_size)
-  Z_ToolScriptHelper.tool_add_child.call_deferred(owner, lbl_entry)
-  return lbl_entry
+func icon(tex:Texture2D) -> Z_InputIconControl:
+	var texture_name := tex.resource_path.split('/')[-1].split('.')[0].to_pascal_case()
+	return Z_InputIconControl.new().with_texture(tex).with_name(texture_name)
 
-func add_hbox_tool(hbox_name:String) -> HBoxContainer:
-  var entry : CanvasItem = HBoxContainer.new()
-  var n := 'HBox' + hbox_name
-  entry.name =  n
-  await clear_existing_node_named(n)
-  Z_ToolScriptHelper.tool_add_child.call_deferred(owner, entry)
-  return entry
+func wasd(parent:Node) -> GridContainer:
+	var g := GridContainer.new()
+	g.name = 'WASD'
+	g.columns = 3
+	await Z_ToolScriptHelper.tool_add_child(parent, g)
+	await Z_ToolScriptHelper.tool_add_child(g, Label.new())
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_W_OUTLINE))
+	await Z_ToolScriptHelper.tool_add_child(g, Label.new())
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_A_OUTLINE))
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_S_OUTLINE))
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_D_OUTLINE))
+	return g
 
-func add_scene_tool(scn_name:String, scn:PackedScene) -> CanvasItem:
-  var entry : CanvasItem = scn.instantiate()
-  var n := 'Scene' + scn_name
-  entry.name = n
-  await clear_existing_node_named(n)
-  Z_ToolScriptHelper.tool_add_child.call_deferred(owner, entry)
-  return entry
+func arrows(parent:Node) -> GridContainer:
+	var g := GridContainer.new()
+	g.name = 'Arrows'
+	g.columns = 3
+	await Z_ToolScriptHelper.tool_add_child(parent, g)
+	await Z_ToolScriptHelper.tool_add_child(g, Label.new())
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_ARROW_UP_OUTLINE))
+	await Z_ToolScriptHelper.tool_add_child(g, Label.new())
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_ARROW_LEFT_OUTLINE))
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_ARROW_DOWN_OUTLINE))
+	await Z_ToolScriptHelper.tool_add_child(g, icon(Gen_AllImages.IMAGE_KEYBOARD_ARROW_RIGHT_OUTLINE))
+	return g
 
-func on_editor_save_setup():
-  await add_label_tool('Action', 32)
-  await add_label_tool('Keyboard', 32, HORIZONTAL_ALIGNMENT_CENTER)
-  await add_label_tool('Xbox', 32, HORIZONTAL_ALIGNMENT_LEFT)
-  await add_label_tool('Playstation', 32, HORIZONTAL_ALIGNMENT_LEFT)
+func xb_left_stick(parent:Node):
+	await Z_ToolScriptHelper.tool_add_child(parent, icon(Gen_AllImages.IMAGE_XBOX_STICK_L))
 
-  await add_label_tool('Movement')
-  var hbox := await add_hbox_tool('Movement')
-  await hbox.ready
-	# Z_ToolScriptHelper.tool_add_child(hbox, Gen_AllScenes.SCENE_CONTROLS_WASD.instantiate())
-  # Z_ToolScriptHelper.tool_add_child(hbox, Gen_AllScenes.SCENE_CONTROLS_ARROWS.instantiate())
-  hbox = await add_hbox_tool('MovementJoyPlaceholderX')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_XBOX_DPAD_VERTICAL_OUTLINE))
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_XBOX_DPAD_HORIZONTAL_OUTLINE))
-  hbox = await add_hbox_tool('MovementJoyPlaceholderP')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_PLAYSTATION_DPAD_VERTICAL_OUTLINE))
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_PLAYSTATION_DPAD_HORIZONTAL_OUTLINE))
+func ps_left_stick(parent:Node):
+	await Z_ToolScriptHelper.tool_add_child(parent, icon(Gen_AllImages.IMAGE_PLAYSTATION_STICK_L))
 
-  await add_label_tool('Jump')
-  hbox = await add_hbox_tool('Jump')
-  await hbox.ready
-  var i := Z_InputIconControl.new()
-  i.name = 'JumpSpace'
-  i.k = Z_InputKey.K.Space
-  i.texture = Gen_AllImages.IMAGE_KEYBOARD_SPACE_OUTLINE
-  Z_ToolScriptHelper.tool_add_child(hbox, i)
-  hbox = await add_hbox_tool('JumpJoyPlaceholderX')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_XBOX_BUTTON_A_OUTLINE))
-  hbox = await add_hbox_tool('JumpJoyPlaceholderP')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_PLAYSTATION_BUTTON_CROSS_OUTLINE))
+func xb_dpad(parent:Node):
+	await Z_ToolScriptHelper.tool_add_child(parent, icon(Gen_AllImages.IMAGE_XBOX_DPAD_NONE))
 
-  await add_label_tool('Dash')
-  hbox = await add_hbox_tool('Dash')
-  await hbox.ready
-  i = Z_InputIconControl.new()
-  i.name = 'DashShift'
-  i.k = Z_InputKey.K.Shift
-  i.texture = Gen_AllImages.IMAGE_KEYBOARD_SHIFT_OUTLINE
-  Z_ToolScriptHelper.tool_add_child(hbox, i)
-  hbox = await add_hbox_tool('DashJoyPlaceholderX')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_XBOX_BUTTON_B_OUTLINE))
-  hbox = await add_hbox_tool('DashJoyPlaceholderP')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_PLAYSTATION_BUTTON_CIRCLE_OUTLINE))
+func ps_dpad(parent:Node):
+	await Z_ToolScriptHelper.tool_add_child(parent, icon(Gen_AllImages.IMAGE_PLAYSTATION_DPAD_NONE))
 
-  await add_label_tool('Respawn')
-  hbox = await add_hbox_tool('Respawn')
-  await hbox.ready
-  i = Z_InputIconControl.new()
-  i.name = 'RespawnR'
-  i.k = Z_InputKey.K.R
-  i.texture = Gen_AllImages.IMAGE_KEYBOARD_R_OUTLINE
-  Z_ToolScriptHelper.tool_add_child(hbox, i)
-  hbox = await add_hbox_tool('RespawnJoyPlaceholderX')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_XBOX_BUTTON_Y_OUTLINE))
-  hbox = await add_hbox_tool('RespawnJoyPlaceholderP')
-  await hbox.ready
-  Z_ToolScriptHelper.tool_add_child(hbox, Z_InputIconControl.with_texture(Gen_AllImages.IMAGE_PLAYSTATION_BUTTON_TRIANGLE_OUTLINE))
+var pc : HBoxContainer
+var xb : HBoxContainer
+var ps : HBoxContainer
+var lb : Z_ControlsActionLabel
 
-func on_editor_save_clear():
-  pass
+func setup_row(txt:String):
+	lb = Z_ControlsActionLabel.new().with_text(txt)
+	pc = HBoxContainer.new()
+	xb = HBoxContainer.new()
+	ps = HBoxContainer.new()
+	Z_ControlUtil.control_set_hshrink_center(xb)
+	Z_ControlUtil.control_set_hshrink_center(ps)
+	await Z_ToolScriptHelper.tool_add_child(owner, lb)
+	await Z_ToolScriptHelper.tool_add_child(owner, pc)
+	await Z_ToolScriptHelper.tool_add_child(owner, xb)
+	await Z_ToolScriptHelper.tool_add_child(owner, ps)
+
+func on_pre_save():
+	await Z_ToolScriptHelper.remove_all_children_created_via_tool_from(owner)
+
+	await setup_row('Movement')
+	await arrows(pc)
+	await wasd(pc)
+	await xb_left_stick(xb)
+	await ps_left_stick(ps)
+	await xb_dpad(xb)
+	await ps_dpad(ps)
+
+	pc = null
+	xb = null
+	ps = null
+	lb = null

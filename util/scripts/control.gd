@@ -27,6 +27,15 @@ static func control_set_top_right_min_size(con:Control):
 static func control_set_color(con:Control,col:Color=Color.HOT_PINK):
 	con.add_theme_color_override("font_color",col)
 
+static func control_label_justify_right(con:Label):
+	con.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+
+static func control_label_justify_left(con:Label):
+	con.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+
+static func control_label_justify_horcenter(con:Label):
+	con.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
 static func control_set_font_size(con:Control,size:int=32):
 	con.add_theme_font_size_override("font_size", size)
 

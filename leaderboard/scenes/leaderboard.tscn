@@ -1,5 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4ic2uy3lnxmy"]
+[gd_scene load_steps=8 format=3 uid="uid://b4ic2uy3lnxmy"]
 
+[ext_resource type="Script" path="res://zaft/lib/menu/scripts/controls/full-screen-menu-background-panel.gd" id="1_l3ei8"]
+[ext_resource type="Script" path="res://zaft/lib/menu/scripts/controls/full-screen-menu-margin.gd" id="2_yoiup"]
 [ext_resource type="Script" path="res://zaft/lib/menu/scripts/controls/closer-button.gd" id="3_i5ahu"]
 [ext_resource type="Script" path="res://zaft/lib/leaderboard/scripts/leaderboard-scene-controller.gd" id="4_4d8ja"]
 [ext_resource type="Script" path="res://zaft/lib/child-labor/scripts/auto-focus.gd" id="4_s60sm"]
@@ -18,25 +20,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h0vs2")
+script = ExtResource("1_l3ei8")
 
-[node name="Game_EdgyMarginContainer" type="MarginContainer" parent="."]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
+script = ExtResource("2_yoiup")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Game_EdgyMarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
 
-[node name="TabContainer" type="TabContainer" parent="Game_EdgyMarginContainer/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="Margin/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 current_tab = 0
 clip_tabs = false
 
-[node name="Online" type="MarginContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer"]
+[node name="Online" type="MarginContainer" parent="Margin/VBoxContainer/TabContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
@@ -44,14 +48,14 @@ theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 metadata/_tab_index = 0
 
-[node name="Online" type="VBoxContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online"]
+[node name="Online" type="VBoxContainer" parent="Margin/VBoxContainer/TabContainer/Online"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/VBoxContainer/TabContainer/Online/Online"]
 layout_mode = 2
 
-[node name="InputName" type="LineEdit" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/HBoxContainer"]
+[node name="InputName" type="LineEdit" parent="Margin/VBoxContainer/TabContainer/Online/Online/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -59,22 +63,22 @@ theme_override_font_sizes/font_size = 32
 placeholder_text = "Player Name"
 max_length = 30
 
-[node name="ButtonName" type="Button" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/HBoxContainer"]
+[node name="ButtonName" type="Button" parent="Margin/VBoxContainer/TabContainer/Online/Online/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Update Name"
 
-[node name="HSeparator_3" type="HSeparator" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
+[node name="HSeparator_3" type="HSeparator" parent="Margin/VBoxContainer/TabContainer/Online/Online"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Margin/VBoxContainer/TabContainer/Online/Online"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="TimeGrid" type="GridContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer"]
+[node name="TimeGrid" type="GridContainer" parent="Margin/VBoxContainer/TabContainer/Online/Online/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -82,14 +86,14 @@ size_flags_vertical = 3
 theme_override_constants/v_separation = 4
 columns = 3
 
-[node name="LabelYouTube" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
+[node name="LabelYouTube" type="Label" parent="Margin/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
 horizontal_alignment = 2
 clip_text = true
 
-[node name="LabelPlayer" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
+[node name="LabelPlayer" type="Label" parent="Margin/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
@@ -97,7 +101,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
 text = "Player"
 clip_text = true
 
-[node name="LabelTime" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
+[node name="LabelTime" type="Label" parent="Margin/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -106,19 +110,19 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
 text = "Time"
 clip_text = true
 
-[node name="HSeparator_2" type="HSeparator" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
+[node name="HSeparator_2" type="HSeparator" parent="Margin/VBoxContainer/TabContainer/Online/Online"]
 layout_mode = 2
 
-[node name="LabelStatus" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
+[node name="LabelStatus" type="Label" parent="Margin/VBoxContainer/TabContainer/Online/Online"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Status"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online"]
+[node name="HSeparator" type="HSeparator" parent="Margin/VBoxContainer/TabContainer/Online/Online"]
 layout_mode = 2
 
-[node name="Offline" type="MarginContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer"]
+[node name="Offline" type="MarginContainer" parent="Margin/VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 24
@@ -127,17 +131,17 @@ theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 metadata/_tab_index = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Offline"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Margin/VBoxContainer/TabContainer/Offline"]
 layout_mode = 2
 
-[node name="OfflineGrid" type="GridContainer" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Offline/ScrollContainer"]
+[node name="OfflineGrid" type="GridContainer" parent="Margin/VBoxContainer/TabContainer/Offline/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
 
-[node name="LabelPlayer" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Offline/ScrollContainer/OfflineGrid"]
+[node name="LabelPlayer" type="Label" parent="Margin/VBoxContainer/TabContainer/Offline/ScrollContainer/OfflineGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
@@ -145,7 +149,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
 text = "Player"
 clip_text = true
 
-[node name="LabelTime" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Offline/ScrollContainer/OfflineGrid"]
+[node name="LabelTime" type="Label" parent="Margin/VBoxContainer/TabContainer/Offline/ScrollContainer/OfflineGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
@@ -153,15 +157,14 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
 text = "Time"
 clip_text = true
 
-[node name="Z_Closer_Button" type="Button" parent="Game_EdgyMarginContainer/VBoxContainer" node_paths=PackedStringArray("target")]
+[node name="Z_Closer_Button" type="Button" parent="Margin/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Close"
 script = ExtResource("3_i5ahu")
-target = NodePath("../../..")
 
-[node name="Z_AutoFocus" type="Node" parent="Game_EdgyMarginContainer/VBoxContainer/Z_Closer_Button" node_paths=PackedStringArray("target")]
+[node name="Z_AutoFocus" type="Node" parent="Margin/VBoxContainer/Z_Closer_Button" node_paths=PackedStringArray("target")]
 script = ExtResource("4_s60sm")
 target = NodePath("..")
 

@@ -1,227 +1,188 @@
-[gd_scene load_steps=23 format=3 uid="uid://cc4pdlhbeovpo"]
+[gd_scene load_steps=18 format=3 uid="uid://cc4pdlhbeovpo"]
 
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-grid.gd" id="1_846pr"]
 [ext_resource type="Texture2D" uid="uid://dqimk2l0npjxc" path="res://zaft/lib/input/images/keyboard_a_outline.png" id="1_kqi44"]
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-title-label.gd" id="2_tbb3e"]
 [ext_resource type="Texture2D" uid="uid://g5poas4h5w6b" path="res://zaft/lib/input/images/keyboard_d_outline.png" id="3_iebm0"]
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-scene-controller.gd" id="3_w8r00"]
+[ext_resource type="Script" path="res://zaft/lib/input/scripts/controls-action-label.gd" id="4_6u0sr"]
 [ext_resource type="Texture2D" uid="uid://c41cq0sfivd5e" path="res://zaft/lib/input/images/keyboard_arrow_left_outline.png" id="4_g4lke"]
 [ext_resource type="Texture2D" uid="uid://ppfousr0llav" path="res://zaft/lib/input/images/keyboard_arrow_right_outline.png" id="5_3h7l8"]
-[ext_resource type="Texture2D" uid="uid://bjtcekr3g15t2" path="res://zaft/lib/input/images/keyboard_space_outline.png" id="5_ik7qe"]
 [ext_resource type="Script" path="res://zaft/lib/input/scripts/input-icon-control.gd" id="6_f5wbk"]
-[ext_resource type="Texture2D" uid="uid://d1u83spjuqa64" path="res://zaft/lib/input/images/keyboard_shift_outline.png" id="7_8on8e"]
-[ext_resource type="Texture2D" uid="uid://dftjsdu3ukvdx" path="res://zaft/lib/input/images/xbox_dpad_horizontal_outline.png" id="7_ft7ee"]
-[ext_resource type="Texture2D" uid="uid://grr51a1bx61t" path="res://zaft/lib/input/images/keyboard_r_outline.png" id="8_rmoe5"]
-[ext_resource type="Texture2D" uid="uid://cvyhwdwj5i3r6" path="res://zaft/lib/input/images/playstation_dpad_horizontal_outline.png" id="9_4f5qe"]
 [ext_resource type="Texture2D" uid="uid://c2yygl40td34u" path="res://zaft/lib/input/images/keyboard_w_outline.png" id="11_1r213"]
-[ext_resource type="Texture2D" uid="uid://coi6gk106c368" path="res://zaft/lib/input/images/xbox_button_a_outline.png" id="11_eyh1a"]
-[ext_resource type="Texture2D" uid="uid://yxatp0y8iyl3" path="res://zaft/lib/input/images/xbox_button_x_outline.png" id="12_ao2wh"]
 [ext_resource type="Texture2D" uid="uid://cjc2injdaky4c" path="res://zaft/lib/input/images/keyboard_arrow_up_outline.png" id="12_fkfvg"]
-[ext_resource type="Texture2D" uid="uid://cbilp0ifvmqm" path="res://zaft/lib/input/images/playstation_button_cross_outline.png" id="12_gqis3"]
-[ext_resource type="Texture2D" uid="uid://dj1t6v2vkdrut" path="res://zaft/lib/input/images/playstation_button_square_outline.png" id="13_animm"]
-[ext_resource type="Texture2D" uid="uid://d03rb3fkn0ejj" path="res://zaft/lib/input/images/xbox_button_b_outline.png" id="14_n7p8d"]
-[ext_resource type="Texture2D" uid="uid://efh0ehl42aah" path="res://zaft/lib/input/images/playstation_button_circle_outline.png" id="15_hq3sy"]
+[ext_resource type="Texture2D" uid="uid://bdfmo457qu5mv" path="res://zaft/lib/input/images/xbox_stick_l.png" id="14_h0xj6"]
 [ext_resource type="Texture2D" uid="uid://kuif6tbvpbwi" path="res://zaft/lib/input/images/keyboard_s_outline.png" id="16_hnm0h"]
 [ext_resource type="Texture2D" uid="uid://djpvdw1qyg2sl" path="res://zaft/lib/input/images/keyboard_arrow_down_outline.png" id="17_6g3m2"]
-[ext_resource type="Texture2D" uid="uid://deueysmjdcu5" path="res://zaft/lib/input/images/xbox_button_y_outline.png" id="17_fbt8y"]
-[ext_resource type="Texture2D" uid="uid://bc7q5tsvhiqsw" path="res://zaft/lib/input/images/playstation_button_triangle_outline.png" id="18_b4r1c"]
+[ext_resource type="Texture2D" uid="uid://66oqragap0ay" path="res://zaft/lib/input/images/playstation_stick_l.png" id="17_qud6n"]
+[ext_resource type="Texture2D" uid="uid://b7ukqt7fw06k6" path="res://zaft/lib/input/images/xbox_dpad_none.png" id="20_brxaf"]
+[ext_resource type="Texture2D" uid="uid://cx74uycti4kr5" path="res://zaft/lib/input/images/playstation_dpad_none.png" id="21_cue7y"]
 
 [node name="Controls" type="GridContainer"]
 theme_override_constants/h_separation = 32
 theme_override_constants/v_separation = 8
 columns = 4
+script = ExtResource("1_846pr")
 
 [node name="LabelAction" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Action"
 horizontal_alignment = 2
+script = ExtResource("2_tbb3e")
 
 [node name="LabelKeyboard" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Keyboard"
 horizontal_alignment = 1
+script = ExtResource("2_tbb3e")
 
 [node name="LabelXbox" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Xbox"
+horizontal_alignment = 1
+script = ExtResource("2_tbb3e")
 
 [node name="LabelPlaystation" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Playstation"
+horizontal_alignment = 1
+script = ExtResource("2_tbb3e")
 
-[node name="LabelMovement" type="Label" parent="."]
+[node name="Z_ControlsSceneController" type="Node" parent="."]
+script = ExtResource("3_w8r00")
+
+[node name="@Label@81970" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Movement"
 horizontal_alignment = 2
+script = ExtResource("4_6u0sr")
+metadata/created_via_tool_script = true
 
-[node name="HBoxMovement" type="HBoxContainer" parent="."]
+[node name="@HBoxContainer@81971" type="HBoxContainer" parent="."]
 layout_mode = 2
+metadata/created_via_tool_script = true
 
-[node name="Z_InputIconControl_2" type="TextureRect" parent="HBoxMovement"]
+[node name="Arrows" type="GridContainer" parent="@HBoxContainer@81971"]
 layout_mode = 2
-texture = ExtResource("1_kqi44")
-script = ExtResource("6_f5wbk")
-k = 65
+columns = 3
+metadata/created_via_tool_script = true
 
-[node name="Z_InputIconControl_4" type="TextureRect" parent="HBoxMovement"]
+[node name="@Label@81974" type="Label" parent="@HBoxContainer@81971/Arrows"]
 layout_mode = 2
-texture = ExtResource("3_iebm0")
-script = ExtResource("6_f5wbk")
-k = 68
+metadata/created_via_tool_script = true
 
-[node name="Z_InputIconControl_3" type="TextureRect" parent="HBoxMovement"]
-layout_mode = 2
-texture = ExtResource("4_g4lke")
-script = ExtResource("6_f5wbk")
-k = 4194319
-
-[node name="Z_InputIconControl_5" type="TextureRect" parent="HBoxMovement"]
-layout_mode = 2
-texture = ExtResource("5_3h7l8")
-script = ExtResource("6_f5wbk")
-k = 4194321
-
-[node name="HBoxMovementJoyPlaceholderX" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="@TextureRect@93144" type="TextureRect" parent="HBoxMovementJoyPlaceholderX"]
-layout_mode = 2
-texture = ExtResource("7_ft7ee")
-script = ExtResource("6_f5wbk")
-
-[node name="HBoxMovementJoyPlaceholderP" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="@TextureRect@93146" type="TextureRect" parent="HBoxMovementJoyPlaceholderP"]
-layout_mode = 2
-texture = ExtResource("9_4f5qe")
-script = ExtResource("6_f5wbk")
-
-[node name="LabelJump" type="Label" parent="."]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Jump"
-horizontal_alignment = 2
-
-[node name="HBoxJump" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="JumpSpace" type="TextureRect" parent="HBoxJump"]
-layout_mode = 2
-texture = ExtResource("5_ik7qe")
-script = ExtResource("6_f5wbk")
-k = 32
-
-[node name="Z_InputIconControl" type="TextureRect" parent="HBoxJump"]
-layout_mode = 2
-texture = ExtResource("11_1r213")
-script = ExtResource("6_f5wbk")
-k = 87
-
-[node name="Z_InputIconControl_2" type="TextureRect" parent="HBoxJump"]
+[node name="KeyboardArrowUpOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
 layout_mode = 2
 texture = ExtResource("12_fkfvg")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
-k = 4194320
+metadata/created_via_tool_script = true
 
-[node name="HBoxJumpJoyPlaceholderX" type="HBoxContainer" parent="."]
+[node name="@Label@81975" type="Label" parent="@HBoxContainer@81971/Arrows"]
 layout_mode = 2
+metadata/created_via_tool_script = true
 
-[node name="@TextureRect@93147" type="TextureRect" parent="HBoxJumpJoyPlaceholderX"]
+[node name="KeyboardArrowLeftOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
 layout_mode = 2
-texture = ExtResource("11_eyh1a")
+texture = ExtResource("4_g4lke")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
 
-[node name="HBoxJumpJoyPlaceholderP" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="@TextureRect@93148" type="TextureRect" parent="HBoxJumpJoyPlaceholderP"]
-layout_mode = 2
-texture = ExtResource("12_gqis3")
-script = ExtResource("6_f5wbk")
-
-[node name="LabelDash" type="Label" parent="."]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Dash"
-horizontal_alignment = 2
-
-[node name="HBoxDash" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="DashShift" type="TextureRect" parent="HBoxDash"]
-layout_mode = 2
-texture = ExtResource("7_8on8e")
-script = ExtResource("6_f5wbk")
-k = 4194325
-
-[node name="Z_InputIconControl_3" type="TextureRect" parent="HBoxDash"]
-layout_mode = 2
-texture = ExtResource("16_hnm0h")
-script = ExtResource("6_f5wbk")
-k = 83
-
-[node name="Z_InputIconControl_4" type="TextureRect" parent="HBoxDash"]
+[node name="KeyboardArrowDownOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
 layout_mode = 2
 texture = ExtResource("17_6g3m2")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
-k = 4194322
+metadata/created_via_tool_script = true
 
-[node name="HBoxDashJoyPlaceholderX" type="HBoxContainer" parent="."]
+[node name="KeyboardArrowRightOutline" type="TextureRect" parent="@HBoxContainer@81971/Arrows"]
 layout_mode = 2
-
-[node name="@TextureRect@93149" type="TextureRect" parent="HBoxDashJoyPlaceholderX"]
-layout_mode = 2
-texture = ExtResource("14_n7p8d")
+texture = ExtResource("5_3h7l8")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
 
-[node name="_TextureRect_93147" type="TextureRect" parent="HBoxDashJoyPlaceholderX"]
+[node name="WASD" type="GridContainer" parent="@HBoxContainer@81971"]
 layout_mode = 2
-texture = ExtResource("12_ao2wh")
+columns = 3
+metadata/created_via_tool_script = true
+
+[node name="@Label@81976" type="Label" parent="@HBoxContainer@81971/WASD"]
+layout_mode = 2
+metadata/created_via_tool_script = true
+
+[node name="KeyboardWOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
+layout_mode = 2
+texture = ExtResource("11_1r213")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
 
-[node name="HBoxDashJoyPlaceholderP" type="HBoxContainer" parent="."]
+[node name="@Label@81977" type="Label" parent="@HBoxContainer@81971/WASD"]
 layout_mode = 2
+metadata/created_via_tool_script = true
 
-[node name="_TextureRect_93150" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
+[node name="KeyboardAOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
 layout_mode = 2
-texture = ExtResource("15_hq3sy")
+texture = ExtResource("1_kqi44")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
 
-[node name="_TextureRect_93148" type="TextureRect" parent="HBoxDashJoyPlaceholderP"]
+[node name="KeyboardSOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
 layout_mode = 2
-texture = ExtResource("13_animm")
+texture = ExtResource("16_hnm0h")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
 
-[node name="LabelRespawn" type="Label" parent="."]
+[node name="KeyboardDOutline" type="TextureRect" parent="@HBoxContainer@81971/WASD"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Respawn"
-horizontal_alignment = 2
-
-[node name="HBoxRespawn" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="RespawnR" type="TextureRect" parent="HBoxRespawn"]
-layout_mode = 2
-texture = ExtResource("8_rmoe5")
+texture = ExtResource("3_iebm0")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
-k = 82
+metadata/created_via_tool_script = true
 
-[node name="HBoxRespawnJoyPlaceholderX" type="HBoxContainer" parent="."]
+[node name="@HBoxContainer@81972" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 4
+metadata/created_via_tool_script = true
 
-[node name="@TextureRect@93151" type="TextureRect" parent="HBoxRespawnJoyPlaceholderX"]
+[node name="XboxStickL" type="TextureRect" parent="@HBoxContainer@81972"]
 layout_mode = 2
-texture = ExtResource("17_fbt8y")
+texture = ExtResource("14_h0xj6")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
 
-[node name="HBoxRespawnJoyPlaceholderP" type="HBoxContainer" parent="."]
+[node name="XboxDpadNone" type="TextureRect" parent="@HBoxContainer@81972"]
 layout_mode = 2
-
-[node name="@TextureRect@93152" type="TextureRect" parent="HBoxRespawnJoyPlaceholderP"]
-layout_mode = 2
-texture = ExtResource("18_b4r1c")
+texture = ExtResource("20_brxaf")
+stretch_mode = 5
 script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
+
+[node name="@HBoxContainer@81973" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+metadata/created_via_tool_script = true
+
+[node name="PlaystationStickL" type="TextureRect" parent="@HBoxContainer@81973"]
+layout_mode = 2
+texture = ExtResource("17_qud6n")
+stretch_mode = 5
+script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
+
+[node name="PlaystationDpadNone" type="TextureRect" parent="@HBoxContainer@81973"]
+layout_mode = 2
+texture = ExtResource("21_cue7y")
+stretch_mode = 5
+script = ExtResource("6_f5wbk")
+metadata/created_via_tool_script = true
