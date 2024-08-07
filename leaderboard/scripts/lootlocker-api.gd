@@ -1,8 +1,4 @@
-class_name Z_LootlockerAPI extends Node
-
-@warning_ignore('unused_private_class_variable')
-static var _instance : Z_LootlockerAPI
-static func single() -> Z_LootlockerAPI: return Z_TreeUtil.singleton(Z_LootlockerAPI)
+class_name Z_LeaderboardApi extends Node
 
 signal sig_auth_request_started()
 signal sig_auth_request_completed()
@@ -15,11 +11,14 @@ signal sig_get_name_completed(name:String)
 signal sig_upload_started()
 signal sig_upload_completed()
 
-@export var player_data : Z_LeaderboardPlayerData
+@export_group('data')
+@export var player_name := 'Player %s' % randi()
+@export var player_identifier : String
+@export var score = -1
 
 @export_group('auth')
 @export var game_API_key = 'dev_cfead96600a040efa286a27bf7215909'
-@export var leaderboard_key = 'fox2_dead'
+@export var leaderboard_key = 'fox2_dino'
 @export var development_mode = true
 @export var session_token = ''
 @export var auth_on_ready := false
@@ -29,6 +28,12 @@ var leaderboard_http : HTTPRequest
 var submit_score_http : HTTPRequest
 var set_name_http : HTTPRequest
 var get_name_http : HTTPRequest
+
+const LL_DATA_FILE := 'user://lootlocker_data_%s.data'
+const LL_USER_FILE := 'user://lootlocker_name_%s.data'
+
+@onready var data_file_for_leaderboard := LL_DATA_FILE % leaderboard_key
+@onready var user_file_for_leaderboard := LL_USER_FILE % leaderboard_key
 
 @export_group('flags')
 @export var fl_authenticating := false
@@ -43,10 +48,8 @@ func _enter_tree() -> void:
 	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 	name = 'LeaderboardAPI'
 	add_to_group(Z_Path.LEADERBOARD_GROUP)
-	player_data = Z_LeaderboardPlayerData.from_existing()
-	print(player_data)
 
-func auths_on_ready(yes_or_no:=false) -> Z_LootlockerAPI:
+func auths_on_ready(yes_or_no:=false) -> Z_LeaderboardApi:
 	auth_on_ready = yes_or_no
 	return self
 
@@ -58,8 +61,18 @@ func _ready() -> void:
 		set_name_http = HTTPRequest.new()
 		get_name_http = HTTPRequest.new()
 
+	fl_name_set = name_file_exists()
+	if name_file_exists():
+		var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)
+		if name_file:
+			player_name = name_file.get_as_text()
+			print_verbose("player name="+player_name)
+			name_file.close()
 	if auth_on_ready:
 		_authentication_request()
+
+func name_file_exists():
+	return FileAccess.file_exists(user_file_for_leaderboard)
 
 func _authentication_request():
 	if fl_authenticating: return
@@ -68,18 +81,28 @@ func _authentication_request():
 		sig_auth_request_completed.emit()
 		return
 	fl_authenticating = true
-	var player_identifier_exists = false
-	print_verbose("player ID="+player_data.lootlocker_player_identifier)
-	print_verbose("player name="+player_data.lootlocker_player_name)
+	var player_session_exists = false
+	var file = FileAccess.open(data_file_for_leaderboard, FileAccess.READ)
+	if file:
+		player_identifier = file.get_as_text()
+		print_verbose("player ID="+player_identifier)
+		file.close()
+	var name_file = FileAccess.open(user_file_for_leaderboard, FileAccess.READ)
+	if name_file:
+		player_name = name_file.get_as_text()
+		print_verbose("player name="+player_name)
+		name_file.close()
 
-	if player_data.lootlocker_player_identifier and not player_data.lootlocker_player_identifier.is_empty():
-		print_verbose("player session exists, id="+player_data.lootlocker_player_identifier)
-		player_identifier_exists = true
+	if player_identifier and player_identifier.length() > 1:
+		print_verbose("player session exists, id="+player_identifier)
+		player_session_exists = true
+	if(player_identifier.length() > 1):
+		player_session_exists = true
 
 	var data = { "game_key": game_API_key, "game_version": "0.0.0.1", "development_mode": true }
 
-	if (player_identifier_exists):
-		data = { "game_key": game_API_key, "player_identifier": player_data.lootlocker_player_identifier, "game_version": "0.0.0.1", "development_mode": true }
+	if(player_session_exists == true):
+		data = { "game_key": game_API_key, "player_identifier":player_identifier, "game_version": "0.0.0.1", "development_mode": true }
 
 	var headers = ["Content-Type: application/json"]
 
@@ -87,22 +110,19 @@ func _authentication_request():
 	add_child(auth_http)
 	auth_http.request_completed.connect(_on_authentication_request_completed)
 	auth_http.request("https://api.lootlocker.io/game/v2/session/guest", headers, HTTPClient.METHOD_POST, JSON.stringify(data))
-	if not OS.has_feature('web'): print_verbose(data)
+	print_verbose(data)
 	fl_authenticated = true
 
 func _on_authentication_request_completed(_result, _response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
-	if not OS.has_feature('web'): print_verbose(json.get_data())
-	var player_identifier := json.get_data()['player_identifier'] as String
-	var player_name := json.get_data()['player_name'] as String
-	player_data.lootlocker_player_identifier = player_identifier
-	player_data.lootlocker_player_name = player_name
-	if player_name and not player_name.is_empty():
-		player_data.player_name = player_name
-	player_data.save()
+	print_verbose(json.get_data())
+	var file = FileAccess.open(data_file_for_leaderboard, FileAccess.WRITE)
+	file.store_string(json.get_data()['player_identifier'])
+	file.close()
 	leaderboard_auth = json.get_data()
 	session_token = json.get_data()['session_token']
+	print_verbose(json.get_data())
 	sig_auth_request_completed.emit()
 	auth_http.queue_free()
 	fl_authenticating = false
@@ -157,10 +177,9 @@ func _change_player_name(new_name:String="new name"):
 		sig_set_name_completed.emit(new_name)
 		return
 	print_verbose("Changing player name")
-	player_data.lootlocker_player_name = new_name
-	player_data.player_name = new_name
-	var data = { "name": str(player_data.player_name) }
-	var url = "https://api.lootlocker.io/game/player/name"
+	player_name = new_name
+	var data = { "name": str(player_name) }
+	var url =	"https://api.lootlocker.io/game/player/name"
 	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
 	set_name_http = HTTPRequest.new()
 	add_child(set_name_http)
@@ -172,8 +191,10 @@ func _on_player_set_name_request_completed(_result, _response_code, _headers, bo
 	json.parse(body.get_string_from_utf8())
 	print_verbose(json.get_data())
 	set_name_http.queue_free()
-	player_data.save()
-	sig_set_name_completed.emit(player_data.player_name)
+	sig_set_name_completed.emit(player_name)
+	var file = FileAccess.open(user_file_for_leaderboard, FileAccess.WRITE)
+	file.store_string(player_name)
+	file.close()
 
 func _get_player_name():
 	await wait_for_auth()
@@ -194,11 +215,11 @@ func _on_player_get_name_request_completed(_result, _response_code, _headers, bo
 	json.parse(body.get_string_from_utf8())
 	leaderboard_user = json.get_data()
 	print_verbose(leaderboard_user)
-	var new_name := json.get_data().name as String
-	player_data.lootlocker_player_name = new_name
-	player_data.player_name = new_name
-	player_data.save()
-	sig_get_name_completed.emit(player_data.player_name)
+	player_name = json.get_data().name
+	sig_get_name_completed.emit(player_name)
+	var file = FileAccess.open(user_file_for_leaderboard, FileAccess.WRITE)
+	file.store_string(player_name)
+	file.close()
 
 func _on_upload_score_request_completed(_result, _response_code, _headers, body) :
 	var json = JSON.new()

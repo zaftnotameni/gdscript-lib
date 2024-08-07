@@ -1,8 +1,7 @@
 @tool
 class_name Z_LeaderboardPlayerNameHbox extends HBoxContainer
 
-var api : Z_LeaderboardApi
-
+var api : Z_LootlockerAPI
 
 func on_set_name_complete(new_name:String='New Name'):
   allow()
@@ -39,12 +38,12 @@ func _ready() -> void:
   input_name.placeholder_text = 'Enter Player Name'
   button_name.text = 'Update Name'
   input_name.size_flags_horizontal = Control.SizeFlags.SIZE_EXPAND_FILL
-  Z_Util.control_set_font_size(button_name, 32)
-  Z_Util.control_set_font_size(input_name, 32)
+  Z_ControlUtil.control_set_font_size(button_name, 32)
+  Z_ControlUtil.control_set_font_size(input_name, 32)
   add_child(input_name)
   add_child(button_name)
   button_name.pressed.connect(on_button_name_pressed)
-  api = Z_Path.group_leaderboard_only_node()
+  api = await Z_TreeUtil.tree_wait_for_ready(Z_LootlockerAPI.single())
   api.sig_set_name_completed.connect(on_set_name_complete)
   api.sig_auth_request_completed.connect(on_auth_completed)
   if api.fl_authenticated: on_auth_completed()

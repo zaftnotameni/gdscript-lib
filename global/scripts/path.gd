@@ -42,7 +42,7 @@ static func group_player_character_state_machine_only_node(g:=PLAYER_CHARACTER_S
 static func group_stopwatch_only_node(g:=STOPWATCH_GROUP) -> Z_Stopwatch:
   return group_only_node(g)
 
-static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Z_LeaderboardApi:
+static func group_leaderboard_only_node(g:=LEADERBOARD_GROUP) -> Z_LootlockerAPI:
   return group_only_node(g)
 
 static func group_local_times_only_node(g:=LOCAL_TIMES_GROUP) -> Z_LocalTimes:

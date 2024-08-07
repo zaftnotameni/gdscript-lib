@@ -6,13 +6,12 @@ class_name Z_LeaderboardSceneController extends Node
 @onready var button_name : Button = %ButtonName
 @onready var label_status : Label = %LabelStatus
 
-var api : Z_LeaderboardApi
+var api : Z_LootlockerAPI
 var local : Z_LocalTimes
 
 func setup_local_times():
-  local.load_from_file()
   var ts := []
-  for lt in local.local_times_top_10: ts.push_front(lt)
+  for lt in local.local_times_data.top_50: ts.push_front(lt)
   for lt in ts:
     if lt <= 1: continue
     var lbl_name := Z_LeaderboardPlayerLabel.new()
@@ -27,7 +26,7 @@ func on_leaderboards(items:=[]):
   for grid_entry in time_grid.get_children():
     if [&'LabelPlayer', &'LabelTime', &'LabelYouTube'].has(grid_entry.name): continue
     grid_entry.queue_free()
-  Z_LeaderboardApi.items_to_labels.call_deferred(time_grid, items, Z_LeaderboardPlayerLabel, Z_LeaderboardTimeLabel)
+  Z_LootlockerAPI.items_to_labels.call_deferred(time_grid, items, Z_LeaderboardPlayerLabel, Z_LeaderboardTimeLabel)
 
 func on_player_name(p_name:='???'):
   label_status.text = 'Player name retrieved: %s' % p_name
@@ -49,8 +48,8 @@ func on_set_name(p_name:='???'):
   api._get_leaderboards()
 
 func _ready() -> void:
-  api = Z_Path.group_leaderboard_only_node()
-  local = Z_Path.group_local_times_only_node()
+  api = await Z_TreeUtil.tree_wait_for_ready(Z_LootlockerAPI.single())
+  local = await Z_TreeUtil.tree_wait_for_ready(Z_LocalTimes.single())
   api.sig_leaderboard_request_completed.connect(on_leaderboards)
   api.sig_get_name_completed.connect(on_player_name)
   api.sig_set_name_completed.connect(on_set_name)

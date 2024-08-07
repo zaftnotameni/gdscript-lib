@@ -25,7 +25,7 @@ func lazy_lbl_machine() -> Label:
 
 func on_machine_state_change(curr:Z_PlayerStateMachineState,prev:Z_PlayerStateMachineState):
   lazy_lbl_machine().text = '[%s]=%s>[%s]=%s>[%s]' % [prev.via_state, prev.via_transition, prev.name, curr.via_transition, curr.name]
-  Z_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
+  Z_ControlUtil.control_set_bottom_right_min_size(lazy_lbl_machine())
 
 func _exit_tree() -> void:
   if lbl_machine and lbl_machine.is_inside_tree() and not lbl_machine.is_queued_for_deletion():
@@ -36,7 +36,7 @@ func should_debug() -> bool: return debug_on_web or not OS.has_feature('web')
 
 func _ready() -> void:
   if debug_machine and should_debug():
-    Z_Util.control_set_bottom_right_min_size(lazy_lbl_machine())
+    Z_ControlUtil.control_set_bottom_right_min_size(lazy_lbl_machine())
     resolve_machine().sig_state_did_transition.connect(on_machine_state_change)
 
 func _draw() -> void:

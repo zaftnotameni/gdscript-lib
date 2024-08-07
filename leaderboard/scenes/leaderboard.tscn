@@ -98,8 +98,9 @@ text = "Player"
 clip_text = true
 
 [node name="LabelTime" type="Label" parent="Game_EdgyMarginContainer/VBoxContainer/TabContainer/Online/Online/ScrollContainer/TimeGrid"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_nsoej")
 text = "Time"
@@ -153,6 +154,7 @@ text = "Time"
 clip_text = true
 
 [node name="Z_Closer_Button" type="Button" parent="Game_EdgyMarginContainer/VBoxContainer" node_paths=PackedStringArray("target")]
+process_mode = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Close"

@@ -3,6 +3,11 @@ class_name Z_TreeUtil extends RefCounted
 static func scene_tree() -> SceneTree: return Engine.get_main_loop()
 static func current_scene() -> Node: return Engine.get_main_loop().current_scene
 
+static func tree_wait_for_ready(node:Node) -> Node:
+	if node.is_node_ready(): return node
+	await node.ready
+	return node
+
 static func tree_node_at_root(node:Node) -> Node:
 	var scn : Node = scene_tree().root
 	if node.is_inside_tree(): return node

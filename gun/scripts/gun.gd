@@ -54,7 +54,7 @@ func next_from_pool(global_pos:=muzzle.global_position,_warn_on_empty:=warn_on_e
   var b :Node2D = pooled_bullets.pop_back()
   if not b and _warn_on_empty: push_warning('%s ran out of bullets' % get_path())
   if not b: return
-  Z_Util.node_turn_on(b)
+  Z_ProcessAndPauseUtil.pause_inherits(b)
   b.global_position = global_pos
   if before_bullet_take_from_pool_fn:
     before_bullet_take_from_pool_fn.call(b)
@@ -64,7 +64,7 @@ func next_from_pool(global_pos:=muzzle.global_position,_warn_on_empty:=warn_on_e
 
 func return_to_pool(b:Node2D) -> Node2D:
   if not b: return
-  Z_Util.node_turn_off(b)
+  Z_ProcessAndPauseUtil.pause_never_process(b)
   pooled_bullets.push_back(b)
   if b.has_method(on_return_to_pool):
     b.call(on_return_to_pool, self)

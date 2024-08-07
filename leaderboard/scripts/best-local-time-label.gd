@@ -9,7 +9,7 @@ func _enter_tree() -> void:
   process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 
 func _ready() -> void:
-  Z_Util.control_set_font_size(self, 32)
+  Z_ControlUtil.control_set_font_size(self, 32)
   localtimes.load_from_file()
   localtimes.add_local_time(stopwatch.elapsed if stopwatch.elapsed > 0 else DUMMY_TIME)
   text = Z_Util.string_format_time(localtimes.best_time())
