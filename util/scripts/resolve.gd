@@ -25,6 +25,17 @@ static func resolve_all_at(node:Node,typ:Script=Z_ComponentBase,ignore_missing:=
 		push_warning('tried to resolve missing component %s at %s' % [typ, node.get_path()])
 		return res
 
+static func resolve_meta_at(node:Node,meta_key:String,meta_value:Variant,ignore_missing:=false) -> Node:
+	assert(node, 'must provide a node')
+	assert(node.is_inside_tree(), 'node must be in the tree')
+	for c in node.get_children():
+		if c.has_meta(meta_key) and c.get_meta(meta_key) == meta_value: return c
+	if ignore_missing:
+		return null
+	else:
+		push_warning('tried to resolve missing component %s:%s at %s' % [meta_key, meta_value, node.get_path()])
+		return null
+
 static func resolve_at(node:Node,typ:Script=Z_ComponentBase,ignore_missing:=false) -> Node:
 	assert(node, 'must provide a node')
 	assert(node.is_inside_tree(), 'node must be in the tree')
