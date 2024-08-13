@@ -1,4 +1,4 @@
-class_name Z_LocalStorageBridge extends RefCounted
+class_name LocalStorageBridge extends RefCounted
 
 static func is_on_web() -> bool: return OS.has_feature('web')
 

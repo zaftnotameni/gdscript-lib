@@ -1,58 +1,52 @@
-class_name Z_LootlockerAPI extends Node
-
-@warning_ignore('unused_private_class_variable')
-static var _instance : Z_LootlockerAPI
-static func single() -> Z_LootlockerAPI: return Z_TreeUtil.singleton(Z_LootlockerAPI)
+class_name LootlockerAPI extends Node
 
 signal sig_auth_request_started()
 signal sig_auth_request_completed()
 signal sig_leaderboard_request_started()
-signal sig_leaderboard_request_completed(items:Array)
+signal sig_leaderboard_request_completed()
 signal sig_set_name_started()
-signal sig_set_name_completed(name:String)
+signal sig_set_name_completed()
 signal sig_get_name_started()
-signal sig_get_name_completed(name:String)
+signal sig_get_name_completed()
 signal sig_upload_started()
 signal sig_upload_completed()
 
-@export var player_data : Z_LeaderboardPlayerData
-
 @export_group('auth')
-@export var game_API_key = 'dev_cfead96600a040efa286a27bf7215909'
-@export var leaderboard_key = 'fox2_dead'
-@export var development_mode = true
-@export var session_token = ''
-@export var auth_on_ready := false
+@export var lootlocker_secrets : LootlockerSecrets
+@export var development_mode : bool = true
+@export var auth_on_ready : bool = false
+@export var disable_remote_leaderboard : bool = false
 
+var session_token : String = ''
 var auth_http : HTTPRequest
 var leaderboard_http : HTTPRequest
 var submit_score_http : HTTPRequest
 var set_name_http : HTTPRequest
 var get_name_http : HTTPRequest
 
-@export_group('flags')
-@export var fl_authenticating := false
-@export var fl_authenticated := false
-@export var fl_name_set := false
+var fl_authenticating := false
+var fl_authenticated := false
 
 var leaderboard_items = []
 var leaderboard_user = {}
 var leaderboard_auth = {}
+var player_data : LootlockerPlayer
 
 func _enter_tree() -> void:
 	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
-	name = 'LeaderboardAPI'
-	add_to_group(Z_Path.LEADERBOARD_GROUP)
-	player_data = Z_LeaderboardPlayerData.from_existing()
+	name = 'LootlockerAPI'
+	add_to_group(LOOTLOCKER_API_GROUP)
+	player_data = LootlockerPlayer.from_existing()
+	lootlocker_secrets = LootlockerSecrets.from_file()
 	print_verbose("existing Lootlocker player name = " + str(player_data.lootlocker_player_name))
 	if not OS.has_feature('web'): print_verbose("existing Lootlocker player ID = " + str(player_data.lootlocker_player_identifier))
 
-func auths_on_ready(yes_or_no:=false) -> Z_LootlockerAPI:
+func auths_on_ready(yes_or_no:=false) -> LootlockerAPI:
 	auth_on_ready = yes_or_no
 	return self
 
 func _ready() -> void:
-	if not Z_Config.disable_remote_leaderboard:
+	if not disable_remote_leaderboard:
 		auth_http = HTTPRequest.new()
 		leaderboard_http = HTTPRequest.new()
 		submit_score_http = HTTPRequest.new()
@@ -65,11 +59,12 @@ func _ready() -> void:
 func _authentication_request():
 	if fl_authenticating: return
 	sig_auth_request_started.emit()
-	if Z_Config.disable_remote_leaderboard:
+	if disable_remote_leaderboard:
 		sig_auth_request_completed.emit()
 		return
 	fl_authenticating = true
 	var player_identifier_exists = false
+	var game_api_key := lootlocker_secrets.game_api_key
 
 	print_verbose("existing Lootlocker player name = " + str(player_data.lootlocker_player_name))
 	if not OS.has_feature('web'): print_verbose("existing Lootlocker player ID = " + str(player_data.lootlocker_player_identifier))
@@ -78,10 +73,10 @@ func _authentication_request():
 		if not OS.has_feature('web'): print_verbose("player session exists, id="+player_data.lootlocker_player_identifier)
 		player_identifier_exists = true
 
-	var data = { "game_key": game_API_key, "game_version": "0.0.0.1", "development_mode": true }
+	var data = { "game_key": game_api_key, "game_version": "0.0.0.1", "development_mode": true }
 
 	if (player_identifier_exists):
-		data = { "game_key": game_API_key, "player_identifier": player_data.lootlocker_player_identifier, "game_version": "0.0.0.1", "development_mode": true }
+		data = { "game_key": game_api_key, "player_identifier": player_data.lootlocker_player_identifier, "game_version": "0.0.0.1", "development_mode": true }
 
 	var headers = ["Content-Type: application/json"]
 
@@ -112,10 +107,11 @@ func _on_authentication_request_completed(_result, _response_code, _headers, bod
 func _get_leaderboards():
 	await wait_for_auth()
 	sig_leaderboard_request_started.emit()
-	if Z_Config.disable_remote_leaderboard:
+	if disable_remote_leaderboard:
 		sig_leaderboard_request_completed.emit([])
 		return
 	print_verbose("Getting leaderboards")
+	var leaderboard_key := lootlocker_secrets.leaderboard_key
 	var url = "https://api.lootlocker.io/game/leaderboards/"+leaderboard_key+"/list?count=50"
 	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
 	leaderboard_http = HTTPRequest.new()
@@ -141,9 +137,10 @@ func _on_leaderboard_request_completed(_result, _response_code, _headers, body):
 func _upload_score(_score: int):
 	await wait_for_auth()
 	sig_upload_started.emit()
-	if Z_Config.disable_remote_leaderboard:
+	if disable_remote_leaderboard:
 		sig_upload_completed.emit()
 		return
+	var leaderboard_key := lootlocker_secrets.leaderboard_key
 	var data = { "score": str(_score) }
 	var headers = ["Content-Type: application/json", "x-session-token:"+session_token]
 	submit_score_http = HTTPRequest.new()
@@ -155,7 +152,7 @@ func _upload_score(_score: int):
 func _change_player_name(new_name:String="new name"):
 	await wait_for_auth()
 	sig_set_name_started.emit()
-	if Z_Config.disable_remote_leaderboard:
+	if disable_remote_leaderboard:
 		sig_set_name_completed.emit(new_name)
 		return
 	print_verbose("Changing player name")
@@ -180,7 +177,7 @@ func _on_player_set_name_request_completed(_result, _response_code, _headers, bo
 func _get_player_name():
 	await wait_for_auth()
 	sig_get_name_started.emit()
-	if Z_Config.disable_remote_leaderboard:
+	if disable_remote_leaderboard:
 		sig_get_name_completed.emit('offline')
 		return
 	print_verbose("Getting player name")
@@ -210,49 +207,81 @@ func _on_upload_score_request_completed(_result, _response_code, _headers, body)
 	submit_score_http.queue_free()
 
 func wait_for_auth():
-	if Z_Config.disable_remote_leaderboard: return
+	if disable_remote_leaderboard: return
 	if not leaderboard_auth:
 		_authentication_request()
 		await sig_auth_request_completed
 
-static func player_name_from_item(item:={}) -> String:
-	if item:
-		if item.has('player'):
-			if item.player:
-				if item.player.has('name'):
-					if item.player.name:
-						if not item.player.name.is_empty():
-							return item.player.name
-				if item.player.has('public_uid'):
-					if item.player.public_uid:
-						if not item.player.public_uid.is_empty():
-							return item.player.public_uid
-	return '??????'
+const LOOTLOCKER_API_GROUP := 'lootlocker_api_group'
 
-static func time_from_item_in_seconds(item:={}) -> float:
-	if item:
-		if item.has('score'):
-			if item.score > 0:
-				return item.score / 1000.0
-	return -1
+@warning_ignore('unused_private_class_variable')
+static var _instance : LootlockerAPI
+static func single() -> LootlockerAPI: return LootlockerTreeUtil.singleton(LootlockerAPI)
+static func singready() -> LootlockerAPI: return await LootlockerTreeUtil.tree_wait_for_ready(single())
 
-## parent: ideally a grid container with 2 columns
-static func items_to_labels(parent: Node, items:=[], NameLabelType:Script=null, TimeLabelType:Script=null):
-	if items and not items.is_empty():
-		for item in items:
-			var p_name := player_name_from_item(item)
-			var time_in_sec := time_from_item_in_seconds(item)
-			var lbl_name :Control
-			var lbl_time :Control = TimeLabelType.new() if TimeLabelType else Label.new()
-			var btn_yt : Control
-			lbl_time.text = Z_Util.string_format_time(time_in_sec)
-			lbl_name = NameLabelType.new() if NameLabelType else Label.new()
-			btn_yt = Label.new()
-			lbl_name.text = p_name
-			Z_ControlUtil.control_set_font_size(lbl_name, 24)
-			var margin_container := MarginContainer.new()
-			margin_container.add_theme_constant_override(&'margin_right', 12)
-			margin_container.add_child(btn_yt)
-			parent.add_child(margin_container)
-			parent.add_child(lbl_name)
-			parent.add_child(lbl_time)
+class LootlockerPlayerLabel extends Label:
+	func with_text(txt:String) -> LootlockerPlayerLabel: text = txt; return self
+	func from_item(item:Dictionary) -> LootlockerPlayerLabel: return with_text(LootlockerItem.player_name_from_item(item))
+	func ephemeral() -> LootlockerPlayerLabel: set_meta('ephemeral', true); return self
+
+class LootlockerScoreLabel extends Label:
+	func with_text(txt:String) -> LootlockerScoreLabel: text = txt; return self
+	func from_item(item:Dictionary) -> LootlockerScoreLabel: return with_text(LootlockerDisplay.string_format_time(LootlockerItem.time_from_item_in_seconds(item)))
+	func ephemeral() -> LootlockerScoreLabel: set_meta('ephemeral', true); return self
+
+class LootlockerItem extends RefCounted:
+	static func player_name_from_item(item:={}) -> String:
+		if item and item.has('player') and item.player and item.player.has('name') and item.player.name and not item.player.name.is_empty(): return item.player.name
+		if item and item.has('player') and item.player and item.player.has('public_uid') and item.player.public_uid and not item.player.public_uid.is_empty(): return item.player.public_uid
+		return ''
+
+	static func time_from_item_in_seconds(item:={}) -> float:
+		if item and item.has('score') and item.score > 0: return item.score / 1000.0
+		return -1
+
+class LootlockerDisplay extends RefCounted:
+	static func string_format_time(time_seconds: float) -> String:
+		if time_seconds <= 0: return '--:--:--.---'
+		var total_seconds = int(time_seconds)
+		var milliseconds = int((time_seconds - total_seconds) * 1000)
+		
+		var seconds = total_seconds % 60
+		@warning_ignore(&'integer_division')
+		var minutes = (total_seconds / 60) % 60
+		@warning_ignore(&'integer_division')
+		var hours = total_seconds / 3600
+
+		var formatted_time = "%02d:%02d:%02d.%03d" % [hours, minutes, seconds, milliseconds]
+		
+		return formatted_time
+
+	## parent: ideally a grid container with 2 columns
+	static func items_to_labels(parent: Node, items:Array=[]):
+		if items and not items.is_empty():
+			for item in items:
+				parent.add_child(LootlockerPlayerLabel.new().from_item(item).ephemeral())
+				parent.add_child(LootlockerScoreLabel.new().from_item(item).ephemeral())
+
+class LootlockerTreeUtil extends RefCounted:
+	static func tree_wait_for_ready(node:Node) -> Node:
+		if node.is_node_ready(): return node
+		await node.ready
+		return node
+
+	static func singleton(TypeScript:Script) -> Node:
+		var existing = TypeScript['_instance']; if existing: return existing
+		var instance = TypeScript.new(); TypeScript['_instance'] = instance
+		return tree_node_at_root(instance)
+
+	static func scene_tree() -> SceneTree: return Engine.get_main_loop()
+	static func current_scene() -> Node: return Engine.get_main_loop().current_scene
+
+	static func tree_node_at_root(node:Node) -> Node:
+		var scn : Node = scene_tree().root
+		if node.is_inside_tree(): return node
+		if node.has_meta('singleton_instance_setup') and node.get_meta('singleton_instance_setup'): return node
+		node.set_meta('singleton_instance_setup', true)
+		var script:Script = node.get_script()
+		if script and script.get_global_name(): node.name = script.get_global_name()
+		scn.add_child.call_deferred(node)
+		return node

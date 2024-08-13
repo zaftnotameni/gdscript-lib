@@ -1,7 +1,7 @@
 @tool
-class_name Z_LeaderboardPlayerNameHbox extends HBoxContainer
+class_name LeaderboardPlayerNameHbox extends HBoxContainer
 
-var api : Z_LootlockerAPI
+var api : LootlockerAPI
 
 func on_set_name_complete(new_name:String='New Name'):
   allow()
@@ -43,7 +43,7 @@ func _ready() -> void:
   add_child(input_name)
   add_child(button_name)
   button_name.pressed.connect(on_button_name_pressed)
-  api = await Z_TreeUtil.tree_wait_for_ready(Z_LootlockerAPI.single())
+  api = await Z_TreeUtil.tree_wait_for_ready(LootlockerAPI.single())
   api.sig_set_name_completed.connect(on_set_name_complete)
   api.sig_auth_request_completed.connect(on_auth_completed)
   if api.fl_authenticated: on_auth_completed()
